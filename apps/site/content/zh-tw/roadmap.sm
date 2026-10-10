@@ -1,6 +1,6 @@
 #1 設計邊界與路線圖
 
-## 目前已完成
+#2 目前已完成
 
 - Lexer、Block／Inline Parser 與 AST。
 - UTF-16、原始 offset 與 UTF-8 byte offset 對映。
@@ -10,10 +10,10 @@
 - `.sm` 正式副檔名、`&` 指令、短別名、屬性、診斷代碼與 V1.0 相容性規則。
 - YAML 1.2、BibTeX／CSL JSON 資料 API、可選 KaTeX、編號、Markdown common subset、Formatter、workspace 驗證、效能與 fuzz 測試。
 
-## 明確不放進 1.1
+#2 明確不放進 1.1
 
 StructMark 不是程式語言：沒有變數、條件、迴圈或巨集。1.1 也不包含編輯器、雲端協作與資料庫；完整 CommonMark/GFM 等價、完整 CSL 樣式引擎與完整 LaTeX schema 驗證也不在核心承諾內。這些邊界讓語法保持可預測，也讓 renderer 可以獨立演進。
 
-## 後續方向
+#2 後續方向
 
 語言伺服器、更多 renderer、文件索引、套件化 registry，以及更完整的開發工具鏈會根據實際使用案例逐步加入。

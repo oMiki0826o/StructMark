@@ -27,7 +27,7 @@ Enable optional labels for sections, figures, tables, and equations when you nee
 const numberedHtml = renderHtml(document, { numbering: true });
 ```
 
-## Core modules
+#2 Core modules
 
 - `lexDocument`: split source into inspectable block tokens.
 - `parseDocument`: build a Document AST with source ranges and diagnostics.
@@ -43,6 +43,6 @@ const numberedHtml = renderHtml(document, { numbering: true });
 - `renderHtml(document, { math: "katex" })`: opt into KaTeX HTML for inline and block formulas; the default remains inspectable TeX source output.
 - `DirectiveRegistry`: register custom directives and attribute schemas.
 
-## Safety boundary
+#2 Safety boundary
 
 The parser does not execute raw, data, or code content, and it does not access the network or filesystem. The HTML renderer only emits allowed tags and attributes, and validates external URLs before output.

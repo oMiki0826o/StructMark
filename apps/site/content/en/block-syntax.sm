@@ -1,10 +1,10 @@
 #1 Block syntax
 
-## Headings and paragraphs
+#2 Headings and paragraphs
 
 Use `#1` through `#6` for heading levels. Consecutive text becomes a paragraph; blank lines separate blocks.
 
-## Lists and quotes
+#2 Lists and quotes
 
 ```text
 - unordered list
@@ -15,11 +15,11 @@ Use `#1` through `#6` for heading levels. Consecutive text becomes a paragraph; 
 ---
 ```
 
-## Code, math, and comments
+#2 Code, math, and comments
 
 Fenced code blocks preserve source text; `$$` introduces a math block and `%%` marks a comment block that is not rendered.
 
-## Directive blocks
+#2 Directive blocks
 
 ```text
 &note[title="A note"]
@@ -29,7 +29,7 @@ This block keeps its semantic identity.
 
 Directives can nest and their attributes are checked by the registry. Unclosed or unknown structures produce diagnostics instead of disappearing silently.
 
-### Compact syntax
+#3 Compact syntax
 
 Canonical names and short aliases are equivalent:
 

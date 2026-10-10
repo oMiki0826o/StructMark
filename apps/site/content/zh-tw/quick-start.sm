@@ -1,13 +1,13 @@
 #1 快速開始
 
-## 安裝
+#2 安裝
 
 ```bash
 npm install
 npm test
 ```
 
-## 第一份文件
+#2 第一份文件
 
 ```sm
 #1 我的第一份文件
@@ -18,7 +18,7 @@ npm test
 - 第二項
 ```
 
-## 從完整寫法到簡化寫法
+#2 從完整寫法到簡化寫法
 
 StructMark 的區塊指令可以使用完整名稱，也可以使用官方短別名。兩種寫法會產生相同的 AST，適合在公開文件與快速撰寫之間切換。
 
@@ -40,7 +40,7 @@ StructMark 的區塊指令可以使用完整名稱，也可以使用官方短別
 
 `&name[attrs]` 與 `&name [attrs]` 都合法；沒有值的屬性代表 `true`，例如 `[typing]`。
 
-## 解析與輸出
+#2 解析與輸出
 
 ```typescript
 import { parseDocument, renderHtml } from "structmark-language-core";
@@ -51,6 +51,6 @@ const html = renderHtml(document);
 
 `parseDocument` 只解析來源，不執行文件裡的程式碼，也不存取網路或檔案。
 
-## 下一步
+#2 下一步
 
 先閱讀區塊與行內語法，再到 Playground 修改一份真實來源，觀察 HTML 預覽與 diagnostics。

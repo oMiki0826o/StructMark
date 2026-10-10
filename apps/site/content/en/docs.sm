@@ -4,7 +4,7 @@ This guide covers the StructMark 1.0 core syntax and TypeScript API. It is writt
 
 #2 Block syntax
 
-Headings use one to six hash marks. Directive blocks use `&name` and `&end`, with optional attributes.
+Headings use `#1` through `#6`, where the digit is the heading level. Block directives start with `&name` and end with a standalone `&end`; attributes may be attached to the opening directive.
 
 ```text
 # Heading
@@ -76,11 +76,11 @@ This paragraph is plain text. It can live in Git and be reviewed with the code a
 
 #2 Block syntax in detail
 
-## Headings and paragraphs
+#2 Headings and paragraphs
 
 Headings use `#1` through `#6`; the number is the level. Consecutive text becomes a paragraph, while a blank line separates blocks.
 
-## Lists, quotes, and rules
+#2 Lists, quotes, and rules
 
 ```text
 - first item
@@ -100,7 +100,7 @@ Numbered, automatic, and task lists are also supported:
 - [o] Done
 ```
 
-## Code, math, and comments
+#2 Code, math, and comments
 
 ~~~text
 ```typescript
@@ -146,7 +146,7 @@ This block carries meaning, not just a visual box.
 
 `DirectiveRegistry` checks directive kinds and allowed attributes. Unknown directives and invalid attributes do not silently disappear; they produce diagnostics with line and column positions.
 
-## Compact syntax and expansion
+#2 Compact syntax and expansion
 
 Compact syntax is not a second language. It is a fixed alias for a canonical directive name. The parser expands the alias before building the AST, so both forms can be mixed:
 

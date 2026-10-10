@@ -2,7 +2,7 @@
 
 Markdown is excellent for quick writing. StructMark is for documents that also need to be read, checked, transformed, and reused by software.
 
-## Documents are more than a surface
+#2 Documents are more than a surface
 
 `.sm` treats a document as structured data. Source text goes through the lexer and parser to become an AST, then moves to an HTML renderer, JSON serializer, or custom tool. The presentation can change without rewriting the content.
 
@@ -14,7 +14,7 @@ Markdown is excellent for quick writing. StructMark is for documents that also n
 | Source diagnostics | Usually external | Part of parsing |
 | Safe HTML | Renderer-dependent | Included in the core |
 
-## What `.sm` gives you
+#2 What `.sm` gives you
 
 - One source can produce HTML, AST JSON, or another target.
 - Directives, attributes, tables, and references carry meaning instead of relying on CSS classes.
@@ -22,7 +22,7 @@ Markdown is excellent for quick writing. StructMark is for documents that also n
 - Files remain plain text, so they work with Git, review, diff, and automated tests.
 - The renderer escapes text and filters unsafe URLs for public documentation sites.
 
-## Where it fits
+#2 Where it fits
 
 Documentation sites, knowledge bases, technical specifications, data-rich reports, static site generators, and pipelines that pass content between multiple tools.
 

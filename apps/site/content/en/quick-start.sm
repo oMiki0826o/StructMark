@@ -1,13 +1,13 @@
 #1 Quick start
 
-## Install
+#2 Install
 
 ```bash
 npm install
 npm test
 ```
 
-## Your first document
+#2 Your first document
 
 ```sm
 #1 My first document
@@ -18,7 +18,7 @@ This is a paragraph.
 - second item
 ```
 
-## Full names and compact aliases
+#2 Full names and compact aliases
 
 Block directives support canonical names and official short aliases. Both forms produce the same AST, so you can choose clarity for public documents or speed while drafting.
 
@@ -40,7 +40,7 @@ This is the equivalent compact form.
 
 Both `&name[attrs]` and `&name [attrs]` are valid. A valueless attribute means `true`, for example `[typing]`.
 
-## Parse and render
+#2 Parse and render
 
 ```typescript
 import { parseDocument, renderHtml } from "structmark-language-core";
@@ -51,6 +51,6 @@ const html = renderHtml(document);
 
 `parseDocument` only parses the source. It does not execute code or access the network or filesystem.
 
-## Where to go next
+#2 Where to go next
 
 Read the block and inline syntax pages, then edit a real source in the Playground and inspect its HTML and diagnostics.
