@@ -125,7 +125,7 @@ export interface ParseOptions { readonly registry?: DirectiveRegistry; }
 export function parseDocument(source: string, options: ParseOptions = {}): Document {
   const registry = options.registry ?? getDefaultDirectiveRegistry();
   const diagnostics: Diagnostic[] = [];
-  if (source.length > MAX_SOURCE) return {type: "document", version: "0.5-draft", metadata: {}, children: [], diagnostics: [{code: "MMK-D001", severity: "error", message: "來源文件超出長度限制", position: {line: 1, column: 1}}]};
+  if (source.length > MAX_SOURCE) return {type: "document", version: "1.1", metadata: {}, children: [], diagnostics: [{code: "MMK-D001", severity: "error", message: "來源文件超出長度限制", position: {line: 1, column: 1}}]};
   const normalized = source.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n");
   let sourceOffset = 0;
   const lines: Line[] = normalized.split("\n").map((text, i) => {
@@ -409,5 +409,5 @@ export function parseDocument(source: string, options: ParseOptions = {}): Docum
       d.position.offset = row ? (row.offset ?? 0) + Math.max(0, d.position.column - 1) : 0;
     }
   }
-  return {type: "document", version: "0.5-draft", metadata, children, diagnostics};
+  return {type: "document", version: "1.1", metadata, children, diagnostics};
 }

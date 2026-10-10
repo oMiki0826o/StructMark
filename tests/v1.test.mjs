@@ -101,3 +101,8 @@ test("ampersand directives allow spaced boolean attributes", () => {
   assert.deepEqual(document.children[0]?.attrs, {typing: true});
   assert.equal(document.diagnostics.length, 0);
 });
+
+test("StructMark documents expose the stable 1.1 language version", () => {
+  const document = parseDocument("#1 Stable document");
+  assert.equal(document.version, "1.1");
+});

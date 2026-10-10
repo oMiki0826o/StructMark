@@ -43,7 +43,7 @@ export interface ListItem {
 }
 export interface Document {
   type: "document";
-  version: "0.5-draft";
+  version: "1.1";
   metadata: Record<string, unknown>;
   children: BlockNode[];
   diagnostics: Diagnostic[];
