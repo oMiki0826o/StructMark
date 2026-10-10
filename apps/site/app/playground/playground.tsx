@@ -1,0 +1,7 @@
+"use client";
+import { useMemo, useState } from "react";
+import { parseDocument, renderHtml } from "../../../../src/index";
+
+const initialSource = `# StructMark Playground\n\nWrite StructMark here.\n\n- deterministic\n- composable\n\n:::note [title="Live preview"]\nThe preview uses the language core directly.\n:::`;
+
+export default function Playground() { const [source, setSource] = useState(initialSource); const result = useMemo(() => { const document = parseDocument(source); return { html: renderHtml(document), diagnostics: document.diagnostics }; }, [source]); return <div className="container playground"><div className="eyebrow">Interactive language core</div><h1>Playground</h1><p className="lead">Edit StructMark and inspect the rendered result. This page runs entirely in your browser.</p><div className="playground-grid"><section className="editor-panel"><div className="panel-label">Source</div><textarea className="editor" value={source} onChange={(event) => setSource(event.target.value)} spellCheck={false} /></section><section className="editor-panel"><div className="panel-label">HTML preview</div><div className="preview" dangerouslySetInnerHTML={{ __html: result.html }} />{result.diagnostics.length > 0 && <div className="diagnostic">{result.diagnostics.map((item, index) => <div key={`${item.code}-${index}`}>{item.code}: {item.message} (line {item.position.line})</div>)}</div>}</section></div></div>; }

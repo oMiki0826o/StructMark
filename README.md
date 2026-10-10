@@ -17,6 +17,7 @@
 - [功能](#功能)
 - [安裝](#安裝)
 - [使用方式](#使用方式)
+- [網站](#網站)
 - [授權](#授權)
 
 ### 關於
@@ -67,6 +68,10 @@ npm run demo -- examples/v04-specimen.txt --strict
 
 程式中可從 `src/index.ts` 使用 `parseDocument`, `parseInline`, `lexDocument`, `renderHtml` 與 `serializeAst`。Parser 不會執行 raw/data/code 內容，也不會存取網路或檔案。
 
+### 網站
+
+StructMark 的文件網站與瀏覽器 Playground 位於 [GitHub Pages](https://omiki0826o.github.io/StructMark/)。網站原始碼在 `apps/site`，每次推送到 `main` 都會由 GitHub Actions 執行核心測試、Next.js 靜態建置並部署。
+
 ### 授權
 
 本專案採用 [MIT License](./LICENSE)，著作權所有者為 `omiki0826o`。
@@ -81,6 +86,7 @@ npm run demo -- examples/v04-specimen.txt --strict
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Website](#website)
 - [License](#license)
 
 ### About
@@ -130,6 +136,10 @@ npm run demo -- examples/v04-specimen.txt --strict
 ```
 
 The public API is exported from `src/index.ts`, including `parseDocument`, `parseInline`, `lexDocument`, `renderHtml`, and `serializeAst`. The parser does not execute raw/data/code content or access the network or filesystem.
+
+### Website
+
+The StructMark documentation site and browser Playground are available on [GitHub Pages](https://omiki0826o.github.io/StructMark/). The site source lives in `apps/site`; every push to `main` runs the language-core tests, builds the Next.js static export, and deploys it through GitHub Actions.
 
 ### License
 
