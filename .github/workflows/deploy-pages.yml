@@ -24,6 +24,8 @@ jobs:
         run: npm ci
       - name: Test language core
         run: npm test
+      - name: Fuzz language core
+        run: npm run fuzz
       - name: Install site
         working-directory: apps/site
         run: npm ci
