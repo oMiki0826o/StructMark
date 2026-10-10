@@ -22,3 +22,10 @@ For website changes also run `npm run build` from `apps/site`.
 ## Pull requests
 
 Describe the user-visible behavior, compatibility impact, tests run, and documentation updated. Keep commits focused and do not include `data/`, build output, dependencies, secrets, or editor files.
+
+## Releases
+
+Release tags use the form `vMAJOR.MINOR.PATCH`. Pushing a `v*` tag starts
+`.github/workflows/release.yml`, which creates the corresponding GitHub Release
+from `docs/CHANGELOG.md`. Before tagging, run the local checks above and the
+site build when site files changed.
