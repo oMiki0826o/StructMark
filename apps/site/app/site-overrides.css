@@ -11,6 +11,8 @@
 
 body {
   background: linear-gradient(180deg, #f7faf9 0%, #eef5f3 100%);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .site-header {
@@ -31,6 +33,7 @@ body {
 
 .hero-copy h1 {
   max-width: 780px;
+  text-wrap: balance;
 }
 
 .hero-copy > p {
@@ -73,6 +76,7 @@ body {
   border-radius: 20px;
   box-shadow: 0 18px 60px rgba(23, 32, 42, .05);
   padding: clamp(26px, 5vw, 64px);
+  min-width: 0;
 }
 
 .docs-content pre {
@@ -134,6 +138,22 @@ body {
     min-height: auto;
   }
 
+  .hero-copy h1 {
+    font-size: clamp(2.65rem, 12vw, 4.2rem);
+    letter-spacing: -.07em;
+    line-height: 1.02;
+  }
+
+  .content-rendered h2 {
+    font-size: clamp(1.55rem, 7vw, 2.25rem);
+    line-height: 1.18;
+  }
+
+  .hero-copy > p {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
   .docs-nav {
     position: static;
   }
@@ -144,6 +164,17 @@ body {
   }
 
   .docs-content h1 {
-    font-size: clamp(2.2rem, 12vw, 3.6rem);
+    font-size: clamp(2rem, 9vw, 3rem);
+    line-height: 1.12;
+  }
+
+  .docs-content h2 {
+    font-size: clamp(1.45rem, 7vw, 2.1rem);
+    line-height: 1.2;
+  }
+
+  .docs-content pre,
+  .docs-content table {
+    max-width: 100%;
   }
 }

@@ -1,6 +1,6 @@
-#1 Keep structure intact, all the way through
+#1 Keep documents clear
 
-StructMark is a deterministic structural markup language core for documents, data blocks, and safe HTML output. It keeps Markdown's low-friction writing experience while making headings, directives, attributes, references, and diagnostics explicit to tools.
+StructMark is a deterministic structural markup language core for documents, data blocks, and safe HTML output. It keeps Markdown's low-friction writing experience while making document structure reliable for tools.
 
 &note[title="Deterministic"]
 The same source always produces the same AST, making testing, caching, and tooling predictable.
