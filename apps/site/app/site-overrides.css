@@ -202,12 +202,19 @@ body {
 /* The base stylesheet is imported after these overrides. Keep documentation
    tables readable by giving cells an explicit, higher-specificity inset. */
 body .docs-content table {
+  display: table;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  table-layout: fixed;
   padding: 0;
 }
 
 body .docs-content th,
 body .docs-content td {
   padding: 15px 18px;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .docs-content li + li {
