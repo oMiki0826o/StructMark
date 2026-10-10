@@ -123,6 +123,8 @@ body {
   min-width: 100%;
   max-width: 100%;
   display: block;
+  padding: 0;
+  box-sizing: border-box;
   border-collapse: separate;
   border-spacing: 0;
   overflow: hidden;
@@ -146,7 +148,7 @@ body {
 .preview td,
 .data-table th,
 .data-table td {
-  padding: 12px 14px;
+  padding: 15px 18px;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   text-align: left;
@@ -302,7 +304,7 @@ body {
     border-radius: 9px;
     color: var(--ink);
     display: block;
-    padding: 10px 12px;
+    padding: 13px 16px;
   }
 
   .mobile-menu a:hover {
