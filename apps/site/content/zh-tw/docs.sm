@@ -2,40 +2,7 @@
 
 這份文件說明 StructMark 1.0 的核心語法與 TypeScript API。文件本身也使用 StructMark 撰寫，並在網站建置時解析。
 
-#2 區塊語法
-
-標題使用 `#1` 至 `#6` 表示層級，數字就是標題層級。區塊指令以 `&name` 開始，並以獨立一行的 `&end` 結束，可在起始指令附加屬性。
-
-```text
-# 標題
-
-&note [title="提示"]
-這是一個結構化區塊。
-&end
-```
-
-#2 行內語法
-
-- `*[粗體]`：粗體
-- `/[斜體]`：斜體
-- `[[target|label]]`：Wiki 連結
-- `[標籤](https://example.com)`：外部連結
-- `` `code` ``：行內程式碼
-
-#2 TypeScript API
-
-```typescript
-import { parseDocument, renderHtml } from "structmark-language-core";
-
-const document = parseDocument(source);
-const html = renderHtml(document);
-```
-
-#2 目前範圍
-
-1.0 包含語言核心、AST、語義診斷、序列化、結構化表格與安全 HTML renderer。編輯器整合與視覺化編寫工具留待後續版本。
-
-#2 什麼時候 `.sm` 值得使用？
+#2 先理解 StructMark
 
 如果只是快速寫一篇文件，Markdown 已經很好用；但當文件同時也是網站、知識庫、靜態產生器、測試資料或資料報告的輸入時，`.sm` 能保留更多可被程式理解的結構。
 
@@ -47,8 +14,6 @@ const html = renderHtml(document);
 | 來源診斷 | 通常需要額外工具 | 解析流程內建 |
 | 安全 HTML 輸出 | 取決於 renderer | 核心提供 |
 
-#2 StructMark 是什麼？
-
 StructMark 不是 Markdown 的換皮，也不是只增加幾個符號的文字格式。它是一套以「可被程式理解的文件」為目標設計的語言：來源文字先經過 Lexer，再由 Parser 建立 AST，最後可以輸出 JSON、HTML 或交給其他工具處理。
 
 ```text
@@ -57,7 +22,7 @@ StructMark 不是 Markdown 的換皮，也不是只增加幾個符號的文字�
 
 這個流程讓文件內容與呈現方式分開。你可以在不改寫原始文件的情況下，替換網站 renderer、建立索引、檢查參照，或將資料區塊交給另一個程式。
 
-#2 安裝與第一個文件
+#2 安裝與第一份文件
 
 StructMark Language Core 目前以 TypeScript 套件形式提供：
 

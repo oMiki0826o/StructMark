@@ -2,40 +2,7 @@
 
 This guide covers the StructMark 1.0 core syntax and TypeScript API. It is written in StructMark itself and compiled at build time.
 
-#2 Block syntax
-
-Headings use `#1` through `#6`, where the digit is the heading level. Block directives start with `&name` and end with a standalone `&end`; attributes may be attached to the opening directive.
-
-```text
-# Heading
-
-&note [title="A note"]
-This is a structured block.
-&end
-```
-
-#2 Inline syntax
-
-- `*[strong]`: strong emphasis
-- `/[emphasis]`: emphasis
-- `[[target|label]]`: wiki link
-- `[label](https://example.com)`: external link
-- `` `code` ``: inline code
-
-#2 TypeScript API
-
-```typescript
-import { parseDocument, renderHtml } from "structmark-language-core";
-
-const document = parseDocument(source);
-const html = renderHtml(document);
-```
-
-#2 Current scope
-
-Version 1.0 includes the language core, AST, semantic diagnostics, serialization, structured tables, and a safe HTML renderer. Editor integrations and visual authoring remain future work.
-
-#2 When `.sm` earns its place
+#2 Understand StructMark first
 
 Use Markdown when you need a quick document with familiar formatting. Choose `.sm` when the document is also an input to software: a documentation site, a knowledge base, a static generator, a test fixture, or a data-rich report.
 
@@ -47,8 +14,6 @@ Use Markdown when you need a quick document with familiar formatting. Choose `.s
 | Source diagnostics | Usually external | Part of parsing |
 | Safe HTML output | Renderer-dependent | Included in the core |
 
-#2 What is StructMark?
-
 StructMark is not Markdown with a new coat of paint, and it is not just a handful of extra formatting marks. It is a language for documents that software can understand: source text goes through a lexer, the parser builds an AST, and the result can be rendered as HTML, serialized as JSON, or consumed by another tool.
 
 ```text
@@ -57,7 +22,7 @@ source → lexer → parser → AST → renderer / serializer / tooling
 
 This keeps content separate from presentation. You can replace the renderer, build an index, check references, or pass a data block to another program without rewriting the source document.
 
-#2 Install and write a first document
+#2 Install and write your first document
 
 The language core is currently provided as a TypeScript project:
 

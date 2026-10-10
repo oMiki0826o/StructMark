@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { Locale } from "../lib/content-types";
 import { docGroups, docLabels, type DocSlug } from "../lib/docs";
 
-export default function DocsNav({ locale, slug, playgroundLabel }: { locale: Locale; slug: DocSlug; playgroundLabel: string }) {
+export default function DocsNav({ locale, slug, playgroundLabel }: { locale: Locale; slug?: DocSlug; playgroundLabel: string }) {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
   return (
