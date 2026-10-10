@@ -71,6 +71,14 @@ body {
   transform: translateY(-3px);
 }
 
+body .content-rendered > .directive-note + .directive-note {
+  margin-top: 16px;
+}
+
+body .content-rendered > .directive-note + h2 {
+  margin-top: 4.5rem;
+}
+
 .docs-shell {
   align-items: start;
 }
