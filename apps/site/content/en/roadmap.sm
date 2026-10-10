@@ -1,16 +1,18 @@
 #1 Boundaries and roadmap
 
-## Shipped in 1.0
+## Shipped in 1.1
 
 - Lexer, block and inline parsers, and an AST.
 - UTF-16, original-source, and UTF-8 byte offset mappings.
 - Diagnostics, registries, custom directives, and attribute validation.
 - HTML rendering, AST serialization, and structured tables.
-- 121 language-core tests.
+- 133 language-core tests.
+- The official `.sm` extension, `&` directives, short aliases, attributes, diagnostic codes, and the V1.0 compatibility rules.
+- YAML 1.2, BibTeX/CSL JSON data APIs, opt-in KaTeX, numbering, the documented Markdown common subset, the formatter, workspace validation, performance, and fuzz tests.
 
-## Deliberately outside 1.0
+## Deliberately outside 1.1
 
-StructMark is not a programming language: there are no variables, conditionals, loops, or macros. Version 1.0 also does not include an editor, cloud collaboration, or a database. Those boundaries keep the grammar predictable and let renderers evolve independently.
+StructMark is not a programming language: there are no variables, conditionals, loops, or macros. Version 1.1 also does not include an editor, cloud collaboration, or a database; full CommonMark/GFM equivalence, a full CSL style engine, and complete LaTeX schema validation are outside the core promise. Those boundaries keep the grammar predictable and let renderers evolve independently.
 
 ## Next directions
 

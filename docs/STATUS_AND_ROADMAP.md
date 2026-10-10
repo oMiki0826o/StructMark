@@ -1,6 +1,6 @@
-# StructMark V1.0 開發狀態與後續規劃
+# StructMark 1.1 開發狀態與後續規劃
 
-本頁依**實際程式**區分完成、部分完成與尚未支援。StructMark V1.0 是可使用的語言核心版本；進階轉換與完整外部格式相容性仍列為後續規劃。目前工作完全不包含編輯器。
+本頁依**實際程式**區分完成、部分完成與未支援。StructMark 1.1 是目前穩定的語言核心版本；`.sm` 是正式副檔名，`&name[attrs]` 與 `&name [attrs]`、官方短別名、診斷代碼與相容性承諾已定稿於 `docs/SPECIFICATION.md`。目前工作完全不包含編輯器。
 
 | 系統 | 目前程度 | 尚缺內容 |
 |---|---|---|
@@ -18,32 +18,16 @@
 | `[&key]`、註腳 | 建立 AST 節點 | BibTeX、CSL、APA 7 真正格式化 |
 | 交叉參照語義驗證 | 基礎可用 | 圖表自動編號、跨文件參照 |
 | HTML Renderer | 基礎安全輸出 | 進階語義呈現、樣式、更多格式 |
-| Markdown 匯入／匯出 | 尚未支援 | 獨立轉換器與資訊流失報告 |
-| Round-trip Writer / Formatter | 尚未支援 | 無損來源保留、Canonical Writer |
-| 大規模 Token 基準 | 部分工具 | tiktoken 實測、更多語料與跨語系分析 |
+| Markdown 匯入／匯出 | 已支援文件化 common subset | 不承諾完整 CommonMark/GFM 等價 |
+| Round-trip Writer / Formatter | 已支援安全邊界正規化 | 不改寫 raw/data/code/未知區塊 |
+| 大規模 Token 基準 | 真實 tokenizer CI 基準 | tokenizer 版本與語料會隨 CI 更新 |
 
-## V1.0 後續規劃
+## 1.1 已完成的核心工作
 
-目前已完成：行級 Lexer、Block/Inline Parser 的 Registry 注入、預設指令 Registry、可注入自訂指令、通用 `id`/`class` 屬性與指令專屬屬性診斷、來源 offset 對映、穩定 AST JSON 序列化、V1.0 回歸與符合性測試。
+目前已完成：正式 `.sm` 副檔名與 `&` 指令規範、行級 Lexer、Block/Inline Parser 的 Registry 注入、預設指令 Registry、可注入自訂指令、Unicode NFC ID、跨文件 workspace 驗證、YAML 1.2、BibTeX／CSL JSON 資料 API、可選 KaTeX、圖表公式編號、Markdown common subset 轉換、保守 Formatter、來源 offset 對映、穩定 AST JSON 序列化、效能／token／fuzz 測試與 CI。
 
-**P0 — 文法穩定性**
+## 後續規劃（非 1.1 相容性承諾）
 
-1. 完整 Lexer / Block Parser / Inline Parser 分層，設計明確的 token 分類、容器狀態與錯誤恢復機制。
-2. 明確整理 `&` 指令的 inline/block 註冊表、屬性 Schema、未知類型與完整跳脫規則。
-3. 完整清單容器規格：懸掛縮排、空行、引用、程式碼與表格交叉巢狀的判定。
-4. 補齊原始 CRLF 與 UTF-8 Byte Offset、Unicode 組合字元之間的來源對應（若有必要）。
-5. 建立真正的語法符合性測試與 Round-trip Snapshot，對語法的改動要求提供新案例。
-
-**P1 — 文件語義**
-
-6. 對 Metadata、屬性及資料表格採用明確 Schema，決定哪些欄位有效、哪些輸出規則可擴充。
-7. 進一步設計「儲存格內容是完整文件區塊」的結構化表格語法，避免只用 JSON 字串假裝完整排版能力。
-8. 完成文獻引用資料解析（BibTeX／CSL JSON）與 CSL 引用引擎介接，不自行重做 APA。
-9. 研究章節、圖、表、公式的自動編號與合法參照輸出。
-10. 開始 Markdown 基本功能轉換，清楚記錄 `- [x]` 與 `- [o]` 等差異。
-
-**P2 — 性能與發布**
-
-11. 使用真實 tokenizer 評量繁體中文、英文、日文、README、技術和學術文件。
-12. 測試更長文件、惡意巢狀、多平台環境的效能與記憶體。
-13. 規格確定後再討論副檔名及 V1.0 的相容性承諾。
+1. 完整 CommonMark/GFM 容器等價與更多縮排邊界案例。
+2. 完整 CSL 樣式引擎與完整 LaTeX schema 驗證。
+3. 更多 renderer、語言伺服器與編輯器整合；這些不屬於語言核心 1.1。
