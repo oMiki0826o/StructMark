@@ -1,0 +1,19 @@
+#1 Inline syntax
+
+| Syntax | Meaning |
+| --- | --- |
+| `*[strong]` | Strong emphasis |
+| `/[emphasis]` | Emphasis |
+| `/*[strong emphasis]` | Strong plus emphasis |
+| `-[underline]` | Underline |
+| `~[deleted]` | Strikethrough |
+| `=[highlight]` | Highlight |
+| `^[2]` | Superscript |
+| `_[i]` | Subscript |
+| `` `code` `` | Inline code |
+| `[[target|label]]` | Wiki link |
+| `[label](https://example.com)` | External link |
+| `[@smith2024]` | Citation |
+| `[^note]` | Footnote |
+
+Inline syntax can be nested and escaped characters remain literal. Every node keeps a source range so tools and diagnostics can point back to the original text.

@@ -1,0 +1,34 @@
+#1 快速開始
+
+## 安裝
+
+```bash
+npm install
+npm test
+```
+
+## 第一份文件
+
+```text
+#1 我的第一份文件
+
+這是一段普通文字。
+
+- 第一項
+- 第二項
+```
+
+## 解析與輸出
+
+```typescript
+import { parseDocument, renderHtml } from "structmark-language-core";
+
+const document = parseDocument(source);
+const html = renderHtml(document);
+```
+
+`parseDocument` 只解析來源，不執行文件裡的程式碼，也不存取網路或檔案。
+
+## 下一步
+
+先閱讀區塊與行內語法，再到 Playground 修改一份真實來源，觀察 HTML 預覽與 diagnostics。

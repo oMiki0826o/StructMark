@@ -1,0 +1,17 @@
+#1 設計邊界與路線圖
+
+## 目前已完成
+
+- Lexer、Block／Inline Parser 與 AST。
+- UTF-16、原始 offset 與 UTF-8 byte offset 對映。
+- Diagnostics、Registry、自訂指令與屬性驗證。
+- HTML renderer、AST 序列化與結構化表格。
+- 121 項語言核心測試。
+
+## 刻意不放進 1.0
+
+StructMark 不是程式語言：沒有變數、條件、迴圈或巨集。1.0 也不包含編輯器、雲端協作與資料庫。這些邊界讓語法保持可預測，也讓 renderer 可以獨立演進。
+
+## 後續方向
+
+語言伺服器、更多 renderer、文件索引、套件化 registry，以及更完整的開發工具鏈會根據實際使用案例逐步加入。

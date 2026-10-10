@@ -1,0 +1,34 @@
+#1 Quick start
+
+## Install
+
+```bash
+npm install
+npm test
+```
+
+## Your first document
+
+```text
+#1 My first document
+
+This is a paragraph.
+
+- first item
+- second item
+```
+
+## Parse and render
+
+```typescript
+import { parseDocument, renderHtml } from "structmark-language-core";
+
+const document = parseDocument(source);
+const html = renderHtml(document);
+```
+
+`parseDocument` only parses the source. It does not execute code or access the network or filesystem.
+
+## Where to go next
+
+Read the block and inline syntax pages, then edit a real source in the Playground and inspect its HTML and diagnostics.

@@ -1,0 +1,17 @@
+#1 Boundaries and roadmap
+
+## Shipped in 1.0
+
+- Lexer, block and inline parsers, and an AST.
+- UTF-16, original-source, and UTF-8 byte offset mappings.
+- Diagnostics, registries, custom directives, and attribute validation.
+- HTML rendering, AST serialization, and structured tables.
+- 121 language-core tests.
+
+## Deliberately outside 1.0
+
+StructMark is not a programming language: there are no variables, conditionals, loops, or macros. Version 1.0 also does not include an editor, cloud collaboration, or a database. Those boundaries keep the grammar predictable and let renderers evolve independently.
+
+## Next directions
+
+Language-server support, more renderers, document indexing, packaged registries, and a fuller tooling ecosystem will follow real usage rather than assumptions.

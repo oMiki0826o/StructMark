@@ -1,0 +1,30 @@
+#1 Block syntax
+
+## Headings and paragraphs
+
+Use `#1` through `#6` for heading levels. Consecutive text becomes a paragraph; blank lines separate blocks.
+
+## Lists and quotes
+
+```text
+- unordered list
+  - nested item
+1. numbered list
+- [o] task item
+> quoted text
+---
+```
+
+## Code, math, and comments
+
+Fenced code blocks preserve source text; `$$` introduces a math block and `%%` marks a comment block that is not rendered.
+
+## Directive blocks
+
+```text
+@note[title="A note"]
+This block keeps its semantic identity.
+@end
+```
+
+Directives can nest and their attributes are checked by the registry. Unclosed or unknown structures produce diagnostics instead of disappearing silently.

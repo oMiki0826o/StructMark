@@ -1,0 +1,30 @@
+#1 TypeScript API
+
+```typescript
+import {
+  lexDocument,
+  parseDocument,
+  renderHtml,
+  serializeAst,
+  validateSemantics,
+} from "structmark-language-core";
+
+const tokens = lexDocument(source);
+const document = parseDocument(source);
+const diagnostics = validateSemantics(document);
+const html = renderHtml(document);
+const json = serializeAst(document, 2);
+```
+
+## 核心模組
+
+- `lexDocument`：將來源分成可檢查的區塊 token。
+- `parseDocument`：建立含來源範圍與 diagnostics 的 Document AST。
+- `validateSemantics`：檢查 ID、註腳與交叉參照等語義問題。
+- `renderHtml`：輸出經過跳脫與網址白名單處理的 HTML。
+- `serializeAst`：產生穩定、可比較的 AST JSON。
+- `DirectiveRegistry`：註冊自訂指令與屬性 schema。
+
+## 安全邊界
+
+Parser 不執行 raw、data 或 code 內容，不存取網路與檔案。HTML renderer 只輸出允許的標籤與屬性，外部網址也會先驗證。

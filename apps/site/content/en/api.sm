@@ -1,0 +1,30 @@
+#1 TypeScript API
+
+```typescript
+import {
+  lexDocument,
+  parseDocument,
+  renderHtml,
+  serializeAst,
+  validateSemantics,
+} from "structmark-language-core";
+
+const tokens = lexDocument(source);
+const document = parseDocument(source);
+const diagnostics = validateSemantics(document);
+const html = renderHtml(document);
+const json = serializeAst(document, 2);
+```
+
+## Core modules
+
+- `lexDocument`: split source into inspectable block tokens.
+- `parseDocument`: build a Document AST with source ranges and diagnostics.
+- `validateSemantics`: check IDs, footnotes, and cross-reference semantics.
+- `renderHtml`: emit HTML with escaped text and URL allowlists.
+- `serializeAst`: produce stable, comparable AST JSON.
+- `DirectiveRegistry`: register custom directives and attribute schemas.
+
+## Safety boundary
+
+The parser does not execute raw, data, or code content, and it does not access the network or filesystem. The HTML renderer only emits allowed tags and attributes, and validates external URLs before output.
