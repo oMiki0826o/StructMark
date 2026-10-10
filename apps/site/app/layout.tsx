@@ -1,10 +1,29 @@
+/*
+ * File: layout.tsx
+ * Modification: 2026-10-11 — 日式極簡全站版型與無障礙主內容地標。
+ */
 import type { Metadata } from "next";
-import Link from "next/link";
-import MobileNav from "../components/mobile-nav";
+import SiteHeader from "../components/site-header";
 import "./globals.css";
 
-export const metadata: Metadata = { title: { default: "StructMark", template: "%s · StructMark" }, description: "A deterministic structural markup language for documents and data." };
+export const metadata: Metadata = {
+  title: { default: "StructMark", template: "%s · StructMark" },
+  description: "A structured markup language for readable, verifiable documents.",
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="zh-Hant"><body><header className="site-header"><Link className="wordmark" href="/zh-tw/">StructMark<span> / language core</span></Link><MobileNav /></header><main>{children}</main><footer className="site-footer"><span>StructMark v1.1.0</span><span>MIT · language core only</span></footer></body></html>;
+  return (
+    <html lang="zh-Hant">
+      <body>
+        <SiteHeader />
+        <main id="main-content">{children}</main>
+        <footer className="site-footer">
+          <div className="footer-inner">
+            <span className="footer-brand">StructMark</span>
+            <span>v1.1.0 · MIT License · Language Core</span>
+          </div>
+        </footer>
+      </body>
+    </html>
+  );
 }
