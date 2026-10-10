@@ -26,6 +26,7 @@ python3 benchmark/tokens.py
 | Determinism | The same source and registry produce the same AST and HTML. |
 | Cross-file references | `validateWorkspace` resolves explicit `path#id` references without changing single-document parsing. |
 | Optional numbering | `renderHtml(document, { numbering: true })` labels identified sections, figures, tables, and equations and resolves their reference text. |
+| Math rendering | `renderHtml(document, { math: "katex" })` provides opt-in KaTeX output; source-oriented TeX output remains the default. |
 
 ## Explicitly outside 1.1
 

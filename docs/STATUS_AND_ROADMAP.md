@@ -14,7 +14,7 @@
 | CSV、TSV | 解析與驗證可用 | 更完整的標準相容案例與大型資料測試 |
 | JSON 表格格位占用 | 驗證可用 | 巢狀 StructMark 儲存格、圖說／語義資料型別 |
 | Front Matter | YAML 1.2 parser | Metadata Schema 與更完整的 StructMark-specific validation |
-| `&equation`、`$...$` | 保留／簡寫可用 | 完整 LaTeX 處理、公式編號與排版 |
+| `&equation`、`$...$` | TeX source 與可選 KaTeX HTML | 完整 LaTeX macro/schema 驗證與樣式控制 |
 | `[&key]`、註腳 | 建立 AST 節點 | BibTeX、CSL、APA 7 真正格式化 |
 | 交叉參照語義驗證 | 基礎可用 | 圖表自動編號、跨文件參照 |
 | HTML Renderer | 基礎安全輸出 | 進階語義呈現、樣式、更多格式 |

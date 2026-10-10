@@ -39,6 +39,7 @@ const numberedHtml = renderHtml(document, { numbering: true });
 - `fromMarkdown`／`toMarkdown`：在文件核心與 Markdown 常用子集之間轉換，遇到不等價語義時應搭配 diagnostics 與轉換測試。
 - `formatSource`：正規化換行與檔尾；遇到 error diagnostics 時保留原始來源，確保可回復。
 - `parseBibTeX`／`parseCslJson`：載入引用資料；`formatCitation` 產生 deterministic author–year fallback，完整 CSL 樣式引擎另行規劃。
+- `renderHtml(document, { math: "katex" })`：選擇性使用 KaTeX 產生行內與區塊公式 HTML；預設仍輸出可檢查的 TeX source。
 - `DirectiveRegistry`：註冊自訂指令與屬性 schema。
 
 ## 安全邊界

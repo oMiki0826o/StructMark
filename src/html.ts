@@ -4,6 +4,7 @@
  */
 import type {Attributes, BlockNode, Document, InlineNode} from "./types.js";
 import {parseStructuredTable} from "./structured_table.js";
+import katex from "katex";
 
 // ── 基礎跳脫與資源安全 ──
 export function escapeHtml(raw: string): string {
@@ -43,6 +44,8 @@ function textOf(nodes: InlineNode[]): string {
 export interface RenderOptions {
   /** Add deterministic section/figure/table/equation labels and resolve &ref text. */
   readonly numbering?: boolean;
+  /** Render TeX with KaTeX; the default keeps the source-oriented HTML fallback. */
+  readonly math?: "source" | "katex";
 }
 
 interface NumberingContext {
@@ -51,6 +54,7 @@ interface NumberingContext {
   figures: number;
   tables: number;
   equations: number;
+  readonly math: "source" | "katex";
 }
 
 // ── 行內語義呈現 ──
@@ -60,7 +64,13 @@ export function renderInline(nodes: InlineNode[], context?: NumberingContext): s
       case "text": return escapeHtml(node.value);
       case "comment": return "";
       case "code": return `<code>${escapeHtml(node.value)}</code>`;
-      case "math": return `<span class="math" data-tex="${escapeHtml(node.value)}">\\(${escapeHtml(node.value)}\\)</span>`;
+      case "math": {
+        if (context?.math === "katex") {
+          try {return `<span class="math math-katex" data-tex="${escapeHtml(node.value)}">${katex.renderToString(node.value, {displayMode: false, throwOnError: false})}</span>`;}
+          catch {return `<span class="math math-error" data-tex="${escapeHtml(node.value)}">\\(${escapeHtml(node.value)}\\)</span>`;}
+        }
+        return `<span class="math" data-tex="${escapeHtml(node.value)}">\\(${escapeHtml(node.value)}\\)</span>`;
+      }
       case "softbreak": return "\n";
       case "hardbreak": return "<br>\n";
       case "wiki": return `<span class="wiki" data-target="${escapeHtml(node.target)}">${escapeHtml(node.label)}</span>`;
@@ -134,7 +144,7 @@ function renderStructuredTable(raw: string): string {
 
 // ── 區塊語義呈現 ──
 export function renderHtml(document: Document, options: RenderOptions = {}): string {
-  const context: NumberingContext = {labels: new Map(), sections: [], figures: 0, tables: 0, equations: 0};
+  const context: NumberingContext = {labels: new Map(), sections: [], figures: 0, tables: 0, equations: 0, math: options.math ?? "source"};
   function numbered(node: BlockNode): string | null {
     if (!options.numbering) return null;
     if (node.type === "heading" && node.id) {
@@ -200,7 +210,14 @@ export function renderHtml(document: Document, options: RenderOptions = {}): str
         const attrs = htmlAttrs(node.attrs);
         const title = typeof node.attrs.title === "string" ? `<p class="directive-title">${escapeHtml(node.attrs.title)}</p>` : "";
         const number = label ? `<span class="content-number">${escapeHtml(label)}</span> ` : "";
-        if (node.name === "equation" || node.name === "math") return `<div class="equation"${attrs}>${number}<pre class="math" data-tex="${escapeHtml(node.raw ?? "")}">${escapeHtml(node.raw ?? "")}</pre></div>`;
+        if (node.name === "equation" || node.name === "math") {
+          const value = node.raw ?? "";
+          if (options.math === "katex") {
+            try {return `<div class="equation"${attrs}>${number}<div class="math math-katex" data-tex="${escapeHtml(value)}">${katex.renderToString(value, {displayMode: true, throwOnError: false})}</div></div>`;}
+            catch { /* retain the source fallback below */ }
+          }
+          return `<div class="equation"${attrs}>${number}<pre class="math" data-tex="${escapeHtml(value)}">${escapeHtml(value)}</pre></div>`;
+        }
         if (node.name === "raw") return `<pre${attrs}>${escapeHtml(node.raw ?? "")}</pre>`;
         if (node.name === "data") return `<pre class="structured-data"${attrs}>${escapeHtml(node.raw ?? "")}</pre>`;
         if (node.name === "table") {

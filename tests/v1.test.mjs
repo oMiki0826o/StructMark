@@ -12,6 +12,14 @@ test("citation data APIs parse BibTeX and CSL JSON deterministically", () => {
   assert.equal(formatCitation(["smith2024", "doe2023"], new Map([...bib, ...csl])), "(Smith & Doe, 2024; Doe, 2023)");
 });
 
+test("KaTeX is an opt-in safe math renderer", () => {
+  const document = parseDocument("Inline $E=mc^[2]$\n\n$$\n\\frac{1}{2}\n$$");
+  const html = renderHtml(document, {math: "katex"});
+  assert.match(html, /math-katex/);
+  assert.match(html, /katex/);
+  assert.doesNotMatch(html, /<script/);
+});
+
 test("round-trip formatter preserves semantics and normalizes safe source boundaries", () => {
   const source = "#1 Title\r\n\r\n```text\r\n@unknown stays literal\r\n```\r\n";
   const formatted = formatSource(source);

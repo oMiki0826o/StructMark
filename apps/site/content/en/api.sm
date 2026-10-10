@@ -39,6 +39,7 @@ const numberedHtml = renderHtml(document, { numbering: true });
 - `fromMarkdown` / `toMarkdown`: convert the documented common subset between Markdown and the language core; use diagnostics and conversion tests when semantics are not equivalent.
 - `formatSource`: normalize line endings and the final newline; preserve the original source when error diagnostics make formatting unsafe.
 - `parseBibTeX` / `parseCslJson`: load citation data; `formatCitation` provides a deterministic author–year fallback while a full CSL style engine remains separate.
+- `renderHtml(document, { math: "katex" })`: opt into KaTeX HTML for inline and block formulas; the default remains inspectable TeX source output.
 - `DirectiveRegistry`: register custom directives and attribute schemas.
 
 ## Safety boundary
