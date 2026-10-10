@@ -24,3 +24,5 @@ export {serializeAst} from "./serialize.js";
 export {fromMarkdown, toMarkdown} from "./markdown.js";
 export {formatSource} from "./formatter.js";
 export type {FormatResult} from "./formatter.js";
+export {formatCitation, parseBibTeX, parseCslJson} from "./citations.js";
+export type {CitationEntry} from "./citations.js";

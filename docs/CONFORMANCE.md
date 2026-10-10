@@ -29,7 +29,7 @@ python3 benchmark/tokens.py
 
 ## Explicitly outside 1.1
 
-The editor, GUI, cross-file index, and CSL engine are separate follow-up projects. Metadata uses a YAML 1.2 parser; the accepted YAML surface is covered by parser diagnostics and regression tests. The Markdown converter covers the documented common subset and must report or document any semantic loss. `formatSource` provides safe source-boundary normalization; a future canonical AST writer remains a separate proposal. These tools must not change the stable core syntax without a compatibility proposal and new conformance cases.
+The editor, GUI, cross-file index, and full CSL style engine are separate follow-up projects. BibTeX/CSL JSON ingestion and deterministic author–year fallback are available through the citation APIs. Metadata uses a YAML 1.2 parser; the accepted YAML surface is covered by parser diagnostics and regression tests. The Markdown converter covers the documented common subset and must report or document any semantic loss. `formatSource` provides safe source-boundary normalization; a future canonical AST writer remains a separate proposal. These tools must not change the stable core syntax without a compatibility proposal and new conformance cases.
 
 ## Large-document performance check
 

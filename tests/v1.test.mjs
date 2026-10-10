@@ -2,6 +2,15 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, renderHtml, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace, fromMarkdown, toMarkdown} from "../dist/index.js";
 import {formatSource} from "../dist/index.js";
+import {formatCitation, parseBibTeX, parseCslJson} from "../dist/index.js";
+
+test("citation data APIs parse BibTeX and CSL JSON deterministically", () => {
+  const bib = parseBibTeX('@article{smith2024, author = {Smith, Ada and Doe, Lin}, title = {A Study}, year = {2024}}');
+  const csl = parseCslJson(JSON.stringify([{id: "doe2023", author: [{family: "Doe", given: "Lin"}], title: "Another Study", issued: {"date-parts": [[2023]]}}]));
+  assert.equal(bib.get("smith2024")?.title, "A Study");
+  assert.equal(csl.get("doe2023")?.year, "2023");
+  assert.equal(formatCitation(["smith2024", "doe2023"], new Map([...bib, ...csl])), "(Smith & Doe, 2024; Doe, 2023)");
+});
 
 test("round-trip formatter preserves semantics and normalizes safe source boundaries", () => {
   const source = "#1 Title\r\n\r\n```text\r\n@unknown stays literal\r\n```\r\n";
