@@ -199,22 +199,27 @@ body {
   margin: 0 0 1.35rem;
 }
 
+.docs-content {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+
 /* The base stylesheet is imported after these overrides. Keep documentation
    tables readable by giving cells an explicit, higher-specificity inset. */
 body .docs-content table {
   display: table;
-  width: 100%;
+  width: fit-content;
   min-width: 0;
   max-width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
+  overflow: visible;
   padding: 0;
 }
 
 body .docs-content thead,
 body .docs-content tbody,
 body .docs-content tr {
-  width: 100%;
-  table-layout: fixed;
+  width: auto;
+  table-layout: auto;
 }
 
 body .docs-content th,
@@ -222,6 +227,12 @@ body .docs-content td {
   padding: 15px 18px;
   overflow-wrap: anywhere;
   white-space: normal;
+  line-height: 1.55;
+}
+
+body .docs-content th {
+  line-height: 1.4;
+  letter-spacing: .02em;
 }
 
 .docs-content li + li {
