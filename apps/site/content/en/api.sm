@@ -37,6 +37,7 @@ const numberedHtml = renderHtml(document, { numbering: true });
 - `renderHtml(document, { numbering: true })`: assign deterministic labels to identified headings, `&figure`, `&table`, and `&equation` blocks, and use those labels in `&ref[id]` output.
 - `serializeAst`: produce stable, comparable AST JSON.
 - `fromMarkdown` / `toMarkdown`: convert the documented common subset between Markdown and the language core; use diagnostics and conversion tests when semantics are not equivalent.
+- `formatSource`: normalize line endings and the final newline; preserve the original source when error diagnostics make formatting unsafe.
 - `DirectiveRegistry`: register custom directives and attribute schemas.
 
 ## Safety boundary

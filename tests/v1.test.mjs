@@ -1,6 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, renderHtml, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace, fromMarkdown, toMarkdown} from "../dist/index.js";
+import {formatSource} from "../dist/index.js";
+
+test("round-trip formatter preserves semantics and normalizes safe source boundaries", () => {
+  const source = "#1 Title\r\n\r\n```text\r\n@unknown stays literal\r\n```\r\n";
+  const formatted = formatSource(source);
+  assert.equal(formatted.source, "#1 Title\n\n```text\n@unknown stays literal\n```\n");
+  assert.deepEqual(parseDocument(formatted.source).children, parseDocument(source).children);
+  assert.equal(formatted.changed, true);
+});
 
 test("Markdown import and export cover the documented common subset", () => {
   const document = fromMarkdown("# Title {#intro}\n\n**bold** and [link](https://example.com).\n\n- one\n- two\n\n> quote\n\n```ts\nconst x = 1;\n```");

@@ -22,3 +22,5 @@ export {lexLine, lexDocument} from "./lexer.js";
 export type {BlockToken, BlockTokenKind} from "./lexer.js";
 export {serializeAst} from "./serialize.js";
 export {fromMarkdown, toMarkdown} from "./markdown.js";
+export {formatSource} from "./formatter.js";
+export type {FormatResult} from "./formatter.js";
