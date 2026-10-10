@@ -1,0 +1,18 @@
+# --- General / OS / IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+.env
+.env.local
+*.log
+
+# --- Project-local data and AI records ---
+data/
+
+# --- Node.js / TypeScript ---
+node_modules/
+npm-debug.log*
+dist/
+coverage/

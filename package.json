@@ -1,0 +1,16 @@
+{
+  "name": "structmark-language-core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "StructMark language core with TypeScript lexer, parser, AST, and safe HTML rendering; no editor.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "demo": "npm run build && node scripts/demo.mjs",
+    "check": "npm run build && npm test"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
