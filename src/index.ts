@@ -4,7 +4,7 @@
  */
 export {parseDocument} from "./parser.js";
 export type {ParseOptions} from "./parser.js";
-export {parseInline, normalizeMath} from "./inline.js";
+export {parseInline, normalizeMath, validateMath} from "./inline.js";
 export type {InlineParseOptions} from "./inline.js";
 export {readAttributes} from "./attributes.js";
 export {renderHtml, renderInline, escapeHtml, parseDelimited} from "./html.js";

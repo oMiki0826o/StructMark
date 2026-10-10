@@ -49,6 +49,30 @@ export function normalizeMath(input: string): string {
   return input.replace(/(?<!\\)(\^|_)\[([^\[\]\n]*)\]/g, (_, op: string, value: string) => `${op}{${value}}`);
 }
 
+/** Validate the balanced-delimiter subset before an optional math renderer runs. */
+export function validateMath(input: string): Diagnostic[] {
+  const diagnostics: Diagnostic[] = [];
+  const stack: number[] = [];
+  const environments: Array<{name: string; index: number}> = [];
+  const environmentPattern = /\\(begin|end)\s*\{([^{}]+)\}/g;
+  for (const match of input.matchAll(environmentPattern)) {
+    const name = match[2]!;
+    const index = match.index ?? 0;
+    if (match[1] === "begin") environments.push({name, index});
+    else if (environments.at(-1)?.name === name) environments.pop();
+    else diagnostics.push({code: "MMK-M004", severity: "warning", message: `數學公式環境未配對：${name}`, position: {line: 1, column: index + 1, offset: index}});
+  }
+  for (const environment of environments) diagnostics.push({code: "MMK-M004", severity: "warning", message: `數學公式環境未關閉：${environment.name}`, position: {line: 1, column: environment.index + 1, offset: environment.index}});
+  for (let index = 0; index < input.length; index++) {
+    if (input[index] === "\\") {index++; continue;}
+    if (input[index] === "{") stack.push(index);
+    else if (input[index] === "}" && stack.length) stack.pop();
+    else if (input[index] === "}") diagnostics.push({code: "MMK-M003", severity: "warning", message: "數學公式包含未配對的大括號", position: {line: 1, column: index + 1, offset: index}});
+  }
+  for (const index of stack) diagnostics.push({code: "MMK-M003", severity: "warning", message: "數學公式包含未配對的大括號", position: {line: 1, column: index + 1, offset: index}});
+  return diagnostics;
+}
+
 // ── 行內文法解析 ──
 export interface InlineParseOptions { readonly registry?: DirectiveRegistry; }
 

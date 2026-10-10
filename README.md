@@ -4,6 +4,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tech](https://img.shields.io/badge/stack-TypeScript%20%2B%20Node.js-lightgrey)
 ![Node](https://img.shields.io/badge/node-22%2B-orange)
+[![CI](https://github.com/oMiki0826o/StructMark/actions/workflows/check.yml/badge.svg)](https://github.com/oMiki0826o/StructMark/actions/workflows/check.yml)
 
 [中文](#中文) | [English](#english)
 
@@ -75,6 +76,10 @@ npm run demo -- examples/v04-specimen.sm --strict
 
 StructMark 的文件網站與瀏覽器 Playground 位於 [GitHub Pages](https://omiki0826o.github.io/StructMark/)。網站原始碼在 `apps/site`，每次推送到 `main` 都會由 GitHub Actions 執行核心測試、Next.js 靜態建置並部署。
 
+### 開發路線
+
+目前優先維護語言核心的相容性、diagnostics、Formatter 與測試語料。編輯器整合與 LSP 屬於後續工具鏈工作，會在核心語法與 AST 介面穩定後再推進；進度與明確限制請見 [`docs/STATUS_AND_ROADMAP.md`](./docs/STATUS_AND_ROADMAP.md)。
+
 ### 授權
 
 本專案採用 [MIT License](./LICENSE)，著作權所有者為 `omiki0826o`。
@@ -145,6 +150,10 @@ The stable `.sm` syntax and executable compatibility promises are documented in 
 ### Website
 
 The StructMark documentation site and browser Playground are available on [GitHub Pages](https://omiki0826o.github.io/StructMark/). The site source lives in `apps/site`; every push to `main` runs the language-core tests, builds the Next.js static export, and deploys it through GitHub Actions.
+
+### Roadmap
+
+The current priority is compatibility, diagnostics, the formatter, and executable test coverage for the language core. Editor integration and LSP support are follow-up toolchain work after the core syntax and AST interfaces are stable. See [`docs/STATUS_AND_ROADMAP.md`](./docs/STATUS_AND_ROADMAP.md) for current limits and progress.
 
 ### License
 

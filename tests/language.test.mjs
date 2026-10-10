@@ -5,7 +5,7 @@
 import {test} from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
-import {parseDocument, parseInline, renderHtml, normalizeMath, readAttributes, parseDelimited} from "../dist/index.js";
+import {parseDocument, parseInline, renderHtml, normalizeMath, validateMath, readAttributes, parseDelimited} from "../dist/index.js";
 
 // ── 行內語法合格範例 ──
 const cases = [
@@ -49,6 +49,12 @@ test("數學簡寫只在適當位置轉換", () => {
   assert.equal(normalizeMath("E=mc^[2] + x_[i]"), "E=mc^{2} + x_{i}");
   assert.equal(normalizeMath("\\^[escaped]"), "\\^[escaped]");
   assert.equal(parseInline("$E=mc^[2]$").nodes[0].value, "E=mc^{2}");
+});
+test("數學驗證會診斷未平衡的大括號", () => {
+  assert.equal(validateMath("x^{2}").length, 0);
+  assert.equal(validateMath("\\frac{1{2}")[0]?.code, "MMK-M003");
+  assert.equal(validateMath("\\begin{aligned}x\\end{aligned}").length, 0);
+  assert.equal(validateMath("\\begin{aligned}x\\end{matrix}")[0]?.code, "MMK-M004");
 });
 test("不合法語法保留字面原文並回報警告", () => {
   const {nodes, diagnostics} = parseInline("*[未結尾");
