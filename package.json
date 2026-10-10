@@ -39,7 +39,8 @@
     "benchmark:tokens": "python3 benchmark/tokens.py",
     "benchmark:perf": "npm run build && node scripts/perf.mjs",
     "demo": "npm run build && node scripts/demo.mjs",
-    "check": "npm run build && npm test"
+    "check": "npm run build && npm test",
+    "prepublishOnly": "npm run build && npm test"
   },
   "devDependencies": {
     "typescript": "^5.8.3"
