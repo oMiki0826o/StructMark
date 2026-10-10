@@ -31,7 +31,7 @@ def main() -> None:
             except Exception as exc:
                 print(f"無法載入 {name}：{exc}")
     else:
-        print("未安裝 tiktoken，本次僅提供字元數與 UTF-8 位元組數；Token 欄位留空。")
+        print("未安裝 tiktoken，本次僅提供字元數與 UTF-8 位元組數；Token 欄位標示為 n/a。")
 
     columns = ["id", "format", "characters", "utf8_bytes", *[f"tokens_{name}" for name in ENCODINGS]]
     results = []
@@ -41,10 +41,10 @@ def main() -> None:
             row = {"id": item["id"], "format": fmt,
                    "characters": len(content), "utf8_bytes": len(content.encode("utf-8"))}
             for name in ENCODINGS:
-                row[f"tokens_{name}"] = len(tokenizers[name].encode(content)) if name in tokenizers else ""
+                row[f"tokens_{name}"] = len(tokenizers[name].encode(content)) if name in tokenizers else "n/a"
             results.append(row)
     with OUTPUT.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=columns)
+        writer = csv.DictWriter(handle, fieldnames=columns, lineterminator="\n")
         writer.writeheader()
         writer.writerows(results)
 

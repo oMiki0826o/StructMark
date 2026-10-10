@@ -44,6 +44,7 @@ StructMark Language Core 是 StructMark 輕量、可讀、可擴充標記語言�
 ```bash
 npm install
 npm test
+npm run fuzz
 ```
 
 ### 使用方式
@@ -67,6 +68,8 @@ npm run demo -- examples/v04-specimen.sm --strict
 ```
 
 程式中可從 `src/index.ts` 使用 `parseDocument`, `parseInline`, `lexDocument`, `renderHtml` 與 `serializeAst`。Parser 不會執行 raw/data/code 內容，也不會存取網路或檔案。
+
+穩定的 `.sm` 語法與可執行的相容性承諾記錄於 [`docs/CONFORMANCE.md`](./docs/CONFORMANCE.md)。
 
 ### 網站
 
@@ -136,6 +139,8 @@ npm run demo -- examples/v04-specimen.sm --strict
 ```
 
 The public API is exported from `src/index.ts`, including `parseDocument`, `parseInline`, `lexDocument`, `renderHtml`, and `serializeAst`. The parser does not execute raw/data/code content or access the network or filesystem.
+
+The stable `.sm` syntax and executable compatibility promises are documented in [`docs/CONFORMANCE.md`](./docs/CONFORMANCE.md).
 
 ### Website
 
