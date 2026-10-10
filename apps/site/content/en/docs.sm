@@ -1,0 +1,36 @@
+#1 StructMark language documentation
+
+This guide covers the StructMark 1.0 core syntax and TypeScript API.
+
+#2 Block syntax
+
+Headings use one to six hash marks. Directive blocks use `@name` and `@end`, with optional attributes.
+
+```text
+# Heading
+
+@note [title="A note"]
+This is a structured block.
+@end
+```
+
+#2 Inline syntax
+
+- `*[strong]`: strong emphasis
+- `/[emphasis]`: emphasis
+- `[[target|label]]`: wiki link
+- `[label](https://example.com)`: external link
+- `` `code` ``: inline code
+
+#2 TypeScript API
+
+```typescript
+import { parseDocument, renderHtml } from "structmark-language-core";
+
+const document = parseDocument(source);
+const html = renderHtml(document);
+```
+
+#2 Current scope
+
+Version 1.0 includes the language core, AST, semantic diagnostics, serialization, structured tables, and a safe HTML renderer. Editor integrations and visual authoring remain future work.

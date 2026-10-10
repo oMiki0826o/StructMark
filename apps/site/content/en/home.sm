@@ -1,0 +1,28 @@
+#1 Keep structure in your documents
+
+StructMark is a deterministic structural markup language core for documents, data blocks, and safe HTML output.
+
+@note[title="Deterministic"]
+The same source always produces the same AST, making testing, caching, and tooling predictable.
+@end
+
+@note[title="Composable"]
+Headings, lists, directives, tables, and inline syntax can become reusable document structures.
+@end
+
+@note[title="Safe output"]
+Text is escaped, while URLs and HTML attributes are filtered through explicit allowlists.
+@end
+
+#2 Start with the language core
+
+Describe content with a clear syntax, then let the lexer, parser, AST, and renderer do their work. The editor is future work; the language comes first.
+
+#2 Why use `.sm` instead of only `.md`?
+
+Markdown is excellent for quick writing. `.sm` treats document structure, semantic directives, data blocks, and source-located diagnostics as part of the language. When content must be tested, transformed, indexed, or consumed by other tools, it does not collapse into formatting-only text.
+
+- The AST is stable and serializable, so tools do not have to guess author intent.
+- Directives, attributes, and data tables use explicit registries and diagnostics instead of scattered plugin conventions.
+- Safe HTML output is a core capability for documentation sites, knowledge bases, and static generators.
+- `.sm` remains readable, diffable, and Git-friendly; it simply preserves more structure for programs to understand.

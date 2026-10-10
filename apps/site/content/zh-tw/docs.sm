@@ -1,0 +1,36 @@
+#1 StructMark 語言文件
+
+這份文件說明 StructMark 1.0 的核心語法與 TypeScript API。
+
+#2 區塊語法
+
+標題使用一至六個井號。指令區塊使用 `@name` 與 `@end`，並可附加屬性。
+
+```text
+# 標題
+
+@note [title="提示"]
+這是一個結構化區塊。
+@end
+```
+
+#2 行內語法
+
+- `*[粗體]`：粗體
+- `/[斜體]`：斜體
+- `[[target|label]]`：Wiki 連結
+- `[標籤](https://example.com)`：外部連結
+- `` `code` ``：行內程式碼
+
+#2 TypeScript API
+
+```typescript
+import { parseDocument, renderHtml } from "structmark-language-core";
+
+const document = parseDocument(source);
+const html = renderHtml(document);
+```
+
+#2 目前範圍
+
+1.0 包含語言核心、AST、語義診斷、序列化、結構化表格與安全 HTML renderer。編輯器整合與視覺化編寫工具留待後續版本。
