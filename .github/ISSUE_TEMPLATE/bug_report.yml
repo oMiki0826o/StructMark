@@ -1,0 +1,29 @@
+name: Bug report
+description: Report incorrect parsing, diagnostics, rendering, or documentation behavior.
+title: "bug: "
+labels: [bug]
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal .sm source
+      description: Include the smallest source that demonstrates the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: StructMark version
+      placeholder: 1.1.0

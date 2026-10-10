@@ -1,9 +1,17 @@
 {
   "name": "structmark-language-core",
   "version": "1.0.0",
-  "private": true,
   "type": "module",
   "description": "StructMark language core with TypeScript lexer, parser, AST, and safe HTML rendering; no editor.",
+  "license": "MIT",
+  "repository": {"type": "git", "url": "https://github.com/oMiki0826o/StructMark.git"},
+  "bugs": {"url": "https://github.com/oMiki0826o/StructMark/issues"},
+  "homepage": "https://omiki0826o.github.io/StructMark/",
+  "files": ["dist", "LICENSE", "README.md", "docs/SPECIFICATION.md"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"}},
+  "publishConfig": {"access": "public"},
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test tests/*.test.mjs",
