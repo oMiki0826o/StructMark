@@ -2,17 +2,17 @@
 
 StructMark 是一套確定性的結構化標記語言核心，專為文件、資料區塊與安全 HTML 輸出而設計。
 
-@note[title="確定性"]
+&note[title="確定性"]
 相同的來源永遠產生相同的 AST，方便測試、快取與工具整合。
-@end
+&end
 
-@note[title="可組合"]
+&note[title="可組合"]
 標題、清單、指令、表格與行內語法可以組合成可再利用的文件結構。
-@end
+&end
 
-@note[title="安全輸出"]
+&note[title="安全輸出"]
 文字會先跳脫，網址與 HTML 屬性也會經過白名單處理。
-@end
+&end
 
 #2 從語言核心開始
 

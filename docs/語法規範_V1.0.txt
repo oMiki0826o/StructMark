@@ -44,9 +44,9 @@
 | 連結 | `[文字](URL)` | URL 確定性解析，不看副檔名 |
 | 圖片 | `![替代文字](URL)` | `!` 區分嵌入語義 |
 | Wiki 連結 | `[[文件|顯示]]` | 原型保留 AST，未解決跨檔目標 |
-| 學術引用 | `[@smith2024]` | 原型只建立 Citation AST |
+| 學術引用 | `[&smith2024]` | 原型只建立 Citation AST |
 | 註腳參照 | `[^1]` | 引用已定義的註腳 |
-| 行內指令 | `@kbd[Ctrl+C]`、`@ref[id]` | 以已註冊指令類型區分 |
+| 行內指令 | `&kbd[Ctrl+C]`、`&ref[id]` | 以已註冊指令類型區分 |
 
 巢狀格式例如 `*[外層 /[內層]]`。原型對巢狀層級設有限制。未閉合格式視為字面文字並產生診斷。
 
@@ -57,14 +57,14 @@ heading        = "#", heading-level, space, inline-text, [space, "(#", identifie
 heading-level  = "1" | "2" | "3" | "4" | "5" | "6" ;
 style          = ("/*" | "*" | "/" | "-" | "~" | "="), "[", inline-text, "]", [attributes] ;
 script         = ("^" | "_"), "[", inline-text, "]" ;
-inline-command = "@", identifier, "[", inline-text, "]", [attributes] ;
+inline-command = "&", identifier, "[", inline-text, "]", [attributes] ;
 link           = "[", inline-text, "]", "(", resource-target, ")", [attributes] ;
 image          = "!", link ;
-block-command  = "@", identifier, [attributes], newline, block-content, "@end" ;
+block-command  = "&", identifier, [attributes], newline, block-content, "&end" ;
 attributes     = "[", ("#", identifier | ".", identifier | key, "=", value), {space, attribute}, "]" ;
 ```
 
-以上 EBNF 只是易讀摘要；完整剖析器還必須考慮跳脫、引號、巢狀、行首條件與同一標記優先順序。`@` 敘述式文獻引用未納入 V0.4，避免與語義指令歧義。
+以上 EBNF 只是易讀摘要；完整剖析器還必須考慮跳脫、引號、巢狀、行首條件與同一標記優先順序。`&` 敘述式文獻引用未納入 V0.4，避免與語義指令歧義。
 
 ## 4. 清單
 
@@ -92,11 +92,11 @@ attributes     = "[", ("#", identifier | ".", identifier | key, "=", value), {sp
 
 ![星雲](m42.jpg)[#fig:m42 width=600]
 
-@abbr[HTML][title="HyperText Markup Language"]
+&abbr[HTML][title="HyperText Markup Language"]
 
-@note[title="重要訊息"]
+&note[title="重要訊息"]
 文字。
-@end
+&end
 ```
 
 - `#name` 表示 ID、`.name` 表示類別、`key=value` 為具名屬性；空白分隔多個項目。
@@ -105,25 +105,25 @@ attributes     = "[", ("#", identifier | ".", identifier | key, "=", value), {sp
 - **`{width=600}` 不作為原生推薦寫法。** JSON、LaTeX、程式碼等嵌入格式中的 `{}` 完全不受這個限制。
 - ID 合法性與保留識別碼命名規則未凍結，V0.4 先採 Unicode 字母、數字與少量標點組合。
 
-## 6. `@` 區塊指令
+## 6. `&` 區塊指令
 
 ```text
-@note[title="補充"]
+&note[title="補充"]
 外層內容。
 
-@warning
+&warning
 內層內容。
-@end
+&end
 
-@end
+&end
 ```
 
-- 區塊起始行使用 `@name` 或 `@name[attrs]`；結尾使用獨立行 `@end`。
-- 以堆疊配對最近的開啟區塊，`@end` 不帶名稱。
-- `@note`、`@warning`、`@tip` 等會繼續解析一般文件區塊。
-- `@table`、`@data`、`@raw`、`@equation` 以原始內容處理，不在正文內辨識其他 StructMark 格式。
-- 原始資料中的 `\@end` 表示字面文字 `@end`；未跳脫的獨立行 `@end` 仍會結束原始區塊。
-- 行首的 `@kbd[Ctrl+C]` 是行內指令，不應強制當作區塊容器。
+- 區塊起始行使用 `&name` 或 `&name[attrs]`；結尾使用獨立行 `&end`。
+- 以堆疊配對最近的開啟區塊，`&end` 不帶名稱。
+- `&note`、`&warning`、`&tip` 等會繼續解析一般文件區塊。
+- `&table`、`&data`、`&raw`、`&equation` 以原始內容處理，不在正文內辨識其他 StructMark 格式。
+- 原始資料中的 `\&end` 表示字面文字 `&end`；未跳脫的獨立行 `&end` 仍會結束原始區塊。
+- 行首的 `&kbd[Ctrl+C]` 是行內指令，不應強制當作區塊容器。
 
 ## 7. 表格
 
@@ -140,10 +140,10 @@ attributes     = "[", ("#", identifier | ".", identifier | key, "=", value), {sp
 ### 7.2 CSV / TSV
 
 ```text
-@table[format=csv #tbl:projects]
+&table[format=csv #tbl:projects]
 Name,Version
 StructMark,1.0
-@end
+&end
 ```
 
 CSV 在欄位中含逗號、引號或換行時遵守引號轉義規則。TSV 以 Tab 分欄。這種模式是「資料表格」，**不是**自動具備跨列、跨欄的複雜表格。
@@ -151,9 +151,9 @@ CSV 在欄位中含逗號、引號或換行時遵守引號轉義規則。TSV 以
 ### 7.3 JSON 結構表格（原型）
 
 ```text
-@table[format=json]
+&table[format=json]
 {"columns":["A","B"],"rows":[[{"text":"合併欄位","colspan":2}]]}
-@end
+&end
 ```
 
 目前能表示及輸出基本 `colspan`、`rowspan`，並已驗證欄位數、span 範圍、跨列占位、格位重疊與缺格；仍不支援完整巢狀 StructMark 儲存格內容。
@@ -164,19 +164,19 @@ CSV 在欄位中含逗號、引號或換行時遵守引號轉義規則。TSV 以
 H_[2]O
 $E=mc^[2]$
 
-@equation[#eq:energy]
+&equation[#eq:energy]
 E=mc^[2]
-@end
+&end
 
-@ref[eq:energy]
-[@smith2024]
+&ref[eq:energy]
+[&smith2024]
 [^note]
 
 [^note]: 補充說明。
 ```
 
 - 數學採 LaTeX 表示；僅對簡式 `^[...]`、`_[...]` 做有限轉換，不重新實作 LaTeX。
-- 公式 ID 能供 `@ref` 引用，但公式排序與編號呈現尚未實作。
+- 公式 ID 能供 `&ref` 引用，但公式排序與編號呈現尚未實作。
 - Citation 節點引用 BibTeX/CSL 資料是未來語義處理流程；**V0.4 不會產生 APA 7 的真實引用格式**。
 - 初步預設未來引用樣式為 APA 7；語法與排版格式分離。
 
@@ -197,10 +197,10 @@ Front Matter 正式目標是 YAML。現在的程式只有簡單 YAML 子集，�
 ## 10. 解析與驗證優先順序
 
 1. 來源正規化，辨識檔首 Metadata。
-2. 區塊容器與原始範圍（程式碼、註解、數學、`@...@end`）。
+2. 區塊容器與原始範圍（程式碼、註解、數學、`&...&end`）。
 3. 標題、表格、引用、清單、註腳、段落。
 4. 行內受保護範圍（行內程式碼、跳脫、註解、數學）。
-5. Wiki、學術引用、註腳、連結、圖片、`@` 行內指令、修飾標記。
+5. Wiki、學術引用、註腳、連結、圖片、`&` 行內指令、修飾標記。
 6. 屬性只附於有效 AST 節點，然後做重複 ID、未找到參照與未找到註腳的語義診斷。
 
 HTML 輸出只使用安全白名單 URL 協定；不依據網路或 MIME 類型決定語法。輸入原始碼不會作為可執行腳本直接輸出。
@@ -214,13 +214,13 @@ HTML 輸出只使用安全白名單 URL 協定；不依據網路或 MIME 類型�
 - 對清單、引用、GFM 表格中的節點，行列應反映實際來源文字而不是去縮排後的暫存字串。
 - V0.4 尚不建立原始 CRLF 輸入或 UTF-8 位元組索引的反向映射。
 
-### 11.2 `@` 指令辨識
+### 11.2 `&` 指令辨識
 
-- 已註冊的 `@kbd`、`@abbr` 等屬於行內指令，即使出現在行首也不變成區塊。
+- 已註冊的 `&kbd`、`&abbr` 等屬於行內指令，即使出現在行首也不變成區塊。
 - 已知區塊名稱在完整起始行且符合格式時啟動容器；未知名稱若僅有合法屬性或單獨行，也可啟動區塊但須產生診斷。
-- 像 `@unknown[內容]` 的未知行內形式不會被當作未閉合區塊；帶有命名空間的行內形式保留 `inlineDirective.name`。
-- `@end` 關閉最近的開放容器。原始資料中的非跳脫 `@end` 仍具有結束作用。
-- 在非原始 `@` 容器內，程式碼圍欄及多行註解中的 `@end` 不構成結束標記。
+- 像 `&unknown[內容]` 的未知行內形式不會被當作未閉合區塊；帶有命名空間的行內形式保留 `inlineDirective.name`。
+- `&end` 關閉最近的開放容器。原始資料中的非跳脫 `&end` 仍具有結束作用。
+- 在非原始 `&` 容器內，程式碼圍欄及多行註解中的 `&end` 不構成結束標記。
 
 ### 11.3 JSON Structured Table Schema（可執行子集）
 

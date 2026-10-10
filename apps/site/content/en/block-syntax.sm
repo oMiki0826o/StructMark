@@ -22,9 +22,9 @@ Fenced code blocks preserve source text; `$$` introduces a math block and `%%` m
 ## Directive blocks
 
 ```text
-@note[title="A note"]
+&note[title="A note"]
 This block keeps its semantic identity.
-@end
+&end
 ```
 
 Directives can nest and their attributes are checked by the registry. Unclosed or unknown structures produce diagnostics instead of disappearing silently.

@@ -4,14 +4,14 @@
 
 #2 區塊語法
 
-標題使用一至六個井號。指令區塊使用 `@name` 與 `@end`，並可附加屬性。
+標題使用一至六個井號。指令區塊使用 `&name` 與 `&end`，並可附加屬性。
 
 ```text
 # 標題
 
-@note [title="提示"]
+&note [title="提示"]
 這是一個結構化區塊。
-@end
+&end
 ```
 
 #2 行內語法
@@ -131,17 +131,17 @@ $$
 | `` `code` `` | 行內程式碼 |
 | `[[target|label]]` | Wiki 連結 |
 | `[標籤](https://example.com)` | 外部連結 |
-| `[@smith2024]` | 文獻引用 |
+| `[&smith2024]` | 文獻引用 |
 | `[^note]` | 註腳參照 |
 
 #2 指令與屬性
 
-指令區塊使用 `@name` 開始，使用 `@end` 結束。屬性放在中括號內，供 parser 與 renderer 讀取：
+指令區塊使用 `&name` 開始，使用 `&end` 結束。屬性放在中括號內，供 parser 與 renderer 讀取：
 
 ```text
-@note[title="重要提醒"]
+&note[title="重要提醒"]
 這個區塊保留語義，不只是視覺上的灰色盒子。
-@end
+&end
 ```
 
 StructMark 會透過 `DirectiveRegistry` 檢查指令種類與允許的屬性。未知指令或錯誤屬性不會靜默消失，而會產生帶有行號與欄號的 diagnostics。

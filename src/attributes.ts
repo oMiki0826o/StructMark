@@ -33,7 +33,11 @@ export function readAttributes(content: string, position: Position, diagnostics:
       const m = KEY.exec(content.slice(p));
       if (!m) {valid = false; break;}
       key = m[0]; p += key.length;
-      if (content[p] !== "=") {valid = false; break;}
+      if (content[p] !== "=") {
+        if (Object.hasOwn(attrs, key)) {error(diagnostics, "MMK-A002", `重複屬性：${key}`, position); valid = false;}
+        else attrs[key] = true;
+        continue;
+      }
       p++;
       let value: string | number | boolean = "";
       if (content[p] === '"' || content[p] === "'") {

@@ -22,9 +22,9 @@
 ## 指令區塊
 
 ```text
-@note[title="提示"]
+&note[title="提示"]
 這是一個保留語義的區塊。
-@end
+&end
 ```
 
 指令可以巢狀，屬性會經過 Registry 驗證。未閉合或未知結構會產生 diagnostics，而不是靜默遺失。

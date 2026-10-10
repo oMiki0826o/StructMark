@@ -17,9 +17,9 @@
 
 `DirectiveRegistry` 是指令分類的唯一資料入口：
 
-- `inline`：`@kbd[...]`、`@abbr[...]`、`@term[...]`、`@var[...]`、`@lang[...]`、`@ref[...]`。
-- `block`：`@note`、`@tip`、`@warning`、`@quote`、`@example`、`@figure`、`@details`、`@definition`、`@theorem`、`@proof`。
-- `rawBlock`：`@table`、`@data`、`@raw`、`@equation`。正文不再做一般區塊解析；`@end` 只在 raw 容器層級關閉。
+- `inline`：`&kbd[...]`、`&abbr[...]`、`&term[...]`、`&var[...]`、`&lang[...]`、`&ref[...]`。
+- `block`：`&note`、`&tip`、`&warning`、`&quote`、`&example`、`&figure`、`&details`、`&definition`、`&theorem`、`&proof`。
+- `rawBlock`：`&table`、`&data`、`&raw`、`&equation`。正文不再做一般區塊解析；`&end` 只在 raw 容器層級關閉。
 
 未知指令不執行、不存取外部資源；既有 parser 保留內容並產生診斷。registry 可由上層建立副本後註冊擴充，不能覆蓋同名內建指令。
 
@@ -27,4 +27,4 @@ Inline Parser 同樣接受 `DirectiveRegistry`。已註冊的 inline 指令會�
 
 ## 配對與恢復
 
-`@end` 必須是最多三個 ASCII 空格後的獨立行。孤立 `@end` 產生既有 `MMK-B011`，並只消耗該行；後續文件照常解析。未閉合區塊產生 `MMK-B010`，診斷範圍從開啟指令開始，不吞掉文件外的後續輸入。
+`&end` 必須是最多三個 ASCII 空格後的獨立行。孤立 `&end` 產生既有 `MMK-B011`，並只消耗該行；後續文件照常解析。未閉合區塊產生 `MMK-B010`，診斷範圍從開啟指令開始，不吞掉文件外的後續輸入。

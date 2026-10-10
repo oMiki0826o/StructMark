@@ -31,7 +31,7 @@ StructMark Language Core 是 StructMark 輕量、可讀、可擴充標記語言�
 - `#1`～`#6` 標題、段落、引用、分隔線與 fenced code block。
 - 無序、數字、自動編號與任務清單，支援巢狀與續行。
 - 粗體、斜體、底線、刪除線、螢光、上下標、行內程式碼與數學。
-- 連結、圖片、Wiki link、註腳、學術引用與 `@` 語義指令。
+- 連結、圖片、Wiki link、註腳、學術引用與 `&` 語義指令。
 - GFM pipe table、CSV/TSV 與 JSON structured table 驗證。
 - `DirectiveRegistry`、自訂指令、屬性 schema 與可定位 diagnostics。
 - normalized UTF-16、原始 offset 與 UTF-8 byte offset 對映。
@@ -100,7 +100,7 @@ Version 1.0.0 is the first usable language-core release. The file extension has 
 - Headings `#1` to `#6`, paragraphs, quotes, thematic breaks, and fenced code blocks.
 - Unordered, numbered, automatic, and task lists with nesting and continuation lines.
 - Strong, emphasis, underline, delete, highlight, superscript, subscript, code, and math spans.
-- Links, images, wiki links, footnotes, citations, and semantic `@` directives.
+- Links, images, wiki links, footnotes, citations, and semantic `&` directives.
 - GFM pipe tables, CSV/TSV tables, and JSON structured-table validation.
 - `DirectiveRegistry`, custom directives, attribute schemas, and source-located diagnostics.
 - Normalized UTF-16, original-source, and UTF-8 byte offset mapping.

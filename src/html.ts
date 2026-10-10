@@ -54,7 +54,7 @@ export function renderInline(nodes: InlineNode[]): string {
       case "ref": return `<a class="xref" href="#${escapeHtml(node.target)}">${escapeHtml(node.target)}</a>`;
       case "footnoteRef": return `<sup><a href="#fn-${escapeHtml(node.target)}">${escapeHtml(node.target)}</a></sup>`;
       case "inlineDirective": return `<span data-structmark-directive="${escapeHtml(node.name)}"${htmlAttrs(node.attrs)}>${renderInline(node.children)}</span>`;
-      case "citation": return `<span class="citation" data-keys="${escapeHtml(node.keys.join(" "))}">[${escapeHtml(node.keys.map(k => "@" + k).join("; "))}${node.locator ? ", " + escapeHtml(node.locator) : ""}]</span>`;
+      case "citation": return `<span class="citation" data-keys="${escapeHtml(node.keys.join(" "))}">[${escapeHtml(node.keys.map(k => "&" + k).join("; "))}${node.locator ? ", " + escapeHtml(node.locator) : ""}]</span>`;
       case "link": {
         const url = safeUrl(node.target);
         return url ? `<a href="${escapeHtml(url)}"${htmlAttrs(node.attrs)}>${renderInline(node.label)}</a>` : renderInline(node.label);

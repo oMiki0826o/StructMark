@@ -18,8 +18,8 @@ const MAX_SOURCE = 2_000_000;
 const MAX_BLOCK_DEPTH = 40;
 const HEADING = /^ {0,3}#([1-6])[ \t]+(.+)$/;
 const FENCE = /^ {0,3}(`{3,}|~{3,})([^`]*)$/;
-const DIRECTIVE = /^ {0,3}@([a-z][a-z\d_]*(?::[a-z][a-z\d_]*)*)(\[[^\]\n]*\])?[ \t]*$/;
-const BLOCK_END = /^ {0,3}@end[ \t]*$/;
+const DIRECTIVE = /^ {0,3}&([a-z][a-z\d_]*(?::[a-z][a-z\d_]*)*)(?:[ \t]+)?(\[[^\]\n]*\])?[ \t]*$/;
+const BLOCK_END = /^ {0,3}&(?:end|e)[ \t]*$/;
 const COMMENT_FENCE = /^ {0,3}%%[ \t]*$/;
 const FOOTNOTE_DEF = /^ {0,3}\[\^([\w:.-]+)\]:[ \t]*(.*)$/u;
 const THEMATIC = /^ {0,3}---[ \t]*$/;
@@ -68,7 +68,7 @@ function splitPipeLocated(line: string): PipeCell[] {
 }
 function splitPipe(line: string): string[] {return splitPipeLocated(line).map(c => c.value);}
 function isBlockDirective(match: RegExpExecArray | null, registry: DirectiveRegistry): boolean {
-  if (!match || match[1] === "end") return false;
+  if (!match || match[1] === "end" || match[1] === "e") return false;
   if (registry.has(match[1]!, "inline")) return false;
   // 帶括號的未知單行指令，優先視為一般文字；只有合法的屬性形態才允許啟動區塊。
   if (!registry.has(match[1]!, "block") && !registry.has(match[1]!, "rawBlock") && match[2]) {
@@ -175,7 +175,7 @@ export function parseDocument(source: string, options: ParseOptions = {}): Docum
     const d = DIRECTIVE.exec(text);
     return token.kind !== "text" || HEADING.test(text) || THEMATIC.test(text) || FENCE.test(text) || /^ {0,3}\$\$[ \t]*$/.test(text) || /^ {0,3}%%[ \t]*$/.test(text) ||
       /^ {0,3}>[ \t]?/.test(text) || FOOTNOTE_DEF.test(text) || (markerOf(text)?.indent ?? Infinity) <= 3 ||
-      /^ {0,3}@end[ \t]*$/.test(text) || isBlockDirective(d, registry);
+      /^ {0,3}&(?:end|e)[ \t]*$/.test(text) || isBlockDirective(d, registry);
   }
   function blocks(input: Line[], depth: number): BlockNode[] {
     if (depth >= MAX_BLOCK_DEPTH) {issue("MMK-B009", "區塊巢狀深度超出限制", input[0] ?? {text: "", no: 1}, "error"); return [];}
@@ -250,13 +250,13 @@ export function parseDocument(source: string, options: ParseOptions = {}): Docum
         continue;
       }
 
-      // ── @ 區塊指令：明確巢狀堆疊，raw 子區塊保護 @end 與內容 ──
+      // ── & 區塊指令：明確巢狀堆疊，raw 子區塊保護 &end 與內容 ──
       m = DIRECTIVE.exec(text);
       if (isBlockDirective(m, registry)) {
         const begin = cursor++;
-        const name = m![1]!;
+        const name = registry.resolve(m![1]!);
         const attrs = m![2] ? readAttributes(m![2]!.slice(1, -1), point(line), diagnostics) ?? {} : {};
-        if (!registry.has(name, "block") && !registry.has(name, "rawBlock")) issue("MMK-B013", `尚未註冊的區塊指令：@${name}`, line);
+        if (!registry.has(name, "block") && !registry.has(name, "rawBlock")) issue("MMK-B013", `尚未註冊的區塊指令：&${name}`, line);
         for (const diagnostic of registry.validateAttributes(name, attrs)) issue("MMK-A003", diagnostic.message, line);
         const body: Line[] = [];
         // 每個內層區塊各自記錄 raw 模式，原始資料不應被當作其他區塊。
@@ -292,9 +292,9 @@ export function parseDocument(source: string, options: ParseOptions = {}): Docum
           if (isBlockDirective(nested, registry)) stack.push(registry.has(nested![1]!, "rawBlock"));
           body.push(candidate); cursor++;
         }
-        if (!closed) issue("MMK-B010", `未閉合區塊：@${name}`, line);
+        if (!closed) issue("MMK-B010", `未閉合區塊：&${name}`, line);
         if (registry.has(name, "rawBlock")) {
-          let raw = body.map(row => row.text.replace(/^ {0,3}\\(@end)[ \t]*$/, "$1")).join("\n");
+          let raw = body.map(row => row.text.replace(/^ {0,3}\\(&end)[ \t]*$/, "$1")).join("\n");
           if (name === "equation") raw = normalizeMath(raw);
           if (name === "table") {
             if (attrs.format === "json") {
@@ -305,17 +305,17 @@ export function parseDocument(source: string, options: ParseOptions = {}): Docum
                 const width = rows[0]?.length ?? 0;
                 if (width === 0 || rows.some(row => row.length !== width)) issue("MMK-T003", "CSV/TSV 各列的欄位數必須一致且非空", line);
               } catch (err) { issue("MMK-T004", `CSV/TSV 內容不合法：${String(err)}`, line); }
-            } else issue("MMK-T005", "@table 必須指定 format=csv、tsv 或 json", line);
+              } else issue("MMK-T005", "&table 必須指定 format=csv、tsv 或 json", line);
           }
           if (name === "data" && attrs.format === "json") {
-            try { JSON.parse(raw); } catch {issue("MMK-DATA001", "@data 的 JSON 內容不合法", line);}
+            try { JSON.parse(raw); } catch {issue("MMK-DATA001", "&data 的 JSON 內容不合法", line);}
           }
           result.push({type: "directive", name, attrs, raw, children: [], range: span(input, begin, cursor - 1)});
         } else result.push({type: "directive", name, attrs, raw: null, children: blocks(body, depth + 1), range: span(input, begin, cursor - 1)});
         continue;
       }
       if (BLOCK_END.test(text)) {
-        issue("MMK-B011", "沒有對應區塊的 @end", line); cursor++; continue;
+        issue("MMK-B011", "沒有對應區塊的 &end", line); cursor++; continue;
       }
 
       // ── $$ LaTeX 公式區塊 ──

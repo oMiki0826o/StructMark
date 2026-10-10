@@ -7,15 +7,15 @@
 | 標題 `#1`～`#6`、`(#id)` | 可用原型 | Unicode ID 正規化、全部語法邊界 |
 | Compact 行內格式、上下標 | 可用原型 | 更完整的巢狀合法性、詞法邊界 |
 | 行內位置與區間 | 已覆蓋行內 AST | CRLF 原始 offset 對映、UTF-8 位元組位址 |
-| `@` 行內／區塊指令 | 基礎 registry/schema 可用 | 行內 parser 完整 registry 注入、擴充啟用流程 |
+| `&` 行內／區塊指令 | 基礎 registry/schema 可用 | 行內 parser 完整 registry 注入、擴充啟用流程 |
 | 清單、`.` 自動編號、任務 | 改進完成主要案例 | 完整 CommonMark 等級容器與縮排文法 |
 | 圖片、連結、Wiki | 基礎解析 | 跨檔索引、資源管理 |
 | GFM Pipe Table | 基礎可用 | 無標頭表格、區塊儲存格、全部邊界 |
 | CSV、TSV | 解析與驗證可用 | 更完整的標準相容案例與大型資料測試 |
 | JSON 表格格位占用 | 驗證可用 | 巢狀 StructMark 儲存格、圖說／語義資料型別 |
 | Front Matter | YAML 子集 | 完整 YAML 1.2 與 Schema |
-| `@equation`、`$...$` | 保留／簡寫可用 | 完整 LaTeX 處理、公式編號與排版 |
-| `[@key]`、註腳 | 建立 AST 節點 | BibTeX、CSL、APA 7 真正格式化 |
+| `&equation`、`$...$` | 保留／簡寫可用 | 完整 LaTeX 處理、公式編號與排版 |
+| `[&key]`、註腳 | 建立 AST 節點 | BibTeX、CSL、APA 7 真正格式化 |
 | 交叉參照語義驗證 | 基礎可用 | 圖表自動編號、跨文件參照 |
 | HTML Renderer | 基礎安全輸出 | 進階語義呈現、樣式、更多格式 |
 | Markdown 匯入／匯出 | 尚未支援 | 獨立轉換器與資訊流失報告 |
@@ -29,7 +29,7 @@
 **P0 — 文法穩定性**
 
 1. 完整 Lexer / Block Parser / Inline Parser 分層，設計明確的 token 分類、容器狀態與錯誤恢復機制。
-2. 明確整理 `@` 指令的 inline/block 註冊表、屬性 Schema、未知類型與完整跳脫規則。
+2. 明確整理 `&` 指令的 inline/block 註冊表、屬性 Schema、未知類型與完整跳脫規則。
 3. 完整清單容器規格：懸掛縮排、空行、引用、程式碼與表格交叉巢狀的判定。
 4. 補齊原始 CRLF 與 UTF-8 Byte Offset、Unicode 組合字元之間的來源對應（若有必要）。
 5. 建立真正的語法符合性測試與 Round-trip Snapshot，對語法的改動要求提供新案例。

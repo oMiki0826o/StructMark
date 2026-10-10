@@ -137,13 +137,13 @@ export function parseInline(source: string, base: Position = {line: 1, column: 1
           if (target?.trim()) {flush(); emit({type: "wiki", target: target.trim(), label: labelParts.join("|").trim() || target.trim()}, cursor, close + 2); cursor = close + 2; continue;}
         }
       }
-      if (source.startsWith("[@", cursor)) {
+      if (source.startsWith("[&", cursor)) {
         const close = squarePairs.get(cursor) ?? -1;
         if (close >= 0 && close < stop) {
           const inner = source.slice(cursor + 2, close);
           const items = inner.split(/\s*;\s*/);
           const first = /^([\w:.-]+)(?:\s*,\s*(.+))?$/u.exec(items[0] ?? "");
-          const extra = items.slice(1).every(x => /^@[\w:.-]+$/u.test(x));
+          const extra = items.slice(1).every(x => /^&[\w:.-]+$/u.test(x));
           if (first && extra) {
             const {attrs, end} = attributeSuffix(close + 1);
             flush(); emit({type: "citation", keys: [first[1]!, ...items.slice(1).map(x => x.slice(1))], locator: first[2] ?? null, attrs}, cursor, end);
@@ -171,8 +171,8 @@ export function parseInline(source: string, base: Position = {line: 1, column: 1
         }
       }
 
-      if (c === "@") {
-        const match = /^@([a-z][\w]*(?::[a-z][\w]*)*)\[/u.exec(source.slice(cursor, stop));
+      if (c === "&") {
+        const match = /^&([a-z][\w]*(?::[a-z][\w]*)*)\[/u.exec(source.slice(cursor, stop));
         if (match && (registry.has(match[1]!, "inline") || match[1]!.includes(":"))) {
           const opening = cursor + match[0].length - 1;
           const close = squarePairs.get(opening) ?? -1;

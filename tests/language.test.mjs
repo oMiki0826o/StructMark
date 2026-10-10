@@ -11,12 +11,12 @@ import {parseDocument, parseInline, renderHtml, normalizeMath, readAttributes, p
 const cases = [
   ["*[粗體]", "strong"], ["/[斜體]", "em"], ["/*[粗斜體]", "em"],
   ["-[底線]", "underline"], ["~[刪除線]", "delete"], ["=[螢光]", "highlight"],
-  ["^[2]", "sup"], ["_[i]", "sub"], ["@kbd[Ctrl+C]", "kbd"],
-  ["@abbr[HTML]", "abbr"], ["@term[Lexer]", "term"], ["@var[x]", "var"],
-  ["@lang[日本語]", "lang"], ["@ref[fig:m42]", "ref"],
+  ["^[2]", "sup"], ["_[i]", "sub"], ["&kbd[Ctrl+C]", "kbd"],
+  ["&abbr[HTML]", "abbr"], ["&term[Lexer]", "term"], ["&var[x]", "var"],
+  ["&lang[日本語]", "lang"], ["&ref[fig:m42]", "ref"],
   ["[GitHub](https://github.com)", "link"], ["![M42](m42.jpg)", "image"],
   ["[[Minecraft]]", "wiki"], ["[[Minecraft|麥塊]]", "wiki"],
-  ["[@smith2024]", "citation"], ["[@smith2024; @jones2023]", "citation"],
+  ["[&smith2024]", "citation"], ["[&smith2024; &jones2023]", "citation"],
   ["[^note]", "footnoteRef"], ["$E=mc^[2]$", "math"],
   ["%%忽略%%", "comment"], ["`*[not bold]`", "code"],
 ];
@@ -60,7 +60,7 @@ test("外部輸入含括號及跳脫的 URL", () => {
   assert.equal(nodes[0].target, "images/(draft).png");
 });
 test("圖片加屬性與文獻引用加屬性", () => {
-  const {nodes, diagnostics} = parseInline("![M42](m42.jpg)[#fig:m42 width=600] [@chen2024][mode=narrative]");
+  const {nodes, diagnostics} = parseInline("![M42](m42.jpg)[#fig:m42 width=600] [&chen2024][mode=narrative]");
   assert.equal(diagnostics.length, 0, JSON.stringify(diagnostics));
   assert.equal(nodes[0].attrs.id, "fig:m42");
   assert.equal(nodes[0].attrs.width, 600);
@@ -79,9 +79,9 @@ const blocks = [
   ["- a\n- b", "list"], [". a\n. b", "list"], ["5. a\n6. b", "list"],
   ["- [o] 完成\n- [ ] 未完成", "list"], ["> 引用", "blockquote"],
   ["```py\nprint(1)\n```", "codeBlock"], ["$$\na=b\n$$", "directive"],
-  ["%%\n隱藏\n%%", "commentBlock"], ["@note\n內容\n@end", "directive"],
-  ["@equation[#eq:one]\nx^[2]\n@end", "directive"],
-  ["@table[format=csv]\na,b\n1,2\n@end", "directive"],
+  ["%%\n隱藏\n%%", "commentBlock"], ["&note\n內容\n&end", "directive"],
+  ["&equation[#eq:one]\nx^[2]\n&end", "directive"],
+  ["&table[format=csv]\na,b\n1,2\n&end", "directive"],
   ["[^a]: 註腳內容", "footnoteDef"],
   ["| A | B |\n|---|---|\n| 1 | 2 |", "table"],
 ];
@@ -120,33 +120,33 @@ test("一般清單與 -[底線] 形式可區分", () => {
   assert.equal(doc.children[0].type, "list");
   assert.equal(doc.children[1].children[0].type, "underline");
 });
-test("@ 區塊可巢狀，最近 @end 匹配內層", () => {
-  const doc = parseDocument("@note\n外層\n@warning\n內層\n@end\n外層二\n@end");
+test("& 區塊可巢狀，最近 &end 匹配內層", () => {
+  const doc = parseDocument("&note\n外層\n&warning\n內層\n&end\n外層二\n&end");
   assert.equal(doc.children.length, 1);
   assert.equal(doc.children[0].type, "directive");
   assert.equal(doc.children[0].children[1].name, "warning");
   assert.equal(doc.children[0].children.length, 3);
 });
-test("指令正文的程式碼圍欄內 @end 不應關閉容器", () => {
-  const doc = parseDocument("@note\n```txt\n@end\n```\n有效內文\n@end");
+test("指令正文的程式碼圍欄內 &end 不應關閉容器", () => {
+  const doc = parseDocument("&note\n```txt\n&end\n```\n有效內文\n&end");
   assert.equal(doc.children[0].children[0].type, "codeBlock");
   assert.equal(doc.children[0].children[1].type, "paragraph");
   assert.equal(doc.diagnostics.length, 0);
 });
 test("多行 raw 資料區塊不解析其內部格式", () => {
-  const doc = parseDocument("@data[format=json]\n{\"value\":\"*[literal]\"}\n@end");
+  const doc = parseDocument("&data[format=json]\n{\"value\":\"*[literal]\"}\n&end");
   assert.equal(doc.children[0].raw, '{"value":"*[literal]"}');
 });
 test("標題與區塊 ID、註腳與交叉參照診斷", () => {
-  const doc = parseDocument("#2 A (#same)\n#2 B (#same)\n引用 @ref[missing] 與註腳[^n]");
+  const doc = parseDocument("#2 A (#same)\n#2 B (#same)\n引用 &ref[missing] 與註腳[^n]");
   const codes = doc.diagnostics.map(d => d.code);
   assert(codes.includes("MMK-S001"));
   assert(codes.includes("MMK-S003"));
   assert(codes.includes("MMK-S004"));
 });
-test("@end 孤立與未閉合 @note 都有診斷", () => {
-  assert(parseDocument("@end").diagnostics.some(d => d.code === "MMK-B011"));
-  assert(parseDocument("@note\n未關閉").diagnostics.some(d => d.code === "MMK-B010"));
+test("&end 孤立與未閉合 &note 都有診斷", () => {
+  assert(parseDocument("&end").diagnostics.some(d => d.code === "MMK-B011"));
+  assert(parseDocument("&note\n未關閉").diagnostics.some(d => d.code === "MMK-B010"));
 });
 test("GFM 表格跳脫豎線", () => {
   const doc = parseDocument("| A | B |\n|---|---|\n| a\\|b | ok |");
@@ -162,9 +162,9 @@ test("CSV 內容含引號、逗號、換行", () => {
   assert.throws(() => parseDelimited('a,"b', ","));
 });
 test("TSV 與 JSON 合併儲存格 HTML", () => {
-  const csv = parseDocument("@table[format=tsv]\nA\tB\n1\t2\n@end");
+  const csv = parseDocument("&table[format=tsv]\nA\tB\n1\t2\n&end");
   assert(renderHtml(csv).includes("<th>A</th>"));
-  const json = parseDocument('@table[format=json]\n{"columns":["A","B"],"rows":[[{"text":"合併","colspan":2}]]}\n@end');
+  const json = parseDocument('&table[format=json]\n{"columns":["A","B"],"rows":[[{"text":"合併","colspan":2}]]}\n&end');
   assert(renderHtml(json).includes('colspan="2"'));
 });
 
@@ -182,7 +182,7 @@ test("連結屬性只輸出白名單，阻擋任意 onerror", () => {
   assert(!html.includes("onerror="));
 });
 test("程式碼與資料內容保持原樣不會轉成 HTML", () => {
-  const html = renderHtml(parseDocument('```html\n<script>hi</script>\n```\n\n@raw\n<img src=x onerror=bad>\n@end'));
+  const html = renderHtml(parseDocument('```html\n<script>hi</script>\n```\n\n&raw\n<img src=x onerror=bad>\n&end'));
   assert(!html.includes("<script>"));
   assert(html.includes("&lt;script&gt;"));
   assert(html.includes("&lt;img"));

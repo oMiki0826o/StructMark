@@ -31,31 +31,31 @@ for (const [name, raw, expected] of tableCases) {
   test(`structured table: ${name}`, () => {
     const result = parseStructuredTable(raw);
     assert.equal(result.value !== null, expected, JSON.stringify(result.errors));
-    const doc = parseDocument(`@table[format=json]\n${raw}\n@end`);
+    const doc = parseDocument(`&table[format=json]\n${raw}\n&end`);
     assert.equal(doc.diagnostics.some(d => d.code === "MMK-T002"), !expected);
   });
 }
 
 test("結構化表格跨列能正確輸出 HTML", () => {
-  const source = `@table[format=json]\n${t(["A", "B"], [[{text:"a", rowspan:2}, "b"], ["c"]])}\n@end`;
+  const source = `&table[format=json]\n${t(["A", "B"], [[{text:"a", rowspan:2}, "b"], ["c"]])}\n&end`;
   const html = renderHtml(parseDocument(source));
   assert(html.includes('rowspan="2"'));
   assert.equal((html.match(/<tr>/g) ?? []).length, 3); // 包含標頭
 });
 test("無效 JSON 表格不輸出不合法的跨列 HTML", () => {
-  const source = `@table[format=json]\n${t(["A"], [[{text:"a", rowspan:3}]])}\n@end`;
+  const source = `&table[format=json]\n${t(["A"], [[{text:"a", rowspan:3}]])}\n&end`;
   const html = renderHtml(parseDocument(source));
   assert(html.includes('class="invalid-data"'));
   assert(!html.includes('rowspan="3"'));
 });
 test("表格儲存格文字絕不當作 HTML", () => {
-  const source = `@table[format=json]\n${t(["A"], [["<svg onload=alert(1)>"]])}\n@end`;
+  const source = `&table[format=json]\n${t(["A"], [["<svg onload=alert(1)>"]])}\n&end`;
   const html = renderHtml(parseDocument(source));
   assert(!html.includes("<svg"));
   assert(html.includes("&lt;svg"));
 });
 
-// ── CSV/TSV 與 @raw 區塊 ──
+// ── CSV/TSV 與 &raw 區塊 ──
 for (const [name, raw, expectedCode] of [
   ["欄數不一致", "A,B\n1", "MMK-T003"],
   ["未閉合的引號", 'A,B\n"x,y', "MMK-T004"],
@@ -63,41 +63,41 @@ for (const [name, raw, expectedCode] of [
 ]) {
   test(`CSV/TSV 區塊診斷：${name}`, () => {
     const format = name === "缺少格式" ? "" : "[format=csv]";
-    const d = parseDocument(`@table${format}\n${raw}\n@end`);
+    const d = parseDocument(`&table${format}\n${raw}\n&end`);
     assert(d.diagnostics.some(x => x.code === expectedCode));
   });
 }
-test("原始資料 @end 可透過反斜線表示字面文字", () => {
-  const d = parseDocument("@raw\nstart\n\\@end\nend\n@end");
-  assert.equal(d.children[0].raw, "start\n@end\nend");
+test("原始資料 &end 可透過反斜線表示字面文字", () => {
+  const d = parseDocument("&raw\nstart\n\\&end\nend\n&end");
+  assert.equal(d.children[0].raw, "start\n&end\nend");
   assert.equal(d.diagnostics.length, 0);
 });
-test("巢狀 raw 區塊不將其內部 @note 當成巢狀起點", () => {
-  const src = "@note\n@raw\n@note\nHello\n@end\nOutside\n@end";
+test("巢狀 raw 區塊不將其內部 &note 當成巢狀起點", () => {
+  const src = "&note\n&raw\n&note\nHello\n&end\nOutside\n&end";
   const d = parseDocument(src);
   assert.equal(d.diagnostics.length, 0, JSON.stringify(d.diagnostics));
   assert.equal(d.children[0].children.length, 2);
-  assert.equal(d.children[0].children[0].raw, "@note\nHello");
+  assert.equal(d.children[0].children[0].raw, "&note\nHello");
 });
-test("程式碼圍欄與多行註解都不會誤關閉 @ 容器", () => {
-  const src = "@note\n%%\n@end\n%%\n```text\n@end\n```\nfinish\n@end";
+test("程式碼圍欄與多行註解都不會誤關閉 & 容器", () => {
+  const src = "&note\n%%\n&end\n%%\n```text\n&end\n```\nfinish\n&end";
   const d = parseDocument(src);
   assert.equal(d.diagnostics.length, 0);
   assert.equal(d.children[0].children.at(-1).type, "paragraph");
 });
-test("@kbd 行首時必須仍是行內語義節點", () => {
-  const d = parseDocument("@kbd[Ctrl+C]");
+test("&kbd 行首時必須仍是行內語義節點", () => {
+  const d = parseDocument("&kbd[Ctrl+C]");
   assert.equal(d.children[0].type, "paragraph");
   assert.equal(d.children[0].children[0].type, "kbd");
   assert.equal(d.diagnostics.length, 0);
 });
 test("未知行內形式不會被錯誤當作區塊", () => {
-  const d = parseDocument("@custom[not-attrs]");
+  const d = parseDocument("&custom[not-attrs]");
   assert.equal(d.children[0].type, "paragraph");
   assert.equal(d.diagnostics.length, 0);
 });
 test("未知區塊產生警告但完整保留正文", () => {
-  const d = parseDocument("@custom[title=hello]\n正文\n@end");
+  const d = parseDocument("&custom[title=hello]\n正文\n&end");
   assert.equal(d.children[0].name, "custom");
   assert.equal(d.children[0].children[0].children[0].value, "正文");
   assert(d.diagnostics.some(x => x.code === "MMK-B013"));
@@ -161,11 +161,11 @@ test("多行段落的 offset 對應到真實第二行", () => {
   assert.equal(span.start.offset, s.indexOf("*["));
 });
 test("語義診斷指出實際參照 token 的位置", () => {
-  const s = "前文，@ref[missing]";
+  const s = "前文，&ref[missing]";
   const d = parseDocument(s);
   const diagnostic = d.diagnostics.find(x => x.code === "MMK-S003");
-  assert.equal(diagnostic.position.offset, s.indexOf("@ref"));
-  assert.equal(diagnostic.position.column, s.indexOf("@ref") + 1);
+  assert.equal(diagnostic.position.offset, s.indexOf("&ref"));
+  assert.equal(diagnostic.position.column, s.indexOf("&ref") + 1);
 });
 test("原始輸入 CRLF 換行會先正規化並採 UTF-16 offset", () => {
   const d = parseDocument("第一行\r\n*[測試]");
@@ -187,7 +187,7 @@ test("段落內萬字級別普通中文文字可完整保留", () => {
 });
 
 test("未知命名空間的行內指令保留名稱與內容，不冒充 term", () => {
-  const source = "@science:unit[m/s][title=velocity]";
+  const source = "&science:unit[m/s][title=velocity]";
   const node = parseInline(source).nodes[0];
   assert.equal(node.type, "inlineDirective");
   assert.equal(node.name, "science:unit");

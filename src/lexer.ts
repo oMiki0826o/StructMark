@@ -13,7 +13,7 @@ export interface BlockToken {
 
 const HEADING = /^ {0,3}#([1-6])[ \t]+(.+)$/;
 const FENCE = /^ {0,3}(`{3,}|~{3,})([^`]*)$/;
-const DIRECTIVE = /^ {0,3}@([a-z][a-z\d_]*(?::[a-z][a-z\d_]*)*)(\[[^\]\n]*\])?[ \t]*$/;
+const DIRECTIVE = /^ {0,3}&([a-z][a-z\d_]*(?::[a-z][a-z\d_]*)*)(?:[ \t]+)?(\[[^\]\n]*\])?[ \t]*$/;
 const LIST = /^( *)(-|\.|\d{1,9}\.)[ \t]+/;
 
 export function lexLine(text: string, line = 1, start = 0, registry: DirectiveRegistry = getDefaultDirectiveRegistry()): BlockToken {
@@ -24,8 +24,8 @@ export function lexLine(text: string, line = 1, start = 0, registry: DirectiveRe
   if (!text.trim()) kind = "blank";
   else if (HEADING.test(text)) kind = "heading";
   else if (FENCE.test(text)) kind = "fence";
-  else if (/^ {0,3}@end[ \t]*$/.test(text)) kind = "directiveEnd";
-  else if (match && (registry.has(match[1]!, "block") || registry.has(match[1]!, "rawBlock") || !match[2])) { kind = "directive"; name = match[1]; }
+  else if (/^ {0,3}&(?:end|e)[ \t]*$/.test(text)) kind = "directiveEnd";
+  else if (match && (registry.has(match[1]!, "block") || registry.has(match[1]!, "rawBlock") || !match[2])) { kind = "directive"; name = registry.resolve(match[1]!); }
   else if (LIST.test(text)) kind = "list";
   else if (/^ {0,3}>[ \t]?/.test(text)) kind = "quote";
   else if (/^ {0,3}%%[ \t]*$/.test(text)) kind = "commentFence";

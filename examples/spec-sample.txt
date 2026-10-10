@@ -53,20 +53,20 @@ $E=mc^[2]$
 
 #2 行內指令
 
-按下 @kbd[Ctrl+C] 複製。
+按下 &kbd[Ctrl+C] 複製。
 
-參考 @ref[fig:m42]。
+參考 &ref[fig:m42]。
 
 #2 提示區塊
 
-@note[title="補充資訊"]
+&note[title="補充資訊"]
 這是一段補充說明。
 
-@warning
+&warning
 可使用 *[巢狀格式]。
-@end
+&end
 
-@end
+&end
 
 #2 表格
 
@@ -76,16 +76,16 @@ $E=mc^[2]$
 
 #2 結構化表格
 
-@table[format=csv #tbl:projects]
+&table[format=csv #tbl:projects]
 Name,Version
 StructMark,1.0
-@end
+&end
 
 #2 公式
 
-@equation[#eq:energy]
+&equation[#eq:energy]
 E=mc^[2]
-@end
+&end
 
 #2 程式碼
 
@@ -101,7 +101,7 @@ print("Hello World")
 
 #2 學術引用
 
-相關研究參考 [@smith2024]。
+相關研究參考 [&smith2024]。
 
 #2 註解
 

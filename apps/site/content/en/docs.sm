@@ -4,14 +4,14 @@ This guide covers the StructMark 1.0 core syntax and TypeScript API. It is writt
 
 #2 Block syntax
 
-Headings use one to six hash marks. Directive blocks use `@name` and `@end`, with optional attributes.
+Headings use one to six hash marks. Directive blocks use `&name` and `&end`, with optional attributes.
 
 ```text
 # Heading
 
-@note [title="A note"]
+&note [title="A note"]
 This is a structured block.
-@end
+&end
 ```
 
 #2 Inline syntax
@@ -131,17 +131,17 @@ This block is not included in the rendered document.
 | `` `code` `` | Inline code |
 | `[[target|label]]` | Wiki link |
 | `[label](https://example.com)` | External link |
-| `[@smith2024]` | Citation |
+| `[&smith2024]` | Citation |
 | `[^note]` | Footnote reference |
 
 #2 Directives and attributes
 
-Directive blocks start with `@name` and end with `@end`. Attributes sit inside square brackets and are available to the parser and renderer:
+Directive blocks start with `&name` and end with `&end`. Attributes sit inside square brackets and are available to the parser and renderer:
 
 ```text
-@note[title="Important"]
+&note[title="Important"]
 This block carries meaning, not just a visual box.
-@end
+&end
 ```
 
 `DirectiveRegistry` checks directive kinds and allowed attributes. Unknown directives and invalid attributes do not silently disappear; they produce diagnostics with line and column positions.

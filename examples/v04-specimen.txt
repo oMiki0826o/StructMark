@@ -22,19 +22,19 @@ StructMark 的行內格式：*[粗體]、/[斜體]、/*[粗斜體]。
 
 #2 文件參照
 
-回到 @ref[start]。
+回到 &ref[start]。
 
-@note[title="巢狀示例"]
-@warning
+&note[title="巢狀示例"]
+&warning
 內層警告。
-@end
+&end
 
 外層繼續。
-@end
+&end
 
 #2 JSON 結構化表格
 
-@table[format=json #tbl:experiment]
+&table[format=json #tbl:experiment]
 {
   "columns": ["編號", "測量一", "測量二"],
   "rows": [
@@ -43,26 +43,26 @@ StructMark 的行內格式：*[粗體]、/[斜體]、/*[粗斜體]。
     [{"text":"全部合併", "colspan":3}]
   ]
 }
-@end
+&end
 
 #2 原始內容
 
-@raw
-這是一行 @note 原文。
-\@end
+&raw
+這是一行 &note 原文。
+\&end
 這一行仍在 raw 中。
-@end
+&end
 
 #2 行內擴充
 
-速度單位 @science:unit[m/s] 尚未載入語義擴充時，仍需保留名稱與內容。
+速度單位 &science:unit[m/s] 尚未載入語義擴充時，仍需保留名稱與內容。
 
 #2 數學
 
 $E=mc^[2]$
 
-@equation[#eq:energy]
+&equation[#eq:energy]
 E=mc^[2]
-@end
+&end
 
-@ref[eq:energy]
+&ref[eq:energy]

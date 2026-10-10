@@ -2,17 +2,17 @@
 
 StructMark is a deterministic structural markup language core for documents, data blocks, and safe HTML output.
 
-@note[title="Deterministic"]
+&note[title="Deterministic"]
 The same source always produces the same AST, making testing, caching, and tooling predictable.
-@end
+&end
 
-@note[title="Composable"]
+&note[title="Composable"]
 Headings, lists, directives, tables, and inline syntax can become reusable document structures.
-@end
+&end
 
-@note[title="Safe output"]
+&note[title="Safe output"]
 Text is escaped, while URLs and HTML attributes are filtered through explicit allowlists.
-@end
+&end
 
 #2 Start with the language core
 
