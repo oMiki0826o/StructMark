@@ -2,7 +2,7 @@
  * File: parser.ts
  * Modification: 2026-10-10 — V0.4 強化清單續行、raw 巢狀堆疊、表格格位驗證。
  */
-import {isIdentifier, readAttributes} from "./attributes.js";
+import {isIdentifier, normalizeIdentifier, readAttributes} from "./attributes.js";
 import {normalizeMath, parseInline} from "./inline.js";
 import {parseStructuredTable} from "./structured_table.js";
 import {parseDelimited} from "./html.js";
@@ -336,7 +336,7 @@ export function parseDocument(source: string, options: ParseOptions = {}): Docum
         let id: string | null = null;
         const suffix = /(?:^|\s)\(#([^\s()]+)\)[ \t]*$/.exec(title);
         if (suffix && isIdentifier(suffix[1]!)) {
-          id = suffix[1]!;
+          id = normalizeIdentifier(suffix[1]!);
           title = title.slice(0, suffix.index).trimEnd();
         }
         result.push({type: "heading", level: Number(m[1]), id, children: inline(title, line, text.indexOf(m[2]!) + 1), range: span(input, cursor, cursor)});
@@ -344,7 +344,7 @@ export function parseDocument(source: string, options: ParseOptions = {}): Docum
       }
       if (THEMATIC.test(text)) {result.push({type: "thematicBreak", range: span(input, cursor, cursor)}); cursor++; continue;}
       m = FOOTNOTE_DEF.exec(text);
-      if (m) {result.push({type: "footnoteDef", id: m[1]!, children: inline(m[2]!, line, text.length - m[2]!.length + 1), range: span(input, cursor, cursor)}); cursor++; continue;}
+      if (m) {result.push({type: "footnoteDef", id: normalizeIdentifier(m[1]!), children: inline(m[2]!, line, text.length - m[2]!.length + 1), range: span(input, cursor, cursor)}); cursor++; continue;}
 
       // ── GFM 簡單表格：標頭＋有效分隔線 ──
       if (cursor + 1 < input.length && text.includes("|")) {

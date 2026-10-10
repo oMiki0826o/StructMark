@@ -6,8 +6,9 @@ import type {Attributes, Diagnostic, Position} from "./types.js";
 
 // ── 屬性文法 ──
 const KEY = /^[a-zA-Z_][\w:-]*/;
-const IDENT = /^[\p{L}_][\p{L}\p{N}_:.-]*$/u;
-export function isIdentifier(value: string): boolean { return IDENT.test(value); }
+const IDENT = /^[\p{L}_][\p{L}\p{N}\p{M}_:.-]*$/u;
+export function normalizeIdentifier(value: string): string { return value.normalize("NFC"); }
+export function isIdentifier(value: string): boolean { return IDENT.test(normalizeIdentifier(value)); }
 function error(diagnostics: Diagnostic[], code: string, message: string, position: Position): void {
   diagnostics.push({code, severity: "warning", message, position});
 }

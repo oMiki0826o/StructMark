@@ -106,3 +106,12 @@ test("StructMark documents expose the stable 1.1 language version", () => {
   const document = parseDocument("#1 Stable document");
   assert.equal(document.version, "1.1");
 });
+
+test("Unicode identifiers normalize canonically before duplicate checks", () => {
+  const document = parseDocument("#1 First (\u0023café)\n#1 Second (\u0023cafe\u0301)");
+  assert.equal(document.children[0]?.type, "heading");
+  assert.equal(document.children[1]?.type, "heading");
+  assert.equal(document.children[0]?.id, "café");
+  assert.equal(document.children[1]?.id, "café");
+  assert.ok(document.diagnostics.some((diagnostic) => diagnostic.code === "MMK-S001"));
+});

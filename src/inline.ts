@@ -2,7 +2,7 @@
  * File: inline.ts
  * Modification: 2026-10-10 — V0.4 為每個行內節點附上完整位置、巢狀範圍。
  */
-import {readAttributeSuffix} from "./attributes.js";
+import {normalizeIdentifier, readAttributeSuffix} from "./attributes.js";
 import {getDefaultDirectiveRegistry, type DirectiveRegistry} from "./registry.js";
 import type {Attributes, Diagnostic, InlineNode, InlinePayload, Position, SourceRange} from "./types.js";
 
@@ -153,7 +153,7 @@ export function parseInline(source: string, base: Position = {line: 1, column: 1
       }
       if (source.startsWith("[^", cursor)) {
         const match = /^\[\^([\w:.-]+)\]/u.exec(source.slice(cursor, stop));
-        if (match) {flush(); emit({type: "footnoteRef", target: match[1]!}, cursor, cursor + match[0].length); cursor += match[0].length; continue;}
+        if (match) {flush(); emit({type: "footnoteRef", target: normalizeIdentifier(match[1]!)}, cursor, cursor + match[0].length); cursor += match[0].length; continue;}
       }
 
       if ((c === "!" && source[cursor + 1] === "[") || c === "[") {
@@ -181,7 +181,7 @@ export function parseInline(source: string, base: Position = {line: 1, column: 1
             for (const diagnostic of registry.validateAttributes(match[1]!, props.attrs)) createDiagnostic(diagnostics, "MMK-A003", diagnostic.message, at(cursor));
             const inner = source.slice(opening + 1, close);
             if (match[1] === "ref") {
-              flush(); emit({type: "ref", target: inner}, cursor, props.end); cursor = props.end; continue;
+              flush(); emit({type: "ref", target: normalizeIdentifier(inner)}, cursor, props.end); cursor = props.end; continue;
             }
             flush();
             const children = parseSpan(opening + 1, close, depth + 1);
