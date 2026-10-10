@@ -1,6 +1,6 @@
-#1 Keep structure in your documents
+#1 Keep structure intact, all the way through
 
-StructMark is a deterministic structural markup language core for documents, data blocks, and safe HTML output.
+StructMark is a deterministic structural markup language core for documents, data blocks, and safe HTML output. It keeps Markdown's low-friction writing experience while making headings, directives, attributes, references, and diagnostics explicit to tools.
 
 &note[title="Deterministic"]
 The same source always produces the same AST, making testing, caching, and tooling predictable.
@@ -18,6 +18,18 @@ Text is escaped, while URLs and HTML attributes are filtered through explicit al
 
 Describe content with a clear syntax, then let the lexer, parser, AST, and renderer do their work. The editor is future work; the language comes first.
 
+#2 Write once, hand the structure to your tools
+
+An `.sm` file is plain text: it belongs in Git, produces readable diffs, works in a terminal, and can be passed directly to the TypeScript API. Unlike Markdown, where meaning is often inferred from formatting conventions, StructMark produces an inspectable AST so sites, indexers, converters, and future editors can share the same language core.
+
+&note[title="From text to structure" tone="dark"]
+Source → Lexer → AST → diagnostics → safe HTML. Each layer can be tested and replaced independently.
+&end
+
+&note[title="Fewer guesses, stronger contracts"]
+Directive names, attributes, IDs, and references follow explicit rules. Errors return to your workflow with a location and diagnostic code instead of disappearing silently.
+&end
+
 #2 Why use `.sm` instead of only `.md`?
 
 Markdown is excellent for quick writing. `.sm` treats document structure, semantic directives, data blocks, and source-located diagnostics as part of the language. When content must be tested, transformed, indexed, or consumed by other tools, it does not collapse into formatting-only text.
@@ -28,3 +40,11 @@ Markdown is excellent for quick writing. `.sm` treats document structure, semant
 - `.sm` remains readable, diffable, and Git-friendly; it simply preserves more structure for programs to understand.
 
 Did you notice? This website is written in `.sm` too.
+
+#2 Start in three steps
+
+1. Create `README.sm`.
+2. Use familiar headings, lists, tables, and `&note` directives.
+3. Call `parseDocument` and `renderHtml` to produce a document or site.
+
+Read the documentation for the full specification, or open the Playground to edit source and inspect the generated HTML immediately.

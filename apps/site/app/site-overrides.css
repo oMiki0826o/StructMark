@@ -1,0 +1,149 @@
+.content-rendered pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+::selection {
+  background: #b9e6df;
+  color: #10202b;
+}
+
+body {
+  background: linear-gradient(180deg, #f7faf9 0%, #eef5f3 100%);
+}
+
+.site-header {
+  backdrop-filter: blur(14px);
+  background: rgba(247, 250, 249, .88);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.wordmark {
+  font-size: 1.12rem;
+}
+
+.hero {
+  min-height: 660px;
+}
+
+.hero-copy h1 {
+  max-width: 780px;
+}
+
+.hero-copy > p {
+  max-width: 680px;
+}
+
+.code-card {
+  border: 1px solid rgba(217, 247, 239, .12);
+  box-shadow: 0 24px 70px rgba(23, 32, 42, .2);
+}
+
+.feature-grid .directive-note {
+  box-shadow: 0 12px 30px rgba(23, 32, 42, .05);
+  min-height: 142px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.feature-grid .directive-note:hover {
+  box-shadow: 0 18px 36px rgba(23, 32, 42, .1);
+  transform: translateY(-3px);
+}
+
+.docs-shell {
+  align-items: start;
+}
+
+.docs-nav {
+  position: sticky;
+  top: 92px;
+}
+
+.docs-nav-links > div > a.active,
+.docs-nav-links > a:hover {
+  font-weight: 700;
+}
+
+.docs-content {
+  background: rgba(255, 255, 255, .62);
+  border: 1px solid rgba(220, 228, 232, .72);
+  border-radius: 20px;
+  box-shadow: 0 18px 60px rgba(23, 32, 42, .05);
+  padding: clamp(26px, 5vw, 64px);
+}
+
+.docs-content pre {
+  border: 1px solid rgba(217, 247, 239, .12);
+  box-shadow: 0 14px 30px rgba(23, 32, 42, .12);
+}
+
+.docs-content table {
+  background: rgba(255, 255, 255, .7);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0 16px;
+}
+
+.site-footer {
+  background: rgba(247, 250, 249, .72);
+}
+
+.docs-content {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .docs-shell {
+    padding-top: 30px;
+  }
+
+  .docs-nav {
+    padding-bottom: 14px;
+  }
+
+  .docs-nav-links {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px 8px;
+    padding-top: 12px;
+  }
+
+  .docs-nav-links > div {
+    display: contents;
+  }
+
+  .docs-group-title {
+    display: none;
+  }
+
+  .docs-nav-links > a,
+  .docs-nav-links > div > a {
+    font-size: .78rem;
+    padding: 5px 7px;
+  }
+
+  .site-header {
+    position: relative;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .docs-nav {
+    position: static;
+  }
+
+  .docs-content {
+    border-radius: 14px;
+    padding: 24px 18px;
+  }
+
+  .docs-content h1 {
+    font-size: clamp(2.2rem, 12vw, 3.6rem);
+  }
+}
