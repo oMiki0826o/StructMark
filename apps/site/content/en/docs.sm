@@ -1,6 +1,6 @@
 #1 StructMark language documentation
 
-This guide covers the StructMark 1.0 core syntax and TypeScript API. It is written in StructMark itself and compiled at build time.
+This guide covers the StructMark 1.1 core syntax and TypeScript API. It is written in StructMark itself and compiled at build time.
 
 #2 Understand StructMark first
 
@@ -173,4 +173,4 @@ const stableJson = serializeAst(document, 2);
 
 #2 Scope and roadmap
 
-Version 1.0 focuses on the language core. It does not include an editor, GUI, cloud storage, or collaboration service. `.sm` is the official file extension; the core API, AST, and safe output are the current stable boundary.
+Version 1.1 focuses on the language core. It does not include an editor, GUI, cloud storage, or collaboration service. `.sm` is the official file extension; the core API, AST, and safe output are the current stable boundary.

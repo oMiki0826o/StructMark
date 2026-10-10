@@ -7,7 +7,7 @@
 - Diagnostics, registries, custom directives, and attribute validation.
 - HTML rendering, AST serialization, and structured tables.
 - 133 language-core tests.
-- The official `.sm` extension, `&` directives, short aliases, attributes, diagnostic codes, and the V1.0 compatibility rules.
+- The official `.sm` extension, `&` directives, short aliases, attributes, diagnostic codes, and the V1.1 compatibility rules.
 - YAML 1.2, BibTeX/CSL JSON data APIs, opt-in KaTeX, numbering, the documented Markdown common subset, the formatter, workspace validation, performance, and fuzz tests.
 
 #2 Deliberately outside 1.1

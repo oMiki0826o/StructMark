@@ -7,7 +7,7 @@
 - Diagnostics、Registry、自訂指令與屬性驗證。
 - HTML renderer、AST 序列化與結構化表格。
 - 133 項語言核心測試。
-- `.sm` 正式副檔名、`&` 指令、短別名、屬性、診斷代碼與 V1.0 相容性規則。
+- `.sm` 正式副檔名、`&` 指令、短別名、屬性、診斷代碼與 V1.1 相容性規則。
 - YAML 1.2、BibTeX／CSL JSON 資料 API、可選 KaTeX、編號、Markdown common subset、Formatter、workspace 驗證、效能與 fuzz 測試。
 
 #2 明確不放進 1.1

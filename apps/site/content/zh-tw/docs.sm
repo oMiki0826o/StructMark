@@ -1,6 +1,6 @@
 #1 StructMark 語言文件
 
-這份文件說明 StructMark 1.0 的核心語法與 TypeScript API。文件本身也使用 StructMark 撰寫，並在網站建置時解析。
+這份文件說明 StructMark 1.1 的核心語法與 TypeScript API。文件本身也使用 StructMark 撰寫，並在網站建置時解析。
 
 #2 先理解 StructMark
 
@@ -173,4 +173,4 @@ const stableJson = serializeAst(document, 2);
 
 #2 目前限制與路線
 
-1.0 的焦點是語言核心，不包含編輯器、GUI、雲端儲存或協作服務。`.sm` 是正式副檔名；核心 API、AST 與安全輸出是目前最穩定的邊界。
+1.1 的焦點是語言核心，不包含編輯器、GUI、雲端儲存或協作服務。`.sm` 是正式副檔名；核心 API、AST 與安全輸出是目前最穩定的邊界。
