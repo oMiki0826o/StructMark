@@ -1,6 +1,6 @@
 # StructMark Language Core
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tech](https://img.shields.io/badge/stack-TypeScript%20%2B%20Node.js-lightgrey)
 ![Node](https://img.shields.io/badge/node-22%2B-orange)
@@ -24,7 +24,7 @@
 
 StructMark Language Core 是 StructMark 輕量、可讀、可擴充標記語言的 TypeScript 語言核心。專案提供 Lexer、Block/Inline Parser、AST、diagnostics 與安全 HTML 輸出；不包含編輯器或 GUI。
 
-目前版本為 V1.0.0，`.sm` 是 StructMark 的正式副檔名。語言核心已可直接解析 `.sm` 文件；V1.0 的語法邊界與相容性規則記錄於 `docs/`。
+目前版本為 V1.1.0，`.sm` 是 StructMark 的正式副檔名。語言核心已可直接解析 `.sm` 文件；1.1 的語法邊界與相容性規則記錄於 `docs/`。
 
 ### 功能
 
@@ -96,7 +96,7 @@ StructMark 的文件網站與瀏覽器 Playground 位於 [GitHub Pages](https://
 
 StructMark Language Core is a TypeScript language core for a lightweight, readable, and extensible markup language. It provides a lexer, block and inline parsers, an AST, diagnostics, and safe HTML output. It does not include an editor or GUI.
 
-Version 1.0.0 is the first usable language-core release. `.sm` is the official StructMark file extension, and the language-core examples use `.sm` files.
+Version 1.1.0 is the current language-core release. `.sm` is the official StructMark file extension, and the language-core examples use `.sm` files.
 
 ### Features
 

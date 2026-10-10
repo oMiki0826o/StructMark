@@ -1,5 +1,22 @@
 # 語言核心版本變更紀錄
 
+## V1.1.0 — 2026-10-11
+
+本版將 `.sm` 定為正式副檔名，正式化 `&` 指令與簡化別名，並補齊網站、治理文件、符合性測試、fuzz 安全檢查與 npm 發布設定。
+
+### 語法與核心
+
+- AST 文件版本穩定為 `1.1`，不再回報 `0.5-draft`。
+- `&n`、`&t`、`&w` 與 `&e` 分別是 `&note`、`&test`、`&warning` 與 `&end` 的固定簡化寫法。
+- 指令名稱與屬性之間允許空格，旗標屬性如 `[typing]` 會解析為 `true`。
+- 範例與文件統一使用 `.sm`。
+
+### 工程與發布
+
+- 新增 `CONTRIBUTING.md`、`CODE_OF_CONDUCT.md`、`SECURITY.md`、Issue templates 與 Pull Request template。
+- 新增 `npm run fuzz` 與 `npm run benchmark:tokens`，並建立 `docs/CONFORMANCE.md`。
+- npm package metadata 已具備公開發布所需的 `exports`、`files`、repository 與 `publishConfig`。
+
 ## V0.4 — 2026-10-10
 
 與 V0.3 比較，本版保留原有標題、格式、清單、連結、`&` 指令及標題 ID 語法，不變更副檔名策略。
