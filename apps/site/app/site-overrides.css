@@ -210,6 +210,13 @@ body .docs-content table {
   padding: 0;
 }
 
+body .docs-content thead,
+body .docs-content tbody,
+body .docs-content tr {
+  width: 100%;
+  table-layout: fixed;
+}
+
 body .docs-content th,
 body .docs-content td {
   padding: 15px 18px;
