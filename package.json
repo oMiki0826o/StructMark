@@ -16,7 +16,9 @@
     "dist",
     "LICENSE",
     "README.md",
-    "docs/SPECIFICATION.md"
+    "CONTRIBUTING.md",
+    "docs",
+    "examples"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
