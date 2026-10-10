@@ -80,6 +80,16 @@ body {
   top: 92px;
 }
 
+.docs-nav-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.docs-menu-toggle {
+  display: none;
+}
+
 .docs-nav-links > div > a.active,
 .docs-nav-links > a:hover {
   font-weight: 700;
@@ -132,6 +142,15 @@ body {
 }
 
 @media (max-width: 760px) {
+  body .docs-shell {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  body .docs-content {
+    width: 100%;
+  }
+
   body .hero-copy h1 {
     font-size: clamp(2rem, 10vw, 3rem);
     letter-spacing: -.085em;
@@ -250,6 +269,35 @@ body {
 
   .docs-nav {
     position: static;
+  }
+
+  .docs-nav-heading {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+  }
+
+  .docs-menu-toggle {
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    display: inline-flex;
+    font-size: 1.25rem;
+    height: 40px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    width: 40px;
+  }
+
+  .docs-nav-links {
+    display: none;
+    padding-top: 12px;
+  }
+
+  .docs-nav.is-open .docs-nav-links {
+    display: grid;
   }
 
   .docs-content {
