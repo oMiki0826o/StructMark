@@ -116,6 +116,54 @@ body {
   padding: 0 16px;
 }
 
+.content-rendered table,
+.preview table,
+.data-table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .72);
+}
+
+.content-rendered th,
+.content-rendered td,
+.preview th,
+.preview td,
+.data-table th,
+.data-table td {
+  padding: 12px 14px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.content-rendered th:last-child,
+.content-rendered td:last-child,
+.preview th:last-child,
+.preview td:last-child,
+.data-table th:last-child,
+.data-table td:last-child {
+  border-right: 0;
+}
+
+.content-rendered tr:last-child td,
+.preview tr:last-child td,
+.data-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.content-rendered th,
+.preview th,
+.data-table th {
+  color: var(--ink);
+  background: rgba(222, 244, 238, .5);
+  font-weight: 700;
+}
+
 .site-footer {
   background: rgba(247, 250, 249, .72);
 }

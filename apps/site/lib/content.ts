@@ -8,5 +8,5 @@ export { copy, isLocale, locales };
 
 export function contentHtml(locale: Locale, name: string): string {
   const source = readFileSync(join(process.cwd(), "content", locale, `${name}.sm`), "utf8");
-  return renderHtml(parseDocument(source));
+  return renderHtml(parseDocument(source), {math: "katex"});
 }
