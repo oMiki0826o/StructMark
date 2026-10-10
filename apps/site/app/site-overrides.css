@@ -413,10 +413,13 @@ body .docs-content th {
     margin-bottom: 1.35rem;
   }
 
-  .docs-content h2 {
-    font-size: clamp(1.45rem, 7vw, 2.1rem);
-    line-height: 1.2;
+  body .docs-content h2 {
+    font-size: clamp(1.35rem, 6.2vw, 1.85rem);
+    letter-spacing: -.04em;
+    line-height: 1.28;
     margin-top: 3rem;
+    overflow-wrap: normal;
+    word-break: keep-all;
   }
 
   .docs-content p,
