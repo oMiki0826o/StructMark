@@ -1,11 +1,11 @@
-# StructMark Language Specification V1.0
+# StructMark Language Specification V1.1
 
-日期：2026-10-10｜狀態：V1.0 穩定規範。本文定義 `.sm` 文件的核心語法；未列入的進階功能仍屬後續版本。
+日期：2026-10-11｜狀態：V1.1 穩定規範。本文定義 `.sm` 文件的核心語法與相容性承諾；未列入的進階功能仍屬後續版本。
 
 ## 1. 文件、字元與換行
 
 - 原始資料使用 UTF-8，允許 UTF-8 BOM，內部換行標準化為 LF。
-- 文件沒有固定副檔名。
+- StructMark 文件的正式副檔名為 `.sm`；工具不得依副檔名以外的資源 URL 猜測內容語義。
 - 最前面的 `---` 若符合 Front Matter 判定，表示 Metadata；其他 `---` 表示分隔線。
 - 段落由空白行分隔；單一換行為 Softbreak，行尾 `\` 加換行為 Hardbreak。
 - `\` 可以跳脫一般 ASCII 標點；被跳脫的標記不啟動格式。
@@ -182,7 +182,7 @@ E=mc^[2]
 ```
 
 - 數學採 LaTeX 表示；僅對簡式 `^[...]`、`_[...]` 做有限轉換，不重新實作 LaTeX。
-- 公式 ID 能供 `&ref` 引用，但公式排序與編號呈現尚未實作。
+- 公式 ID 能供 `&ref` 引用；使用 `renderHtml(document, {numbering: true})` 時會依文件順序建立穩定公式編號。
 - Citation 節點可透過 BibTeX／CSL JSON API 取得資料；`formatCitation` 與 `formatBibliography` 提供 deterministic `author-year`／`apa` 與 `ieee` profiles，不宣稱完整 APA 7／CSL 樣式引擎。
 - 初步預設未來引用樣式為 APA 7；語法與排版格式分離。
 
@@ -198,7 +198,7 @@ citation-style: apa-7
 ---
 ```
 
-Front Matter 正式目標是 YAML。現在的程式只有簡單 YAML 子集，不支援所有巢狀物件、錨點或 YAML 1.2 特性；版本號等應加引號以避免當數值處理。
+Front Matter 使用 YAML 1.2 parser。核心接受 YAML 1.2 的常用巢狀 mapping、sequence 與 block scalar；metadata 的 StructMark-specific schema 驗證仍由使用端決定。版本號等可加引號以保留字串語義。
 
 ## 10. 解析與驗證優先順序
 
