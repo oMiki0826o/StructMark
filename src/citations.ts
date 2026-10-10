@@ -64,8 +64,15 @@ export function parseCslJson(source: string): Map<string, CitationEntry> {
   return result;
 }
 
-/** Deterministic fallback citation text; a full CSL style engine is intentionally separate. */
-export function formatCitation(keys: readonly string[], entries: ReadonlyMap<string, CitationEntry>): string {
+export type CitationStyle = "author-year" | "apa" | "ieee";
+export interface CitationFormatOptions { readonly style?: CitationStyle; }
+
+/**
+ * Format the documented built-in citation profiles. This is deliberately a
+ * small deterministic profile layer, not a claim of full CSL compatibility.
+ */
+export function formatCitation(keys: readonly string[], entries: ReadonlyMap<string, CitationEntry>, options: CitationFormatOptions = {}): string {
+  if (options.style === "ieee") return `[${keys.map((key, index) => entries.has(key) ? String(index + 1) : key).join(", ")}]`;
   return `(${keys.map(key => {
     const entry = entries.get(key);
     if (!entry) return key;

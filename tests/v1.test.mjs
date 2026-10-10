@@ -12,6 +12,12 @@ test("citation data APIs parse BibTeX and CSL JSON deterministically", () => {
   assert.equal(formatCitation(["smith2024", "doe2023"], new Map([...bib, ...csl])), "(Smith & Doe, 2024; Doe, 2023)");
 });
 
+test("citation formatter supports documented APA and IEEE profiles", () => {
+  const entries = new Map(parseBibTeX('@article{smith2024, author = {Smith, Ada and Doe, Lin}, title = {A Study}, journal = {Journal}, year = {2024}, volume = {2}, pages = {10--20} }'));
+  assert.equal(formatCitation(["smith2024"], entries, {style: "apa"}), "(Smith & Doe, 2024)");
+  assert.equal(formatCitation(["smith2024"], entries, {style: "ieee"}), "[1]");
+});
+
 test("KaTeX is an opt-in safe math renderer", () => {
   const document = parseDocument("Inline $E=mc^[2]$\n\n$$\n\\frac{1}{2}\n$$");
   const html = renderHtml(document, {math: "katex"});

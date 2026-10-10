@@ -183,7 +183,7 @@ E=mc^[2]
 
 - 數學採 LaTeX 表示；僅對簡式 `^[...]`、`_[...]` 做有限轉換，不重新實作 LaTeX。
 - 公式 ID 能供 `&ref` 引用，但公式排序與編號呈現尚未實作。
-- Citation 節點可透過 BibTeX／CSL JSON API 取得資料；核心提供 deterministic fallback，不宣稱完整 APA 7／CSL 樣式引擎。
+- Citation 節點可透過 BibTeX／CSL JSON API 取得資料；`formatCitation` 提供 deterministic `author-year`／`apa` 與 `ieee` profiles，不宣稱完整 APA 7／CSL 樣式引擎。
 - 初步預設未來引用樣式為 APA 7；語法與排版格式分離。
 
 ## 9. Metadata
