@@ -18,7 +18,7 @@
   --code: #23382e;
   --code-text: #e6ece3;
   --error: #8b4037;
-  --serif: "Iowan Old Style", "Baskerville", "Noto Serif TC", "Songti TC", "Songti SC", Georgia, serif;
+  --serif: "Hiragino Mincho ProN", "Noto Serif TC", "Songti TC", "Songti SC", "Iowan Old Style", Georgia, serif;
   --sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Hiragino Sans", "Segoe UI", sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --content-width: 1160px;
@@ -52,13 +52,13 @@ button { cursor: pointer; }
 
 /* ── 導覽 ── */
 .site-header { position: relative; z-index: 20; border-bottom: 1px solid var(--line); background: var(--surface); }
-.header-inner { max-width: 1300px; min-height: 76px; padding: 0 34px; margin-inline: auto; display: flex; align-items: center; gap: 54px; }
+.header-inner { max-width: 1300px; min-height: 88px; padding: 8px 34px; margin-inline: auto; display: flex; align-items: center; gap: 54px; }
 .wordmark { display: inline-flex; align-items: baseline; gap: 9px; white-space: nowrap; color: var(--ink); font-family: var(--serif); font-weight: 600; font-size: 1.55rem; line-height: 1; letter-spacing: -.055em; }
 .wordmark:hover { color: var(--ink); }
 .wordmark-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
 .wordmark-sub { font-family: var(--sans); font-size: .67rem; font-weight: 400; letter-spacing: .05em; color: var(--muted); margin-left: 7px; }
 .primary-nav { display: flex; align-items: center; gap: 26px; margin-right: auto; }
-.primary-nav a { padding: 25px 0; font-size: .86rem; font-weight: 520; color: var(--muted); line-height: 1.5; border-bottom: 1px solid transparent; }
+.primary-nav a { padding: 29px 0; font-size: .86rem; font-weight: 520; color: var(--muted); line-height: 1.5; border-bottom: 1px solid transparent; }
 .primary-nav a[aria-current="page"], .primary-nav a:hover { color: var(--ink); border-bottom-color: var(--accent); }
 .header-actions { display: flex; gap: 18px; align-items: center; font-size: .8rem; }
 .locale-switch { display: inline-flex; align-items: center; gap: 9px; }
@@ -193,14 +193,14 @@ button { cursor: pointer; }
 }
 @media (max-width: 760px) {
   .container { width: min(100% - 36px, var(--content-width)); }
-  .header-inner { padding-inline: 18px; min-height: 67px; flex-wrap: wrap; gap: 0 19px; }
+  .header-inner { padding: 12px 18px 10px; min-height: 82px; flex-wrap: wrap; gap: 0 19px; }
   .wordmark { font-size: 1.35rem; }
   .primary-nav { gap: 16px; order: 3; flex-basis: 100%; margin-left: 0; margin-right: 0; border-top: 1px solid var(--line); }
   .primary-nav a { padding: 11px 0; font-size: .79rem; }
   .header-actions { gap: 10px; margin-left: auto; font-size: .72rem; }
   .github-link { padding-left: 10px; }
   .hero { grid-template-columns: 1fr; gap: 46px; padding: 72px 0 66px; }
-  .hero-copy h1 { font-size: clamp(3.1rem, 14vw, 5rem); margin: 17px 0 21px; overflow-wrap: anywhere; }
+  .hero-copy h1 { font-size: clamp(2rem, 9.5vw, 3rem); margin: 17px 0 21px; white-space: nowrap; overflow-wrap: normal; letter-spacing: -.075em; }
   .hero-copy > p { font-size: 1rem; }
   .specimen { padding-inline: 20px; }
   .home-section { padding-block: 54px 70px; }
@@ -249,7 +249,7 @@ button { cursor: pointer; }
 .feature-grid.content-rendered .directive-note + .directive-note { border-left: 1px solid var(--line); padding-left: 29px; }
 .feature-grid.content-rendered .directive-title { margin: 0 0 8px; }
 @media (max-width: 760px) {
-  .content-rendered.hero-copy h1 { font-size: clamp(3.1rem, 14vw, 5rem); margin: 17px 0 21px; }
+  .content-rendered.hero-copy h1 { font-size: clamp(2rem, 9.5vw, 3rem); margin: 17px 0 21px; white-space: nowrap; overflow-wrap: normal; letter-spacing: -.075em; }
   .feature-grid.content-rendered .directive-note { padding: 22px 0; }
   .feature-grid.content-rendered .directive-note + .directive-note { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; }
 }
