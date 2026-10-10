@@ -1,6 +1,6 @@
 #1 StructMark language documentation
 
-This guide covers the StructMark 1.0 core syntax and TypeScript API.
+This guide covers the StructMark 1.0 core syntax and TypeScript API. It is written in StructMark itself and compiled at build time.
 
 #2 Block syntax
 
@@ -34,3 +34,159 @@ const html = renderHtml(document);
 #2 Current scope
 
 Version 1.0 includes the language core, AST, semantic diagnostics, serialization, structured tables, and a safe HTML renderer. Editor integrations and visual authoring remain future work.
+
+#2 When `.sm` earns its place
+
+Use Markdown when you need a quick document with familiar formatting. Choose `.sm` when the document is also an input to software: a documentation site, a knowledge base, a static generator, a test fixture, or a data-rich report.
+
+| Need | `.md` alone | `.sm` |
+| --- | --- | --- |
+| Readable plain text | Yes | Yes |
+| Stable document AST | Depends on parser | Built into the core |
+| Semantic directives | Extension convention | Registry and attributes |
+| Source diagnostics | Usually external | Part of parsing |
+| Safe HTML output | Renderer-dependent | Included in the core |
+
+#2 What is StructMark?
+
+StructMark is not Markdown with a new coat of paint, and it is not just a handful of extra formatting marks. It is a language for documents that software can understand: source text goes through a lexer, the parser builds an AST, and the result can be rendered as HTML, serialized as JSON, or consumed by another tool.
+
+```text
+source → lexer → parser → AST → renderer / serializer / tooling
+```
+
+This keeps content separate from presentation. You can replace the renderer, build an index, check references, or pass a data block to another program without rewriting the source document.
+
+#2 Install and write a first document
+
+The language core is currently provided as a TypeScript project:
+
+```bash
+npm install
+npm test
+```
+
+Start with a heading and a paragraph:
+
+```text
+#1 My first document
+
+This paragraph is plain text. It can live in Git and be reviewed with the code around it.
+```
+
+#2 Block syntax in detail
+
+## Headings and paragraphs
+
+Headings use `#1` through `#6`; the number is the level. Consecutive text becomes a paragraph, while a blank line separates blocks.
+
+## Lists, quotes, and rules
+
+```text
+- first item
+- second item
+  - nested item
+
+> a quotation
+
+---
+```
+
+Numbered, automatic, and task lists are also supported:
+
+```text
+1. Parse the source
+2. Check diagnostics
+- [o] Done
+```
+
+## Code, math, and comments
+
+```text
+```typescript
+const document = parseDocument(source);
+```
+
+$$
+E = mc^[2]
+$$
+
+%%
+This block is not included in the rendered document.
+%%
+```
+
+#2 Inline syntax in detail
+
+| Syntax | Meaning |
+| --- | --- |
+| `*[strong]` | Strong emphasis |
+| `/[emphasis]` | Emphasis |
+| `/*[strong emphasis]` | Strong emphasis plus emphasis |
+| `-[underline]` | Underline |
+| `~[deleted]` | Strikethrough |
+| `=[highlight]` | Highlight |
+| `^[2]` | Superscript |
+| `_[i]` | Subscript |
+| `` `code` `` | Inline code |
+| `[[target|label]]` | Wiki link |
+| `[label](https://example.com)` | External link |
+| `[@smith2024]` | Citation |
+| `[^note]` | Footnote reference |
+
+#2 Directives and attributes
+
+Directive blocks start with `@name` and end with `@end`. Attributes sit inside square brackets and are available to the parser and renderer:
+
+```text
+@note[title="Important"]
+This block carries meaning, not just a visual box.
+@end
+```
+
+`DirectiveRegistry` checks directive kinds and allowed attributes. Unknown directives and invalid attributes do not silently disappear; they produce diagnostics with line and column positions.
+
+#2 Tables and structured data
+
+Regular tables use pipe syntax:
+
+```text
+| Name | Status |
+| --- | --- |
+| parser | ready |
+| renderer | ready |
+```
+
+More complex data can use CSV, TSV, or JSON structured tables. The data is validated for columns, rows, colspan, and rowspan before it reaches the HTML renderer, so malformed input does not become invalid table markup.
+
+#2 TypeScript API
+
+```typescript
+import {
+  lexDocument,
+  parseDocument,
+  renderHtml,
+  serializeAst,
+  validateSemantics,
+} from "structmark-language-core";
+
+const tokens = lexDocument(source);
+const document = parseDocument(source);
+const diagnostics = validateSemantics(document);
+const html = renderHtml(document);
+const stableJson = serializeAst(document, 2);
+```
+
+`parseDocument` does not execute code, raw, or data content, and it does not access the network or filesystem. That makes it suitable for build tools, server-side pipelines, and tests.
+
+#2 Where does it fit?
+
+- Documentation sites: keep content and site components separate, then produce static HTML.
+- Knowledge bases: use IDs, references, footnotes, and citations to preserve relationships.
+- Technical specifications: use AST output and diagnostics to catch structural and semantic problems.
+- Data-rich reports: combine prose, tables, and validated data in one source document.
+- Toolchains: send the same source to HTML, JSON, or a custom renderer.
+
+#2 Scope and roadmap
+
+Version 1.0 focuses on the language core. It does not include an editor, GUI, cloud storage, or collaboration service. The file extension and surrounding ecosystem will evolve through real usage; the core API, AST, and safe output are the current stable boundary.

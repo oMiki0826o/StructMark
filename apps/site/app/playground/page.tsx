@@ -1,2 +1,2 @@
-import Playground from "./playground";
-export default function PlaygroundPage() { return <Playground />; }
+import { redirect } from "next/navigation";
+export default function PlaygroundRedirect() { redirect("/zh-tw/playground/"); }
