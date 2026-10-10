@@ -1,6 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, renderHtml, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace} from "../dist/index.js";
+import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, renderHtml, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace, fromMarkdown, toMarkdown} from "../dist/index.js";
+
+test("Markdown import and export cover the documented common subset", () => {
+  const document = fromMarkdown("# Title {#intro}\n\n**bold** and [link](https://example.com).\n\n- one\n- two\n\n> quote\n\n```ts\nconst x = 1;\n```");
+  assert.equal(document.children[0]?.type, "heading");
+  assert.equal(document.children.some((node) => node.type === "list"), true);
+  assert.match(toMarkdown(document), /# Title \{#intro\}/);
+  assert.match(toMarkdown(document), /\*\*bold\*\*/);
+  assert.match(toMarkdown(document), /```ts/);
+});
 
 test("optional numbering labels sections, figures, tables, equations, and references", () => {
   const document = parseDocument(`#1 Intro (#intro)\nSee &ref[fig:one].\n&figure[id=fig:one]\nA diagram\n&end\n&equation[id=eq:one]\nx = 1\n&end`);

@@ -36,6 +36,7 @@ const numberedHtml = renderHtml(document, { numbering: true });
 - `renderHtml`：輸出經過跳脫與網址白名單處理的 HTML。
 - `renderHtml(document, { numbering: true })`：為有 ID 的標題、`&figure`、`&table` 與 `&equation` 建立穩定標籤，並讓 `&ref[id]` 顯示標籤文字。
 - `serializeAst`：產生穩定、可比較的 AST JSON。
+- `fromMarkdown`／`toMarkdown`：在文件核心與 Markdown 常用子集之間轉換，遇到不等價語義時應搭配 diagnostics 與轉換測試。
 - `DirectiveRegistry`：註冊自訂指令與屬性 schema。
 
 ## 安全邊界

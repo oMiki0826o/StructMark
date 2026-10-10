@@ -29,7 +29,7 @@ python3 benchmark/tokens.py
 
 ## Explicitly outside 1.1
 
-The editor, GUI, cross-file index, complete YAML 1.2, CSL engine, Markdown converter, and round-trip formatter are separate follow-up projects. They must not change the stable core syntax without a compatibility proposal and new conformance cases.
+The editor, GUI, cross-file index, complete YAML 1.2, CSL engine, and round-trip formatter are separate follow-up projects. The Markdown converter covers the documented common subset and must report or document any semantic loss; it must not change the stable core syntax without a compatibility proposal and new conformance cases.
 
 ## Large-document performance check
 

@@ -21,3 +21,4 @@ export type {NormalizedSource} from "./source.js";
 export {lexLine, lexDocument} from "./lexer.js";
 export type {BlockToken, BlockTokenKind} from "./lexer.js";
 export {serializeAst} from "./serialize.js";
+export {fromMarkdown, toMarkdown} from "./markdown.js";
