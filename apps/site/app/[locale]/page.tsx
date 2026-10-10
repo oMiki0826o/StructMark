@@ -23,7 +23,7 @@ export default function LocaleHome({params}: {params: {locale: string}}) {
     <div className="container">
       <section className="hero" aria-label={english ? "Introduction" : "語言簡介"}>
         <div className="hero-main">
-          <span className="eyebrow">STRUCTMARK / LANGUAGE CORE</span>
+          <span className="eyebrow">{english ? "Language core" : "語言核心"}</span>
           <div className="content-rendered hero-copy" dangerouslySetInnerHTML={{__html: intro}} />
           <div className="actions">
             <Link className="button primary" href={`/${locale}/docs/`}>{text.readDocs} <span aria-hidden="true">&nbsp;→</span></Link>
