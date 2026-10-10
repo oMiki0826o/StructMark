@@ -199,6 +199,17 @@ body {
   margin: 0 0 1.35rem;
 }
 
+/* The base stylesheet is imported after these overrides. Keep documentation
+   tables readable by giving cells an explicit, higher-specificity inset. */
+body .docs-content table {
+  padding: 0;
+}
+
+body .docs-content th,
+body .docs-content td {
+  padding: 15px 18px;
+}
+
 .docs-content li + li {
   margin-top: .65rem;
 }
@@ -405,6 +416,11 @@ body {
   .docs-content pre,
   .docs-content table {
     max-width: 100%;
+  }
+
+  body .docs-content th,
+  body .docs-content td {
+    padding: 13px 16px;
   }
 
   .content-rendered table,
