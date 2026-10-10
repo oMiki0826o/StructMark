@@ -188,7 +188,7 @@ test("程式碼與資料內容保持原樣不會轉成 HTML", () => {
   assert(html.includes("&lt;img"));
 });
 test("完整示範文件無語義診斷", () => {
-  const source = readFileSync(new URL("../examples/spec-sample.txt", import.meta.url), "utf8");
+  const source = readFileSync(new URL("../examples/spec-sample.sm", import.meta.url), "utf8");
   const doc = parseDocument(source);
   assert.deepEqual(doc.diagnostics, []);
   assert(doc.children.length > 10);

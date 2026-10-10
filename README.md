@@ -24,7 +24,7 @@
 
 StructMark Language Core 是 StructMark 輕量、可讀、可擴充標記語言的 TypeScript 語言核心。專案提供 Lexer、Block/Inline Parser、AST、diagnostics 與安全 HTML 輸出；不包含編輯器或 GUI。
 
-目前版本為 V1.0.0，語法核心已可使用；副檔名尚未決定，範例暫以 `.txt` 儲存。
+目前版本為 V1.0.0，`.sm` 是 StructMark 的正式副檔名。語言核心已可直接解析 `.sm` 文件；V1.0 的語法邊界與相容性規則記錄於 `docs/`。
 
 ### 功能
 
@@ -48,22 +48,22 @@ npm test
 
 ### 使用方式
 
-解析範例並輸出 HTML：
+解析 `.sm` 範例並輸出 HTML：
 
 ```bash
-npm run demo -- examples/v04-specimen.txt
+npm run demo -- examples/v04-specimen.sm
 ```
 
 輸出 AST JSON：
 
 ```bash
-npm run demo -- examples/v04-specimen.txt --ast
+npm run demo -- examples/v04-specimen.sm --ast
 ```
 
 遇到 diagnostics 時以非零狀態結束：
 
 ```bash
-npm run demo -- examples/v04-specimen.txt --strict
+npm run demo -- examples/v04-specimen.sm --strict
 ```
 
 程式中可從 `src/index.ts` 使用 `parseDocument`, `parseInline`, `lexDocument`, `renderHtml` 與 `serializeAst`。Parser 不會執行 raw/data/code 內容，也不會存取網路或檔案。
@@ -93,7 +93,7 @@ StructMark 的文件網站與瀏覽器 Playground 位於 [GitHub Pages](https://
 
 StructMark Language Core is a TypeScript language core for a lightweight, readable, and extensible markup language. It provides a lexer, block and inline parsers, an AST, diagnostics, and safe HTML output. It does not include an editor or GUI.
 
-Version 1.0.0 is the first usable language-core release. The file extension has not been decided; examples currently use `.txt`.
+Version 1.0.0 is the first usable language-core release. `.sm` is the official StructMark file extension, and the language-core examples use `.sm` files.
 
 ### Features
 
@@ -120,19 +120,19 @@ npm test
 Parse an example and render HTML:
 
 ```bash
-npm run demo -- examples/v04-specimen.txt
+npm run demo -- examples/v04-specimen.sm
 ```
 
 Print AST JSON:
 
 ```bash
-npm run demo -- examples/v04-specimen.txt --ast
+npm run demo -- examples/v04-specimen.sm --ast
 ```
 
 Exit with a non-zero status when diagnostics are present:
 
 ```bash
-npm run demo -- examples/v04-specimen.txt --strict
+npm run demo -- examples/v04-specimen.sm --strict
 ```
 
 The public API is exported from `src/index.ts`, including `parseDocument`, `parseInline`, `lexDocument`, `renderHtml`, and `serializeAst`. The parser does not execute raw/data/code content or access the network or filesystem.

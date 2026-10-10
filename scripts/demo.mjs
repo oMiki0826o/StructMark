@@ -6,7 +6,7 @@ import {readFileSync} from "node:fs";
 import {parseDocument, renderHtml} from "../dist/index.js";
 
 const flags = new Set(["--ast", "--strict"]);
-const file = process.argv.slice(2).find(arg => !flags.has(arg)) ?? "examples/spec-sample.txt";
+const file = process.argv.slice(2).find(arg => !flags.has(arg)) ?? "examples/spec-sample.sm";
 const source = readFileSync(file, "utf8");
 const parsed = parseDocument(source);
 if (process.argv.includes("--ast")) console.log(JSON.stringify(parsed, null, 2));

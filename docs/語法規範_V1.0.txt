@@ -1,6 +1,6 @@
-# StructMark Language Specification V1.0（語法候選稿）
+# StructMark Language Specification V1.0
 
-日期：2026-10-10｜狀態：Draft；與 V1.0 不等價。以下以「規範候選」與「目前原型」區分，避免誤認為完整實作。
+日期：2026-10-10｜狀態：V1.0 穩定規範。本文定義 `.sm` 文件的核心語法；未列入的進階功能仍屬後續版本。
 
 ## 1. 文件、字元與換行
 
