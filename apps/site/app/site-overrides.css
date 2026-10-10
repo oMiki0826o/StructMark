@@ -242,8 +242,11 @@ body {
     position: relative;
   }
 
-  .desktop-nav {
-    display: none !important;
+.desktop-nav {
+    align-items: center;
+    display: flex !important;
+    gap: 13px;
+    font-size: .78rem;
   }
 
   .menu-toggle {
