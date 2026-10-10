@@ -109,6 +109,7 @@ Version 1.1.0 is the current language-core release. `.sm` is the official Struct
 - Unordered, numbered, automatic, and task lists with nesting and continuation lines.
 - Strong, emphasis, underline, delete, highlight, superscript, subscript, code, and math spans.
 - Links, images, wiki links, footnotes, citations, and semantic `&` directives.
+- BibTeX／CSL JSON data loading, deterministic citation profiles, and basic math-environment diagnostics.
 - GFM pipe tables, CSV/TSV tables, and JSON structured-table validation.
 - `DirectiveRegistry`, custom directives, attribute schemas, and source-located diagnostics.
 - Normalized UTF-16, original-source, and UTF-8 byte offset mapping.
