@@ -25,6 +25,7 @@ python3 benchmark/tokens.py
 | Safety | Source content is escaped and is never executed by the parser or renderer. |
 | Determinism | The same source and registry produce the same AST and HTML. |
 | Cross-file references | `validateWorkspace` resolves explicit `path#id` references without changing single-document parsing. |
+| Optional numbering | `renderHtml(document, { numbering: true })` labels identified sections, figures, tables, and equations and resolves their reference text. |
 
 ## Explicitly outside 1.1
 

@@ -8,6 +8,7 @@ export {parseInline, normalizeMath} from "./inline.js";
 export type {InlineParseOptions} from "./inline.js";
 export {readAttributes} from "./attributes.js";
 export {renderHtml, renderInline, escapeHtml, parseDelimited} from "./html.js";
+export type {RenderOptions} from "./html.js";
 export type {Document, BlockNode, InlineNode, Diagnostic, SourceRange, Attributes} from "./types.js";
 
 export {parseStructuredTable} from "./structured_table.js";

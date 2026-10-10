@@ -40,8 +40,21 @@ function textOf(nodes: InlineNode[]): string {
   }).join("");
 }
 
+export interface RenderOptions {
+  /** Add deterministic section/figure/table/equation labels and resolve &ref text. */
+  readonly numbering?: boolean;
+}
+
+interface NumberingContext {
+  readonly labels: Map<string, string>;
+  readonly sections: number[];
+  figures: number;
+  tables: number;
+  equations: number;
+}
+
 // ── 行內語義呈現 ──
-export function renderInline(nodes: InlineNode[]): string {
+export function renderInline(nodes: InlineNode[], context?: NumberingContext): string {
   return nodes.map(node => {
     switch (node.type) {
       case "text": return escapeHtml(node.value);
@@ -51,9 +64,12 @@ export function renderInline(nodes: InlineNode[]): string {
       case "softbreak": return "\n";
       case "hardbreak": return "<br>\n";
       case "wiki": return `<span class="wiki" data-target="${escapeHtml(node.target)}">${escapeHtml(node.label)}</span>`;
-      case "ref": return `<a class="xref" href="#${escapeHtml(node.target)}">${escapeHtml(node.target)}</a>`;
+      case "ref": {
+        const label = context?.labels.get(node.target) ?? node.target;
+        return `<a class="xref" href="#${escapeHtml(node.target)}">${escapeHtml(label)}</a>`;
+      }
       case "footnoteRef": return `<sup><a href="#fn-${escapeHtml(node.target)}">${escapeHtml(node.target)}</a></sup>`;
-      case "inlineDirective": return `<span data-structmark-directive="${escapeHtml(node.name)}"${htmlAttrs(node.attrs)}>${renderInline(node.children)}</span>`;
+      case "inlineDirective": return `<span data-structmark-directive="${escapeHtml(node.name)}"${htmlAttrs(node.attrs)}>${renderInline(node.children, context)}</span>`;
       case "citation": return `<span class="citation" data-keys="${escapeHtml(node.keys.join(" "))}">[${escapeHtml(node.keys.map(k => "&" + k).join("; "))}${node.locator ? ", " + escapeHtml(node.locator) : ""}]</span>`;
       case "link": {
         const url = safeUrl(node.target);
@@ -117,15 +133,51 @@ function renderStructuredTable(raw: string): string {
 }
 
 // ── 區塊語義呈現 ──
-export function renderHtml(document: Document): string {
+export function renderHtml(document: Document, options: RenderOptions = {}): string {
+  const context: NumberingContext = {labels: new Map(), sections: [], figures: 0, tables: 0, equations: 0};
+  function numbered(node: BlockNode): string | null {
+    if (!options.numbering) return null;
+    if (node.type === "heading" && node.id) {
+      while (context.sections.length < node.level) context.sections.push(0);
+      context.sections.length = node.level;
+      context.sections[node.level - 1] = (context.sections[node.level - 1] ?? 0) + 1;
+      for (let i = node.level; i < context.sections.length; i++) context.sections[i] = 0;
+      const label = context.sections.join(".");
+      context.labels.set(node.id, label);
+      return label;
+    }
+    if (node.type === "directive" && node.attrs.id && ["figure", "table", "equation", "math"].includes(node.name)) {
+      const kind = node.name === "figure" ? "figure" : node.name === "table" ? "table" : "equation";
+      const value = kind === "figure" ? ++context.figures : kind === "table" ? ++context.tables : ++context.equations;
+      const label = `${kind === "figure" ? "Figure" : kind === "table" ? "Table" : "Equation"} ${value}`;
+      context.labels.set(String(node.attrs.id), label);
+      return label;
+    }
+    return null;
+  }
+  function collect(nodes: BlockNode[]): void {
+    for (const node of nodes) {
+      numbered(node);
+      if (node.type === "blockquote" || node.type === "directive") collect(node.children);
+      if (node.type === "list") node.items.forEach(item => collect(item.children));
+    }
+  }
+  collect(document.children);
+  function labelFor(node: BlockNode): string | null {
+    if (!options.numbering) return null;
+    if (node.type === "heading" && node.id) return context.labels.get(node.id) ?? null;
+    if (node.type === "directive" && node.attrs.id) return context.labels.get(String(node.attrs.id)) ?? null;
+    return null;
+  }
   function block(node: BlockNode): string {
+    const label = labelFor(node);
     switch (node.type) {
-      case "heading": return `<h${node.level}${node.id ? ` id="${escapeHtml(node.id)}"` : ""}>${renderInline(node.children)}</h${node.level}>`;
-      case "paragraph": return `<p>${renderInline(node.children)}</p>`;
+      case "heading": return `<h${node.level}${node.id ? ` id="${escapeHtml(node.id)}"` : ""}${label ? ` data-number="${escapeHtml(label)}"` : ""}>${label ? `<span class="section-number">${escapeHtml(label)}</span> ` : ""}${renderInline(node.children, context)}</h${node.level}>`;
+      case "paragraph": return `<p>${renderInline(node.children, context)}</p>`;
       case "thematicBreak": return "<hr>";
       case "commentBlock": return "";
       case "codeBlock": return `<pre><code${node.lang && /^[a-zA-Z\d_.+-]+$/.test(node.lang) ? ` class="language-${escapeHtml(node.lang)}"` : ""}>${escapeHtml(node.value)}</code></pre>`;
-      case "footnoteDef": return `<p class="footnote" id="fn-${escapeHtml(node.id)}"><sup>${escapeHtml(node.id)}</sup> ${renderInline(node.children)}</p>`;
+      case "footnoteDef": return `<p class="footnote" id="fn-${escapeHtml(node.id)}"><sup>${escapeHtml(node.id)}</sup> ${renderInline(node.children, context)}</p>`;
       case "blockquote": return `<blockquote>\n${node.children.map(block).join("\n")}\n</blockquote>`;
       case "list": {
         const tag = node.ordered ? "ol" : "ul";
@@ -140,14 +192,15 @@ export function renderHtml(document: Document): string {
       }
       case "table": {
         const attr = (i: number): string => node.aligns[i] ? ` class="align-${node.aligns[i]}"` : "";
-        const head = `<tr>${node.header.map((h, i) => `<th${attr(i)}>${renderInline(h)}</th>`).join("")}</tr>`;
-        const body = node.rows.map(row => `<tr>${row.map((cell, i) => `<td${attr(i)}>${renderInline(cell)}</td>`).join("")}</tr>`).join("\n");
+        const head = `<tr>${node.header.map((h, i) => `<th${attr(i)}>${renderInline(h, context)}</th>`).join("")}</tr>`;
+        const body = node.rows.map(row => `<tr>${row.map((cell, i) => `<td${attr(i)}>${renderInline(cell, context)}</td>`).join("")}</tr>`).join("\n");
         return `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
       }
       case "directive": {
         const attrs = htmlAttrs(node.attrs);
-        const label = typeof node.attrs.title === "string" ? `<p class="directive-title">${escapeHtml(node.attrs.title)}</p>` : "";
-        if (node.name === "equation" || node.name === "math") return `<div class="equation"${attrs}><pre class="math" data-tex="${escapeHtml(node.raw ?? "")}">${escapeHtml(node.raw ?? "")}</pre></div>`;
+        const title = typeof node.attrs.title === "string" ? `<p class="directive-title">${escapeHtml(node.attrs.title)}</p>` : "";
+        const number = label ? `<span class="content-number">${escapeHtml(label)}</span> ` : "";
+        if (node.name === "equation" || node.name === "math") return `<div class="equation"${attrs}>${number}<pre class="math" data-tex="${escapeHtml(node.raw ?? "")}">${escapeHtml(node.raw ?? "")}</pre></div>`;
         if (node.name === "raw") return `<pre${attrs}>${escapeHtml(node.raw ?? "")}</pre>`;
         if (node.name === "data") return `<pre class="structured-data"${attrs}>${escapeHtml(node.raw ?? "")}</pre>`;
         if (node.name === "table") {
@@ -164,7 +217,7 @@ export function renderHtml(document: Document): string {
         }
         const safeClass = node.name.replace(/[^a-z0-9_:-]/g, "-");
         const element = node.name === "details" ? "details" : "aside";
-        return `<${element} class="directive directive-${safeClass}"${attrs}>${label}${node.children.map(block).join("\n")}</${element}>`;
+        return `<${element} class="directive directive-${safeClass}"${attrs}>${number}${title}${node.children.map(block).join("\n")}</${element}>`;
       }
     }
   }

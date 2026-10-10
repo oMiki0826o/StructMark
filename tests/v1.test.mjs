@@ -1,6 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace} from "../dist/index.js";
+import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, renderHtml, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace} from "../dist/index.js";
+
+test("optional numbering labels sections, figures, tables, equations, and references", () => {
+  const document = parseDocument(`#1 Intro (#intro)\nSee &ref[fig:one].\n&figure[id=fig:one]\nA diagram\n&end\n&equation[id=eq:one]\nx = 1\n&end`);
+  const html = renderHtml(document, {numbering: true});
+  assert.match(html, /data-number="1"/);
+  assert.match(html, /Figure 1/);
+  assert.match(html, /Equation 1/);
+  assert.match(html, /href="#fig:one">Figure 1<\/a>/);
+});
 
 test("V1.0 registry exposes separate inline, block, and raw-block directives", () => {
   const registry = getDefaultDirectiveRegistry();

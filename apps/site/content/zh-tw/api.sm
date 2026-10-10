@@ -21,6 +21,12 @@ const workspaceDiagnostics = validateWorkspace([
 ]);
 ```
 
+需要章節、圖、表、公式標籤時，啟用可選的編號輸出：
+
+```typescript
+const numberedHtml = renderHtml(document, { numbering: true });
+```
+
 ## 核心模組
 
 - `lexDocument`：將來源分成可檢查的區塊 token。
@@ -28,6 +34,7 @@ const workspaceDiagnostics = validateWorkspace([
 - `validateSemantics`：檢查 ID、註腳與交叉參照等語義問題。
 - `validateWorkspace`：以 `path#id` 形式檢查多份 `.sm` 文件之間的參照。
 - `renderHtml`：輸出經過跳脫與網址白名單處理的 HTML。
+- `renderHtml(document, { numbering: true })`：為有 ID 的標題、`&figure`、`&table` 與 `&equation` 建立穩定標籤，並讓 `&ref[id]` 顯示標籤文字。
 - `serializeAst`：產生穩定、可比較的 AST JSON。
 - `DirectiveRegistry`：註冊自訂指令與屬性 schema。
 

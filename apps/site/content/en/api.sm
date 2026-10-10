@@ -21,6 +21,12 @@ const workspaceDiagnostics = validateWorkspace([
 ]);
 ```
 
+Enable optional labels for sections, figures, tables, and equations when you need numbered output:
+
+```typescript
+const numberedHtml = renderHtml(document, { numbering: true });
+```
+
 ## Core modules
 
 - `lexDocument`: split source into inspectable block tokens.
@@ -28,6 +34,7 @@ const workspaceDiagnostics = validateWorkspace([
 - `validateSemantics`: check IDs, footnotes, and cross-reference semantics.
 - `validateWorkspace`: validate cross-file references using the explicit `path#id` form.
 - `renderHtml`: emit HTML with escaped text and URL allowlists.
+- `renderHtml(document, { numbering: true })`: assign deterministic labels to identified headings, `&figure`, `&table`, and `&equation` blocks, and use those labels in `&ref[id]` output.
 - `serializeAst`: produce stable, comparable AST JSON.
 - `DirectiveRegistry`: register custom directives and attribute schemas.
 
