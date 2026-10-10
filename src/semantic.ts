@@ -52,6 +52,9 @@ export function validateSemantics(document: Pick<Document, "children">): Diagnos
   visit(document.children);
   for (const node of references) {
     if (node.type !== "ref" || identifiers.has(node.target)) continue;
+    // Cross-document targets are validated by validateWorkspace(), not here.
+    const separator = node.target.lastIndexOf("#");
+    if (separator > 0 && node.target.slice(0, separator).endsWith(".sm")) continue;
     const p = node.range.start;
     issue("MMK-S003", `未找到參照目標：${node.target}`, p.line, p.column, p.offset);
   }

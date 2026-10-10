@@ -47,21 +47,49 @@ interface PipeCell {value: string; start: number;}
 function splitPipeLocated(line: string): PipeCell[] {
   let value = line.trim();
   let offset = line.length - line.trimStart().length;
+  const isEscaped = (source: string, at: number): boolean => {
+    let count = 0;
+    while (at - count - 1 >= 0 && source[at - count - 1] === "\\") count++;
+    return count % 2 === 1;
+  };
   if (value.startsWith("|")) {value = value.slice(1); offset++;}
-  if (value.endsWith("|") && !value.endsWith("\\|")) value = value.slice(0, -1);
+  if (value.endsWith("|") && !isEscaped(value, value.length - 1)) value = value.slice(0, -1);
+  // Pre-index backtick runs, so unclosed runs do not protect a literal pipe.
+  const closingTicks = new Map<number, number>();
+  const pending = new Map<number, number>();
+  for (let at = 0; at < value.length;) {
+    if (value[at] !== "`" || isEscaped(value, at)) {at++; continue;}
+    let size = 1;
+    while (value[at + size] === "`") size++;
+    const opening = pending.get(size);
+    if (opening !== undefined) {
+      closingTicks.set(opening, at);
+      pending.delete(size);
+    } else pending.set(size, at);
+    at += size;
+  }
   const cells: PipeCell[] = [];
   let current = "";
   let rawStart = 0;
-  let ticks = 0;
+  let codeEnd = -1;
   function push(): void {
     const leading = current.length - current.trimStart().length;
     cells.push({value: current.trim(), start: offset + rawStart + leading});
   }
   for (let p = 0; p < value.length; p++) {
     const c = value[p]!;
-    if (c === "\\" && value[p + 1] === "|") {current += "\\|"; p++; continue;}
-    if (c === "`") {ticks = ticks ? 0 : 1; current += c; continue;}
-    if (c === "|" && !ticks) {push(); current = ""; rawStart = p + 1; continue;}
+    if (p === codeEnd) codeEnd = -1;
+    if (c === "`" && !isEscaped(value, p)) {
+      let size = 1;
+      while (value[p + size] === "`") size++;
+      if (codeEnd < 0 && closingTicks.has(p)) codeEnd = closingTicks.get(p)!;
+      current += value.slice(p, p + size);
+      p += size - 1;
+      continue;
+    }
+    if (c === "|" && codeEnd < 0 && !isEscaped(value, p)) {
+      push(); current = ""; rawStart = p + 1; continue;
+    }
     current += c;
   }
   push();
@@ -89,7 +117,7 @@ function isFenceEnd(text: string, fence: string): boolean {
   return !!m && m[1]![0] === fence[0] && m[1]!.length >= fence.length;
 }
 function basicYaml(text: string, diagnostics: Diagnostic[]): Record<string, unknown> {
-  const parsed = parseYamlDocument(text, {version: "1.2", prettyErrors: false, uniqueKeys: false});
+  const parsed = parseYamlDocument(text, {version: "1.2", prettyErrors: false, uniqueKeys: true});
   for (const error of parsed.errors) {
     const position = error.linePos?.[0];
     diagnostics.push({code: "MMK-M001", severity: "error", message: `YAML 1.2：${error.message}`, position: {line: (position?.line ?? 1) + 1, column: position?.col ?? 1}});

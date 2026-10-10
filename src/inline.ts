@@ -16,9 +16,26 @@ const ESCAPABLE = new Set("!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~".split(""));
 const MAX_DEPTH = 48;
 type DecoratorType = Exclude<Extract<InlineNode, { children: InlineNode[] }>["type"], "inlineDirective">;
 
-function positionAt(source: string, index: number, base: Position): Position {
-  const prefix = source.slice(0, index).split("\n");
-  return {line: base.line + prefix.length - 1, column: prefix.length === 1 ? base.column + prefix[0]!.length : prefix.at(-1)!.length + 1, offset: (base.offset ?? 0) + index};
+function makePositionLookup(source: string, base: Position): (index: number) => Position {
+  // Pre-index newline positions once; each AST position is a binary search.
+  const starts: number[] = [0];
+  for (let index = 0; index < source.length; index++) {
+    if (source[index] === "\n") starts.push(index + 1);
+  }
+  return (index: number): Position => {
+    let low = 0;
+    let high = starts.length;
+    while (low + 1 < high) {
+      const middle = (low + high) >>> 1;
+      if (starts[middle]! <= index) low = middle;
+      else high = middle;
+    }
+    return {
+      line: base.line + low,
+      column: low === 0 ? base.column + index : index - starts[low]! + 1,
+      offset: (base.offset ?? 0) + index,
+    };
+  };
 }
 function createDiagnostic(diagnostics: Diagnostic[], code: string, message: string, pos: Position): void {
   diagnostics.push({code, message, severity: "warning", position: pos});
@@ -81,7 +98,7 @@ export function parseInline(source: string, base: Position = {line: 1, column: 1
   const registry = options.registry ?? getDefaultDirectiveRegistry();
   const squarePairs = pairDelimiters(source, "[", "]");
   const targetPairs = pairDelimiters(source, "(", ")");
-  const at = locate ?? ((index: number) => positionAt(source, index, base));
+  const at = locate ?? makePositionLookup(source, base);
   function parseSpan(start: number, stop: number, depth: number): InlineNode[] {
     if (depth > MAX_DEPTH) {
       createDiagnostic(diagnostics, "MMK-I003", "行內節點巢狀深度超出限制", at(start));

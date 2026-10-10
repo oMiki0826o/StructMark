@@ -24,12 +24,12 @@ export function readAttributes(content: string, position: Position, diagnostics:
     let key: string;
     if (content[p] === "#" || content[p] === ".") {
       const kind = content[p++]!;
-      const name = /^[\p{L}\p{N}_:.-]+/u.exec(content.slice(p))?.[0] ?? "";
+      const name = /^[\p{L}\p{N}\p{M}_:.-]+/u.exec(content.slice(p))?.[0] ?? "";
       if (!name || !isIdentifier(name)) { valid = false; break; }
       p += name.length;
       key = kind === "#" ? "id" : "class";
       if (Object.hasOwn(attrs, key)) { error(diagnostics, "MMK-A002", `重複屬性：${key}`, position); valid = false; }
-      else attrs[key] = name;
+      else attrs[key] = kind === "#" ? normalizeIdentifier(name) : name;
     } else {
       const m = KEY.exec(content.slice(p));
       if (!m) {valid = false; break;}

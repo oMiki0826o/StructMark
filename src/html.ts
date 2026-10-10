@@ -25,7 +25,7 @@ function htmlAttrs(attrs: Attributes, forImage = false): string {
     const val = attrs[name];
     if (val === undefined) continue;
     if ((name === "width" || name === "height") && (typeof val !== "number" || val < 1 || val > 10000)) continue;
-    if (name === "id" && !/^[\p{L}_][\p{L}\p{N}_.:-]*$/u.test(String(val))) continue;
+    if (name === "id" && !/^[\p{L}_][\p{L}\p{N}\p{M}_.:-]*$/u.test(String(val))) continue;
     if (name === "class" && !/^[\w\s-]+$/.test(String(val))) continue;
     if (name === "lang" && !/^[a-zA-Z\d-]+$/.test(String(val))) continue;
     html += ` ${name}="${escapeHtml(String(val))}"`;
@@ -83,7 +83,7 @@ export function renderInline(nodes: InlineNode[], context?: NumberingContext): s
       case "citation": return `<span class="citation" data-keys="${escapeHtml(node.keys.join(" "))}">[${escapeHtml(node.keys.map(k => "&" + k).join("; "))}${node.locator ? ", " + escapeHtml(node.locator) : ""}]</span>`;
       case "link": {
         const url = safeUrl(node.target);
-        return url ? `<a href="${escapeHtml(url)}"${htmlAttrs(node.attrs)}>${renderInline(node.label)}</a>` : renderInline(node.label);
+        return url ? `<a href="${escapeHtml(url)}"${htmlAttrs(node.attrs)}>${renderInline(node.label, context)}</a>` : renderInline(node.label, context);
       }
       case "image": {
         const url = safeUrl(node.target, true);
@@ -92,7 +92,7 @@ export function renderInline(nodes: InlineNode[], context?: NumberingContext): s
       default: {
         const tag: Record<string, string> = {strong:"strong", em:"em", underline:"u", delete:"del", highlight:"mark", sup:"sup", sub:"sub", kbd:"kbd", abbr:"abbr", term:"dfn", var:"var", lang:"span"};
         const element = tag[node.type] ?? "span";
-        return `<${element}${htmlAttrs(node.attrs)}>${renderInline(node.children)}</${element}>`;
+        return `<${element}${htmlAttrs(node.attrs)}>${renderInline(node.children, context)}</${element}>`;
       }
     }
   }).join("");
