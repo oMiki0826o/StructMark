@@ -29,3 +29,7 @@ python3 benchmark/tokens.py
 ## Explicitly outside 1.1
 
 The editor, GUI, cross-file index, complete YAML 1.2, CSL engine, Markdown converter, and round-trip formatter are separate follow-up projects. They must not change the stable core syntax without a compatibility proposal and new conformance cases.
+
+## Large-document performance check
+
+`npm run benchmark:perf` parses and renders a deterministic 12,000-section document. It checks that every heading survives, diagnostics remain empty, the output contains the final section, and the complete run stays below the conservative 10-second regression limit. Timings are machine-dependent and are reported for comparison rather than as a universal performance promise.
