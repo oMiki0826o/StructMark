@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, serializeAst, getDefaultDirectiveRegistry, normalizeSource} from "../dist/index.js";
+import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace} from "../dist/index.js";
 
 test("V1.0 registry exposes separate inline, block, and raw-block directives", () => {
   const registry = getDefaultDirectiveRegistry();
@@ -114,4 +114,18 @@ test("Unicode identifiers normalize canonically before duplicate checks", () => 
   assert.equal(document.children[0]?.id, "café");
   assert.equal(document.children[1]?.id, "café");
   assert.ok(document.diagnostics.some((diagnostic) => diagnostic.code === "MMK-S001"));
+});
+
+test("workspace validation resolves explicit cross-file references", () => {
+  const guide = parseDocument("#1 Introduction (#intro)");
+  const index = parseDocument("See &ref[guide.sm#intro].");
+  const missing = parseDocument("See &ref[missing.sm#nope].");
+  assert.equal(validateWorkspace([
+    {path: "guide.sm", document: guide},
+    {path: "index.sm", document: index},
+  ]).length, 0);
+  assert.ok(validateWorkspace([
+    {path: "guide.sm", document: guide},
+    {path: "missing.sm", document: missing},
+  ]).some((diagnostic) => diagnostic.code === "MMK-S005"));
 });

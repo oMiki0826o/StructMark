@@ -7,6 +7,7 @@ import {
   renderHtml,
   serializeAst,
   validateSemantics,
+  validateWorkspace,
 } from "structmark-language-core";
 
 const tokens = lexDocument(source);
@@ -14,6 +15,10 @@ const document = parseDocument(source);
 const diagnostics = validateSemantics(document);
 const html = renderHtml(document);
 const json = serializeAst(document, 2);
+
+const workspaceDiagnostics = validateWorkspace([
+  { path: "guide.sm", document },
+]);
 ```
 
 ## Core modules
@@ -21,6 +26,7 @@ const json = serializeAst(document, 2);
 - `lexDocument`: split source into inspectable block tokens.
 - `parseDocument`: build a Document AST with source ranges and diagnostics.
 - `validateSemantics`: check IDs, footnotes, and cross-reference semantics.
+- `validateWorkspace`: validate cross-file references using the explicit `path#id` form.
 - `renderHtml`: emit HTML with escaped text and URL allowlists.
 - `serializeAst`: produce stable, comparable AST JSON.
 - `DirectiveRegistry`: register custom directives and attribute schemas.

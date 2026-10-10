@@ -4,6 +4,8 @@
  */
 import type {BlockNode, Diagnostic, Document, InlineNode} from "./types.js";
 
+export interface WorkspaceDocument { readonly path: string; readonly document: Pick<Document, "children">; }
+
 // ── 文件層識別碼與參照 ──
 export function validateSemantics(document: Pick<Document, "children">): Diagnostic[] {
   const diagnostics: Diagnostic[] = [];
@@ -57,6 +59,45 @@ export function validateSemantics(document: Pick<Document, "children">): Diagnos
     if (node.type !== "footnoteRef" || footnotes.has(node.target)) continue;
     const p = node.range.start;
     issue("MMK-S004", `未找到註腳定義：${node.target}`, p.line, p.column, p.offset);
+  }
+  return diagnostics;
+}
+
+/** Validate references that explicitly name another .sm document: path#id. */
+export function validateWorkspace(documents: readonly WorkspaceDocument[]): Diagnostic[] {
+  const idsByPath = new Map<string, Set<string>>();
+  const references: Array<{path: string; node: InlineNode & {type: "ref"; target: string}}> = [];
+  function collectIds(path: string, nodes: readonly BlockNode[]): void {
+    const ids = idsByPath.get(path) ?? new Set<string>();
+    idsByPath.set(path, ids);
+    const collectInline = (inline: readonly InlineNode[]): void => {
+      for (const node of inline) {
+        if ("attrs" in node && typeof node.attrs.id === "string") ids.add(node.attrs.id);
+        if (node.type === "ref") references.push({path, node: node as InlineNode & {type: "ref"; target: string}});
+        if ("children" in node) collectInline(node.children);
+        if ("label" in node && Array.isArray(node.label)) collectInline(node.label);
+      }
+    };
+    for (const node of nodes) {
+      if (node.type === "heading" && node.id) ids.add(node.id);
+      if (node.type === "directive" && typeof node.attrs.id === "string") ids.add(node.attrs.id);
+      if (node.type === "footnoteDef") ids.add(node.id);
+      if (node.type === "paragraph" || node.type === "heading" || node.type === "footnoteDef") collectInline(node.children);
+      if (node.type === "table") { node.header.forEach(collectInline); node.rows.forEach(row => row.forEach(collectInline)); }
+      if (node.type === "blockquote" || node.type === "directive") collectIds(path, node.children);
+      if (node.type === "list") node.items.forEach(item => collectIds(path, item.children));
+    }
+  }
+  for (const entry of documents) collectIds(entry.path, entry.document.children);
+  const diagnostics: Diagnostic[] = [];
+  for (const reference of references) {
+    const hash = reference.node.target.lastIndexOf("#");
+    const targetPath = hash > 0 ? reference.node.target.slice(0, hash) : reference.path;
+    const targetId = hash > 0 ? reference.node.target.slice(hash + 1) : reference.node.target;
+    if (!idsByPath.get(targetPath)?.has(targetId)) {
+      const p = reference.node.range.start;
+      diagnostics.push({code: "MMK-S005", severity: "warning", message: `未找到跨文件參照目標：${reference.node.target}`, position: p});
+    }
   }
   return diagnostics;
 }

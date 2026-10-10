@@ -11,7 +11,8 @@ export {renderHtml, renderInline, escapeHtml, parseDelimited} from "./html.js";
 export type {Document, BlockNode, InlineNode, Diagnostic, SourceRange, Attributes} from "./types.js";
 
 export {parseStructuredTable} from "./structured_table.js";
-export {validateSemantics} from "./semantic.js";
+export {validateSemantics, validateWorkspace} from "./semantic.js";
+export type {WorkspaceDocument} from "./semantic.js";
 export {DirectiveRegistry, getDefaultDirectiveRegistry} from "./registry.js";
 export type {DirectiveDefinition, DirectiveKind} from "./registry.js";
 export {normalizeSource} from "./source.js";

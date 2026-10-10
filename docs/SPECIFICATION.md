@@ -129,6 +129,10 @@ attributes     = "[", ("#", identifier | ".", identifier | key, "=", value), {sp
 
 ## 7. 表格
 
+## 6.1 跨文件參照
+
+單文件的 `&ref[id]` 由 `validateSemantics` 驗證。工具處理多份來源時，可使用 `&ref[path.sm#id]` 並將文件交給 `validateWorkspace`；路徑必須是 workspace 提供的相對 `.sm` 路徑，ID 使用 NFC 正規化後比對。不存在的文件或 ID 產生 `MMK-S005` warning，不會讓 parser 丟出例外。
+
 ### 7.1 GFM 型簡易表格
 
 ```text

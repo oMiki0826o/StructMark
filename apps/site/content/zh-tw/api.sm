@@ -7,6 +7,7 @@ import {
   renderHtml,
   serializeAst,
   validateSemantics,
+  validateWorkspace,
 } from "structmark-language-core";
 
 const tokens = lexDocument(source);
@@ -14,6 +15,10 @@ const document = parseDocument(source);
 const diagnostics = validateSemantics(document);
 const html = renderHtml(document);
 const json = serializeAst(document, 2);
+
+const workspaceDiagnostics = validateWorkspace([
+  { path: "guide.sm", document },
+]);
 ```
 
 ## 核心模組
@@ -21,6 +26,7 @@ const json = serializeAst(document, 2);
 - `lexDocument`：將來源分成可檢查的區塊 token。
 - `parseDocument`：建立含來源範圍與 diagnostics 的 Document AST。
 - `validateSemantics`：檢查 ID、註腳與交叉參照等語義問題。
+- `validateWorkspace`：以 `path#id` 形式檢查多份 `.sm` 文件之間的參照。
 - `renderHtml`：輸出經過跳脫與網址白名單處理的 HTML。
 - `serializeAst`：產生穩定、可比較的 AST JSON。
 - `DirectiveRegistry`：註冊自訂指令與屬性 schema。
