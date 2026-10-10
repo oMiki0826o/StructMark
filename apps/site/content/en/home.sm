@@ -32,7 +32,7 @@ Directive names, attributes, IDs, and references follow explicit rules. Errors r
 
 #2 Why use `.sm` instead of only `.md`?
 
-Markdown is excellent for quick writing. `.sm` treats document structure, semantic directives, data blocks, and source-located diagnostics as part of the language. When content must be tested, transformed, indexed, or consumed by other tools, it does not collapse into formatting-only text.
+`.sm` is made for quick writing too: it stays plain text, keeps the marks short, and reads directly. As a document grows into something that must be tested, transformed, indexed, or consumed by other tools, it keeps its structure, semantic directives, data blocks, and source-located diagnostics without requiring a rewrite.
 
 - The AST is stable and serializable, so tools do not have to guess author intent.
 - Directives, attributes, and data tables use explicit registries and diagnostics instead of scattered plugin conventions.

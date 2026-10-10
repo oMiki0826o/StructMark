@@ -1,6 +1,6 @@
 #1 Why `.sm`?
 
-Markdown is excellent for quick writing. StructMark is for documents that also need to be read, checked, transformed, and reused by software.
+StructMark is made for quick writing too: plain text, short marks, and direct readability. When a document also needs to be read, checked, transformed, and reused by software, it keeps that writing experience while preserving more structure.
 
 #2 Documents are more than a surface
 

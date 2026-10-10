@@ -4,7 +4,7 @@ This guide covers the StructMark 1.1 core syntax and TypeScript API. It is writt
 
 #2 Understand StructMark first
 
-Use Markdown when you need a quick document with familiar formatting. Choose `.sm` when the document is also an input to software: a documentation site, a knowledge base, a static generator, a test fixture, or a data-rich report.
+`.sm` does not ask you to wait until a document becomes complex. It keeps the plain text and short marks that make quick writing comfortable, then preserves more structure when the same document also becomes input for a documentation site, knowledge base, static generator, test fixture, or data-rich report.
 
 | Need | `.md` alone | `.sm` |
 | --- | --- | --- |
