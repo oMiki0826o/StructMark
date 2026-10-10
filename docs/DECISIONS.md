@@ -1,6 +1,6 @@
-# StructMark 語法設計決策（V1.0）
+# StructMark 語法設計決策（1.1）
 
-狀態：語法草案，可修改；不承諾未來維持二進位或來源相容性。
+狀態：1.1 正式決策記錄。公開語法與 AST 相容性承諾以 `docs/SPECIFICATION.md` 與 `docs/CONFORMANCE.md` 為準；不屬於核心承諾的完整外部標準相容性會明確標示。
 
 ## 1. 最少的原生標記種類
 
@@ -26,7 +26,7 @@
 - Setext 標題 `文字\n---` 不納入正式文法。
 - 在原生語法中，不再推薦 `{width=600}`，採用 `[width=600]`；大括號仍能出現在 JSON 與 LaTeX 中。
 - 不根據 `.jpg`、`.png` 或 MIME 類型猜測 `[文字](URL)` 是圖片。
-- 同一段學術引用只使用 `[&key]` 基本語法。敘述式引用與頁碼等特性尚未完成正式輸出。
+- 同一段學術引用使用 `[&key]` 基本語法；locator 及屬性可由 AST 表示，資料載入與 deterministic citation profiles 由引用 API 提供。
 
 ## 3. 如何區分同樣的中括號
 
@@ -36,10 +36,10 @@
 - `[文字](URL)`：只有中括號後面緊接完整合法小括號目標，才是連結。
 - `![文字](URL)`：加 `!` 才代表嵌入圖片。
 - `[&key]` / `[^id]`：依固定前綴解為文獻引用 / 註腳引用。
-- `[[文件|顯示]]`：Wiki 連結候選，目標解析留待跨檔系統。
+- `[[文件|顯示]]`：Wiki 連結 AST；跨檔目標透過 workspace API 驗證，不由單檔 parser 猜測。
 - `[普通文字]`：無其他前綴、非連結時保留為字面文字。
 - `[#id]` 單獨出現在一般段落，不代表節點 ID；只有合法後綴位置才能成為屬性。
 
 ## 4. 規格與實作需分開判斷
 
-採用某種符號，不代表已完成所有語義：`&equation` 不等於已完成 LaTeX 排版；`[&key]` 不等於已完成 APA；`&table[format=json]` 也不等於具有複雜表格的全部驗證規則。各項程度詳見 `STATUS_AND_ROADMAP.md`。
+採用某種符號，不代表核心宣稱完整外部標準相容：`&equation` 使用安全數學驗證與可選 KaTeX；`[&key]` 使用 BibTeX／CSL JSON 與 deterministic profiles；`&table[format=json]` 依 StructMark structured-table schema 驗證。各項程度詳見 `STATUS_AND_ROADMAP.md`。
