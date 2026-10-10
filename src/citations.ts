@@ -80,3 +80,18 @@ export function formatCitation(keys: readonly string[], entries: ReadonlyMap<str
     return [names || entry.id, entry.year ?? "n.d."].join(", ");
   }).join("; ")})`;
 }
+
+/** Format a deterministic bibliography subset for the built-in profiles. */
+export function formatBibliography(keys: readonly string[], entries: ReadonlyMap<string, CitationEntry>, options: CitationFormatOptions = {}): string[] {
+  return keys.map((key, index) => {
+    const entry = entries.get(key);
+    if (!entry) return options.style === "ieee" ? `[${index + 1}] ${key}` : `${key}.`;
+    const authors = entry.authors.join(" & ") || entry.id;
+    const title = entry.title ? `${entry.title}.` : "";
+    const journal = entry.fields.journal ? ` ${entry.fields.journal},` : "";
+    const volume = entry.fields.volume ? ` ${entry.fields.volume},` : "";
+    const pages = entry.fields.pages ? ` ${entry.fields.pages.replace(/--/g, "–")}.` : "";
+    if (options.style === "ieee") return `[${index + 1}] ${authors}, ${title}${journal}${volume}${pages} ${entry.year ?? "n.d."}`.replace(/\s+/g, " ").trim();
+    return `${authors} (${entry.year ?? "n.d."}). ${title}${journal}${volume}${pages}`.replace(/\s+/g, " ").trim();
+  });
+}

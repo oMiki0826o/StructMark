@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {DirectiveRegistry, lexDocument, lexLine, parseDocument, parseInline, renderHtml, serializeAst, getDefaultDirectiveRegistry, normalizeSource, validateWorkspace, fromMarkdown, toMarkdown} from "../dist/index.js";
 import {formatSource} from "../dist/index.js";
-import {formatCitation, parseBibTeX, parseCslJson} from "../dist/index.js";
+import {formatBibliography, formatCitation, parseBibTeX, parseCslJson} from "../dist/index.js";
 
 test("citation data APIs parse BibTeX and CSL JSON deterministically", () => {
   const bib = parseBibTeX('@article{smith2024, author = {Smith, Ada and Doe, Lin}, title = {A Study}, year = {2024}}');
@@ -16,6 +16,7 @@ test("citation formatter supports documented APA and IEEE profiles", () => {
   const entries = new Map(parseBibTeX('@article{smith2024, author = {Smith, Ada and Doe, Lin}, title = {A Study}, journal = {Journal}, year = {2024}, volume = {2}, pages = {10--20} }'));
   assert.equal(formatCitation(["smith2024"], entries, {style: "apa"}), "(Smith & Doe, 2024)");
   assert.equal(formatCitation(["smith2024"], entries, {style: "ieee"}), "[1]");
+  assert.deepEqual(formatBibliography(["smith2024"], entries, {style: "apa"}), ["Smith & Doe (2024). A Study. Journal, 2, 10–20."]);
 });
 
 test("KaTeX is an opt-in safe math renderer", () => {
