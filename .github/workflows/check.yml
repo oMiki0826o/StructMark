@@ -11,5 +11,10 @@ jobs:
         with:
           node-version: '22'
       - run: npm install --no-audit --no-fund
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python -m pip install --disable-pip-version-check tiktoken
       - run: npm test
       - run: npm run fuzz
+      - run: python benchmark/tokens.py --require-tokenizer

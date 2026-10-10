@@ -9,7 +9,7 @@
     "id": "inline",
     "description": "行內語義按鍵",
     "markdown": "按下 <kbd>Ctrl+C</kbd> 複製。",
-    "structmark": "按下 @kbd[Ctrl+C] 複製。"
+    "structmark": "按下 &kbd[Ctrl+C] 複製。"
   },
   {
     "id": "math",
@@ -51,7 +51,7 @@
     "id": "note",
     "description": "GFM Alert 與 @note 的簡單語義區塊",
     "markdown": "> [!NOTE]\n> 請先備份。",
-    "structmark": "@note\n請先備份。\n@end"
+    "structmark": "&note\n請先備份。\n&end"
   },
   {
     "id": "citation",

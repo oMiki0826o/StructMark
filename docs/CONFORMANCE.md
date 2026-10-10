@@ -10,7 +10,7 @@ npm run fuzz
 python3 benchmark/tokens.py
 ```
 
-`npm test` covers the parser, lexer, AST, diagnostics, registry, tables, renderer, source ranges, aliases, and the `.sm` examples. `npm run fuzz` runs 500 deterministic malformed inputs and asserts that parsing does not throw or emit executable `<script>` output. The token benchmark reports real tokenizer counts when `tiktoken` is installed and otherwise reports characters, UTF-8 bytes, and `n/a` token fields without presenting them as token counts.
+`npm test` covers the parser, lexer, AST, diagnostics, registry, tables, renderer, source ranges, aliases, and the `.sm` examples. `npm run fuzz` runs 500 deterministic malformed inputs and asserts that parsing does not throw or emit executable `<script>` output. CI installs `tiktoken` and runs `python benchmark/tokens.py --require-tokenizer`, so its token columns are real tokenizer counts rather than character-count estimates.
 
 ## Stable syntax promises
 
