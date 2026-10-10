@@ -9,6 +9,7 @@ import {parseDelimited} from "./html.js";
 import {validateSemantics} from "./semantic.js";
 import {getDefaultDirectiveRegistry, type DirectiveRegistry} from "./registry.js";
 import {lexLine} from "./lexer.js";
+import {parseDocument as parseYamlDocument} from "yaml";
 import type {Attributes, BlockNode, Diagnostic, Document, InlineNode, ListItem, Position, SourceRange} from "./types.js";
 
 // ── 結構判斷 ──
@@ -88,35 +89,18 @@ function isFenceEnd(text: string, fence: string): boolean {
   return !!m && m[1]![0] === fence[0] && m[1]!.length >= fence.length;
 }
 function basicYaml(text: string, diagnostics: Diagnostic[]): Record<string, unknown> {
-  const out: Record<string, unknown> = {};
-  const rows = text.split("\n");
-  let currentArray: string | null = null;
-  for (let p = 0; p < rows.length; p++) {
-    const row = rows[p]!;
-    if (!row.trim() || /^\s*#/.test(row)) continue;
-    const item = /^  - (.+)$/.exec(row);
-    if (item && currentArray && Array.isArray(out[currentArray])) {
-      (out[currentArray] as unknown[]).push(scalar(item[1]!)); continue;
-    }
-    const m = /^([a-zA-Z][\w-]*):(?:[ \t]+(.*))?$/.exec(row);
-    if (!m) {
-      diagnostics.push({code: "MMK-M001", severity: "warning", message: "目前的零相依解析原型僅支援 YAML 頂層純量及簡單清單", position: {line: p + 2, column: 1}});
-      currentArray = null;
-      continue;
-    }
-    if (Object.hasOwn(out, m[1]!)) diagnostics.push({code: "MMK-M002", severity: "warning", message: `重複 Metadata 欄位：${m[1]}`, position: {line: p + 2, column: 1}});
-    currentArray = m[2] === undefined ? m[1]! : null;
-    out[m[1]!] = m[2] === undefined ? [] : scalar(m[2]!);
+  const parsed = parseYamlDocument(text, {version: "1.2", prettyErrors: false, uniqueKeys: false});
+  for (const error of parsed.errors) {
+    const position = error.linePos?.[0];
+    diagnostics.push({code: "MMK-M001", severity: "error", message: `YAML 1.2：${error.message}`, position: {line: (position?.line ?? 1) + 1, column: position?.col ?? 1}});
   }
-  return out;
-}
-function scalar(s: string): string | number | boolean | null {
-  const value = s.trim();
-  if (value === "null" || value === "~") return null;
-  if (value === "true" || value === "false") return value === "true";
-  if (/^-?(?:0|[1-9]\d*)(?:\.\d+)?$/.test(value)) return Number(value);
-  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) return value.slice(1, -1);
-  return value;
+  for (const warning of parsed.warnings) {
+    const position = warning.linePos?.[0];
+    diagnostics.push({code: "MMK-M002", severity: "warning", message: `YAML 1.2：${warning.message}`, position: {line: (position?.line ?? 1) + 1, column: position?.col ?? 1}});
+  }
+  if (parsed.errors.length) return {};
+  const value = parsed.toJS({mapAsMap: false}) as unknown;
+  return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
 }
 
 // ── 文件解析 ──

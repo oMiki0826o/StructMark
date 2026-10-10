@@ -11,6 +11,13 @@ test("round-trip formatter preserves semantics and normalizes safe source bounda
   assert.equal(formatted.changed, true);
 });
 
+test("metadata accepts YAML 1.2 nested maps, sequences, and block scalars", () => {
+  const document = parseDocument("---\ntitle: StructMark\nsettings:\n  enabled: true\n  tags: [language, docs]\nsummary: |\n  first line\n  second line\n---\n#1 Body");
+  assert.equal(document.diagnostics.length, 0);
+  assert.deepEqual(document.metadata.settings, {enabled: true, tags: ["language", "docs"]});
+  assert.equal(document.metadata.summary, "first line\nsecond line\n");
+});
+
 test("Markdown import and export cover the documented common subset", () => {
   const document = fromMarkdown("# Title {#intro}\n\n**bold** and [link](https://example.com).\n\n- one\n- two\n\n> quote\n\n```ts\nconst x = 1;\n```");
   assert.equal(document.children[0]?.type, "heading");
