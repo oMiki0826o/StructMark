@@ -146,6 +146,25 @@ This block carries meaning, not just a visual box.
 
 `DirectiveRegistry` checks directive kinds and allowed attributes. Unknown directives and invalid attributes do not silently disappear; they produce diagnostics with line and column positions.
 
+## Compact syntax and expansion
+
+Compact syntax is not a second language. It is a fixed alias for a canonical directive name. The parser expands the alias before building the AST, so both forms can be mixed:
+
+```sm
+&n [title="A note"]
+This is equivalent to `&note`.
+&e
+```
+
+| Compact | Expands to | Meaning |
+| --- | --- | --- |
+| `&n` | `&note` | General note block |
+| `&t` | `&test` | Test / typing block |
+| `&w` | `&warning` | Warning block |
+| `&e` | `&end` | Close the nearest block |
+
+Attributes may touch the directive name or follow it after whitespace; `[typing]` is a flag attribute whose value is `true`. Unknown aliases are not guessed or silently rewritten: they remain visible and produce a diagnostic.
+
 #2 Tables and structured data
 
 Regular tables use pipe syntax:
@@ -189,4 +208,4 @@ const stableJson = serializeAst(document, 2);
 
 #2 Scope and roadmap
 
-Version 1.0 focuses on the language core. It does not include an editor, GUI, cloud storage, or collaboration service. The file extension and surrounding ecosystem will evolve through real usage; the core API, AST, and safe output are the current stable boundary.
+Version 1.0 focuses on the language core. It does not include an editor, GUI, cloud storage, or collaboration service. `.sm` is the official file extension; the core API, AST, and safe output are the current stable boundary.

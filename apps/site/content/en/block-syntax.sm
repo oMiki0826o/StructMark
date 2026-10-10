@@ -28,3 +28,19 @@ This block keeps its semantic identity.
 ```
 
 Directives can nest and their attributes are checked by the registry. Unclosed or unknown structures produce diagnostics instead of disappearing silently.
+
+### Compact syntax
+
+Canonical names and short aliases are equivalent:
+
+```sm
+&note [title="A note"]
+Canonical name.
+&end
+
+&n [title="A note"]
+Compact name; `&e` is equivalent to `&end`.
+&e
+```
+
+The official aliases are `&n` (`&note`), `&t` (`&test`), and `&w` (`&warning`). Attributes may touch the name or be separated by whitespace; flag attributes such as `[typing]` have the value `true`.

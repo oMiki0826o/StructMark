@@ -60,11 +60,13 @@ script         = ("^" | "_"), "[", inline-text, "]" ;
 inline-command = "&", identifier, "[", inline-text, "]", [attributes] ;
 link           = "[", inline-text, "]", "(", resource-target, ")", [attributes] ;
 image          = "!", link ;
-block-command  = "&", identifier, [attributes], newline, block-content, "&end" ;
+block-command  = "&", identifier, [space], [attributes], newline, block-content, block-end ;
+block-end      = "&end" | "&e" ;
+compact-name   = "&n" | "&t" | "&w" ;
 attributes     = "[", ("#", identifier | ".", identifier | key, "=", value), {space, attribute}, "]" ;
 ```
 
-以上 EBNF 只是易讀摘要；完整剖析器還必須考慮跳脫、引號、巢狀、行首條件與同一標記優先順序。`&` 敘述式文獻引用未納入 V0.4，避免與語義指令歧義。
+以上 EBNF 是易讀摘要；完整剖析器還必須考慮跳脫、引號、巢狀、行首條件與同一標記優先順序。區塊指令支援完整名稱與固定短別名；別名在建立 AST 前展開。
 
 ## 4. 清單
 
@@ -118,8 +120,8 @@ attributes     = "[", ("#", identifier | ".", identifier | key, "=", value), {sp
 &end
 ```
 
-- 區塊起始行使用 `&name` 或 `&name[attrs]`；結尾使用獨立行 `&end`。
-- 以堆疊配對最近的開啟區塊，`&end` 不帶名稱。
+- 區塊起始行使用 `&name`、`&name[attrs]` 或 `&name [attrs]`；結尾使用獨立行 `&end` 或 `&e`。
+- `&n`、`&t`、`&w` 分別展開為 `&note`、`&test`、`&warning`；以堆疊配對最近的開啟區塊。
 - `&note`、`&warning`、`&tip` 等會繼續解析一般文件區塊。
 - `&table`、`&data`、`&raw`、`&equation` 以原始內容處理，不在正文內辨識其他 StructMark 格式。
 - 原始資料中的 `\&end` 表示字面文字 `&end`；未跳脫的獨立行 `&end` 仍會結束原始區塊。

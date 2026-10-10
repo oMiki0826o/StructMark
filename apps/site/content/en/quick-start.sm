@@ -9,7 +9,7 @@ npm test
 
 ## Your first document
 
-```text
+```sm
 #1 My first document
 
 This is a paragraph.
@@ -17,6 +17,28 @@ This is a paragraph.
 - first item
 - second item
 ```
+
+## Full names and compact aliases
+
+Block directives support canonical names and official short aliases. Both forms produce the same AST, so you can choose clarity for public documents or speed while drafting.
+
+```sm
+&note [title="A note"]
+This is the full form.
+&end
+
+&n [title="A note"]
+This is the equivalent compact form.
+&e
+```
+
+| Canonical form | Compact form | Purpose |
+| --- | --- | --- |
+| `&note` ... `&end` | `&n` ... `&e` | General note |
+| `&test` ... `&end` | `&t` ... `&e` | Test / typing block |
+| `&warning` ... `&end` | `&w` ... `&e` | Warning |
+
+Both `&name[attrs]` and `&name [attrs]` are valid. A valueless attribute means `true`, for example `[typing]`.
 
 ## Parse and render
 
