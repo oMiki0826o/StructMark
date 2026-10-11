@@ -16,7 +16,10 @@ test('format --write replaces content and retains permission mode without tempor
   const filename=join(folder,'a.sm');writeFileSync(filename,'#1 Title\r\n\r\nText\r\n');chmodSync(filename,0o640);
   const r=run('format',filename,'--write');assert.equal(r.status,0,r.stderr);
   assert.equal(readFileSync(filename,'utf8'),'#1 Title\n\nText\n');
-  assert.equal(statSync(filename).mode & 0o777,0o640);
+  // Windows exposes a compatibility mode rather than POSIX permission bits.
+  // The CLI must preserve the mode on POSIX systems; on Windows the content
+  // and no-temporary-file guarantees below are the portable contract.
+  if(process.platform !== 'win32') assert.equal(statSync(filename).mode & 0o777,0o640);
   assert.deepEqual(readdirSync(folder),['a.sm']);
  }finally{rmSync(folder,{recursive:true,force:true});}
 });
