@@ -1,0 +1,51 @@
+#1 診斷與錯誤處理
+
+StructMark 會在 AST 中保留來源位置與診斷訊息。診斷包含代碼、等級、訊息、行號與欄號，讓網站與 CLI 能夠明確指出問題，而不是在解析失敗時默默省略內容。
+
+#2 診斷資料結構
+
+程式應讀取 `document.diagnostics`，不要只靠空白的 HTML 判斷文件是否有效。某些語義錯誤也需要另外執行工作區驗證。
+
+```typescript
+import {parseDocument, validateWorkspace} from "structmark-language-core";
+
+const document = parseDocument(source);
+for (const issue of document.diagnostics) {
+  console.log(issue.code, issue.severity, issue.position.line, issue.message);
+}
+```
+
+#2 語法診斷
+
+未閉合的區塊或格式、未知指令和錯誤屬性應回報診斷。Parser 不應執行來源檔案中出現的程式碼，也不會因為文件內有 HTML 字串就直接執行它。
+
+```sm
+&note[title="尚未結束"]
+這個區塊缺少結束指令。
+```
+
+#2 語義診斷
+
+當某份文件參照不存在的 ID，或重複宣告相同 ID 時，使用診斷提示；跨檔目標則由工作區檢查。
+
+```sm
+#2 第一節 (#intro)
+
+詳情請見 &ref[missing]。
+```
+
+#2 匯出格式的降級警告
+
+Markdown 並不能完整表示所有 StructMark 語義。使用 `toMarkdownDetailed()` 取得文字與診斷；例如螢光標記和底線可能需要回報 `SMK-C002` 警告。
+
+```typescript
+import {parseDocument, toMarkdownDetailed} from "structmark-language-core";
+
+const result = toMarkdownDetailed(parseDocument("=[重要]"));
+console.log(result.source);
+console.log(result.diagnostics);
+```
+
+#2 整合與測試
+
+專案提供 `npm test`、`npm run fuzz` 和大型文件效能測試。Fuzz 測試是異常輸入的基本檢查，並不表示已經完成所有資安與跨瀏覽器測試。

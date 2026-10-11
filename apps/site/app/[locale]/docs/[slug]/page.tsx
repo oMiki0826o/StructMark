@@ -6,6 +6,8 @@ import Link from "next/link";
 import {contentHtml, copy} from "../../../../lib/content";
 import {isLocale, locales, type Locale} from "../../../../lib/content-types";
 import {docSlugs, docLabels, type DocSlug} from "../../../../lib/docs";
+import CodeBlocks from "../../../../components/code-blocks";
+import DocsOutline from "../../../../components/docs-outline";
 import DocsNav from "../../../../components/docs-nav";
 
 export function generateStaticParams() { return locales.flatMap(locale => docSlugs.map(slug => ({locale, slug}))); }
@@ -23,7 +25,9 @@ export default function DocumentPage({params}: {params: {locale: string; slug: s
           <span className="separator" aria-hidden="true">/</span>
           <span aria-current="page">{docLabels[locale][slug]}</span>
         </nav>
+        <DocsOutline locale={locale} />
         <article className="docs-content content-rendered" dangerouslySetInnerHTML={{__html: contentHtml(locale, slug)}} />
+        <CodeBlocks />
       </div>
     </div>
   );

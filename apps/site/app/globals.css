@@ -155,6 +155,28 @@ button { cursor: pointer; }
 .content-rendered mark { background: #e7e6cc; color: inherit; padding-inline: .11em; }
 .content-rendered details { background: var(--surface); }
 
+/* ── 文件工具列與本頁索引 ── */
+.docs-outline { margin: 0 0 26px; }
+.docs-outline details { border-block: 1px solid var(--line); background: transparent; }
+.docs-outline summary { display: flex; justify-content: space-between; padding: 12px 0; color: var(--ink); font-size: .78rem; font-weight: 650; cursor: pointer; }
+.docs-outline ol { margin: 0; padding: 0 0 14px 1.2rem; color: var(--muted); font-size: .78rem; }
+.docs-outline li { padding: 3px 0; }
+.docs-outline .is-subsection { padding-left: .7rem; }
+.docs-outline a:hover { color: var(--ink); }
+.code-block { margin: 27px 0 37px; border: 1px solid var(--line); background: var(--code); }
+.code-block-toolbar { display: flex; justify-content: space-between; align-items: center; min-height: 38px; padding: 7px 12px; border-bottom: 1px solid #3a5144; color: var(--code-text); font: .7rem/1.4 var(--mono); }
+.code-copy { border: 1px solid #708477; border-radius: 2px; padding: 4px 9px; background: transparent; color: var(--code-text); font: inherit; cursor: pointer; }
+.code-copy:hover { background: #365342; }
+.code-block pre { margin: 0; border: 0; border-radius: 0; }
+.code-token-directive, .code-token-marker { color: #b7d2bd; }
+.code-token-tag { color: #b7d2bd; }
+.code-token-string { color: #d6c795; }
+.playground-actions { display: flex; align-items: center; gap: 16px; margin-top: 17px; }
+.draft-state { color: var(--muted); font-size: .76rem; }
+.reset-button { border: 1px solid var(--line); padding: 6px 11px; border-radius: 2px; background: transparent; color: var(--muted); font-size: .76rem; }
+.reset-button:hover { color: var(--ink); background: var(--accent-soft); }
+.preview-error { padding: 24px; color: var(--error); font-size: .88rem; }
+
 /* ── Playground ── */
 .playground { padding-block: 65px 114px; }
 .playground-heading { max-width: 780px; }
@@ -222,6 +244,9 @@ button { cursor: pointer; }
   .content-rendered h1 { font-size: clamp(2.1rem, 8vw, 2.95rem); }
   .content-rendered h2 { padding-top: 27px; margin-top: 55px; }
   .content-rendered pre { padding: 20px 18px; font-size: .77rem; }
+  .docs-outline { margin-bottom: 22px; }
+  .code-block { margin-block: 22px 30px; }
+  .playground-actions { align-items: flex-start; flex-direction: column; gap: 9px; }
   .content-rendered th, .content-rendered td { padding: 10px 12px; min-width: 85px; }
   .playground { padding-block: 44px 70px; }
   .playground-grid { grid-template-columns: 1fr; gap: 15px; margin-top: 27px; }

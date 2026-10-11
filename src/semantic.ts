@@ -6,6 +6,17 @@ import type {BlockNode, Diagnostic, Document, InlineNode} from "./types.js";
 
 export interface WorkspaceDocument { readonly path: string; readonly document: Pick<Document, "children">; }
 
+/** POSIX-style canonicalization without Node path imports (this module also runs in browsers). */
+function normalizeWorkspacePath(path: string): string {
+  const parts: string[] = [];
+  for (const part of path.replace(/\\/g, "/").split("/")) {
+    if (!part || part === ".") continue;
+    if (part === "..") { parts.pop(); continue; }
+    parts.push(part);
+  }
+  return parts.join("/");
+}
+
 // ── 文件層識別碼與參照 ──
 export function validateSemantics(document: Pick<Document, "children">): Diagnostic[] {
   const diagnostics: Diagnostic[] = [];
@@ -91,11 +102,14 @@ export function validateWorkspace(documents: readonly WorkspaceDocument[]): Diag
       if (node.type === "list") node.items.forEach(item => collectIds(path, item.children));
     }
   }
-  for (const entry of documents) collectIds(entry.path, entry.document.children);
+  for (const entry of documents) collectIds(normalizeWorkspacePath(entry.path), entry.document.children);
   const diagnostics: Diagnostic[] = [];
   for (const reference of references) {
     const hash = reference.node.target.lastIndexOf("#");
-    const targetPath = hash > 0 ? reference.node.target.slice(0, hash) : reference.path;
+    const rawPath = hash > 0 ? reference.node.target.slice(0, hash) : reference.path;
+    const targetPath = hash > 0 && /^\.{1,2}\//.test(rawPath)
+      ? normalizeWorkspacePath(reference.path.replace(/[^/]*$/, "") + rawPath)
+      : normalizeWorkspacePath(rawPath);
     const targetId = hash > 0 ? reference.node.target.slice(hash + 1) : reference.node.target;
     if (!idsByPath.get(targetPath)?.has(targetId)) {
       const p = reference.node.range.start;

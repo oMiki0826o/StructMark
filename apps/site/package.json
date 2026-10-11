@@ -1,11 +1,13 @@
 {
   "name": "structmark-site",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/fix-static-lang.mjs",
-    "start": "next start"
+    "start": "next start",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
   },
   "dependencies": {
     "next": "^14.2.30",

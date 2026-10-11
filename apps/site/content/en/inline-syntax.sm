@@ -1,0 +1,49 @@
+#1 Inline syntax
+
+Inline constructs describe meaning within a paragraph without introducing new block structure. StructMark uses `[content]` to make formatting boundaries explicit. The examples below use StructMark syntax, not another language's `@command` syntax.
+
+#2 Emphasis
+
+`*[content]` is strong emphasis, `/[content]` is italic emphasis and `/*[content]` combines both. The syntax supports nesting.
+
+```sm
+*[Important text]
+/[Secondary emphasis]
+/*[Bold and italic]
+*[Outer /[inner]]
+```
+
+#2 Text decoration
+
+Underline, deletion, highlight, superscript and subscript are separate constructs with different meanings.
+
+```sm
+-[Underline]
+~[Deleted text]
+=[Highlighted text]
+x^[2] + y^[2]
+H_[2]O
+```
+
+#2 Inline code and math
+
+Backticks preserve literal source. Math uses `$TeX$`; its typesetting depends on the renderer.
+
+```sm
+This is `*[not strong]` source code.
+Formula: $E=mc^2$
+```
+
+#2 Links, footnotes and references
+
+A link uses `[label](target)`. A semantic `&ref[id]` refers to an identified node and may require workspace validation.
+
+```sm
+[Home](https://example.com)
+Read &ref[intro] for details.
+Footnote[^note]
+```
+
+#2 Escaping and boundaries
+
+Pay attention to the context around reserved punctuation. Unclosed constructs should produce diagnostics rather than consume unrelated document content.

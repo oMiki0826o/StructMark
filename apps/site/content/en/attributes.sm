@@ -1,0 +1,41 @@
+#1 Attributes and IDs
+
+An `[attribute-list]` provides metadata to a node; it is not the same as a `[content]` span. Determine the construct from its leading marker and context before interpreting the brackets.
+
+#2 Named attributes
+
+Directive metadata uses `key=value`. Quote strings containing spaces. Whitespace between the directive name and attributes is optional.
+
+```sm
+&note[title="More details"]
+This directive has a title.
+&end
+
+&note [title="Equivalent spacing"]
+The space after the name is allowed.
+&end
+```
+
+#2 Boolean flags
+
+A flag such as `[typing]` is shorthand for a boolean true. The directive schema still determines whether a flag is supported.
+
+```sm
+&test[typing]
+An example test.
+&end
+```
+
+#2 Explicit IDs
+
+Headings can use a trailing `(#id)`. Identifiers use Unicode NFC normalization and must be unique within a document.
+
+```sm
+#2 Document structure (#structure)
+
+See &ref[structure] for details.
+```
+
+#2 Diagnostics
+
+Invalid attributes and duplicate IDs should generate source-located diagnostics. A converter must preserve or report changes to their meaning.

@@ -1,14 +1,37 @@
-import type { Locale } from "./content-types";
+/*
+ * File: docs.ts
+ * Modification: 2026-10-11 — 分開呈現語法類別、範例及 API。
+ */
+import type {Locale} from "./content-types";
 
-export const docSlugs = ["why-sm", "quick-start", "block-syntax", "api", "roadmap"] as const;
+export const docSlugs = [
+  "why-sm", "quick-start", "block-syntax", "inline-syntax", "directives",
+  "attributes", "tables", "math-references", "diagnostics", "examples", "api", "roadmap",
+] as const;
 export type DocSlug = (typeof docSlugs)[number];
 
 export const docLabels: Record<Locale, Record<DocSlug, string>> = {
-  "zh-tw": { "why-sm": "為什麼使用 .sm", "quick-start": "快速開始", "block-syntax": "語法規格", api: "TypeScript API", roadmap: "設計邊界與路線圖" },
-  en: { "why-sm": "Why .sm", "quick-start": "Quick start", "block-syntax": "Syntax reference", api: "TypeScript API", roadmap: "Boundaries & roadmap" },
+  "zh-tw": {
+    "why-sm": "為什麼使用 .sm", "quick-start": "快速開始", "block-syntax": "區塊語法",
+    "inline-syntax": "行內語法", directives: "語意指令", attributes: "屬性與 ID",
+    tables: "表格與資料", "math-references": "數學與參照", diagnostics: "診斷與錯誤", examples: "實際範例", api: "TypeScript API", roadmap: "設計邊界與路線圖",
+  },
+  en: {
+    "why-sm": "Why .sm", "quick-start": "Quick start", "block-syntax": "Block syntax",
+    "inline-syntax": "Inline syntax", directives: "Semantic directives", attributes: "Attributes & IDs",
+    tables: "Tables & data", "math-references": "Math & references", diagnostics: "Diagnostics", examples: "Examples", api: "TypeScript API", roadmap: "Boundaries & roadmap",
+  },
 };
 
-export const docGroups: Record<Locale, { title: string; slugs: DocSlug[] }[]> = {
-  "zh-tw": [{ title: "開始使用", slugs: ["why-sm", "quick-start"] }, { title: "語法規格", slugs: ["block-syntax"] }, { title: "整合", slugs: ["api", "roadmap"] }],
-  en: [{ title: "Get started", slugs: ["why-sm", "quick-start"] }, { title: "Syntax", slugs: ["block-syntax"] }, { title: "Integrate", slugs: ["api", "roadmap"] }],
+export const docGroups: Record<Locale, {title: string; slugs: DocSlug[]}[]> = {
+  "zh-tw": [
+    {title: "入門", slugs: ["why-sm", "quick-start"]},
+    {title: "語法參考", slugs: ["block-syntax", "inline-syntax", "directives", "attributes", "tables", "math-references"]},
+    {title: "示例與開發", slugs: ["diagnostics", "examples", "api", "roadmap"]},
+  ],
+  en: [
+    {title: "Introduction", slugs: ["why-sm", "quick-start"]},
+    {title: "Syntax reference", slugs: ["block-syntax", "inline-syntax", "directives", "attributes", "tables", "math-references"]},
+    {title: "Examples & development", slugs: ["diagnostics", "examples", "api", "roadmap"]},
+  ],
 };

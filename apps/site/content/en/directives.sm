@@ -1,0 +1,55 @@
+#1 Semantic directives
+
+Directives express the purpose of content rather than demanding a particular visual layout. Block directives start with `&name` and end with `&end`. Official aliases such as `&n`, `&w` and `&e` are supported. This is not the same grammar as @Doc's `@note[...]`.
+
+#2 Note — context
+
+Notes are suitable for supplementary information and context, presented with a restrained accent.
+
+```sm
+&note[title="Further reading"]
+This is supplementary information.
+&end
+```
+
+&note[title="Further reading"]
+This is supplementary information.
+&end
+
+#2 Tip — suggestions
+
+Tips use a separate, low-saturation accent so readers can identify them quickly.
+
+```sm
+&tip
+Check diagnostics before exporting HTML.
+&end
+```
+
+&tip
+Check diagnostics before exporting HTML.
+&end
+
+#2 Warning — caution
+
+Warnings communicate consequences or risks, without filling the page with saturated colors.
+
+```sm
+&warning
+Check whether a conversion will discard semantics.
+&end
+```
+
+&warning
+Check whether a conversion will discard semantics.
+&end
+
+#2 Aliases and unknown directives
+
+Official aliases are explicit registry entries. Arbitrary abbreviations are not automatically inferred.
+
+```sm
+&n[title="Alias"]
+Equivalent to &note.
+&e
+```

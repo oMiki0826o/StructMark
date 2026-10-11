@@ -1,0 +1,51 @@
+#1 Diagnostics and errors
+
+StructMark attaches source locations and diagnostics to the AST. Each diagnostic has a code, severity, message, line, and column so tools can report the cause rather than silently discard invalid content.
+
+#2 Diagnostic structure
+
+Read `document.diagnostics` and use workspace validation where cross-file references are involved. An empty HTML string is not a reliable validity signal.
+
+```typescript
+import {parseDocument, validateWorkspace} from "structmark-language-core";
+
+const document = parseDocument(source);
+for (const issue of document.diagnostics) {
+  console.log(issue.code, issue.severity, issue.position.line, issue.message);
+}
+```
+
+#2 Syntax diagnostics
+
+Unterminated blocks and inline markers, unknown directives, and invalid attributes should produce diagnostics. The parser does not execute embedded scripts or treat raw HTML input as trusted markup.
+
+```sm
+&note[title="Unclosed block"]
+This block has no terminator.
+```
+
+#2 Semantic diagnostics
+
+Missing targets and duplicated IDs can be detected in a single document. Cross-file references must be checked in the workspace pass.
+
+```sm
+#2 Introduction (#intro)
+
+See &ref[missing] for details.
+```
+
+#2 Lossy conversions
+
+Not all StructMark semantics have Markdown equivalents. Use `toMarkdownDetailed()` to inspect diagnostics alongside the exported text. Highlights and underlines may report the `SMK-C002` degradation warning.
+
+```typescript
+import {parseDocument, toMarkdownDetailed} from "structmark-language-core";
+
+const result = toMarkdownDetailed(parseDocument("=[important]"));
+console.log(result.source);
+console.log(result.diagnostics);
+```
+
+#2 Testing
+
+`npm test`, `npm run fuzz`, and large-document tests cover core paths. The fuzz smoke test does not guarantee complete security or cross-browser coverage.

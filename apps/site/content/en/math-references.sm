@@ -1,0 +1,59 @@
+#1 Math and references
+
+StructMark treats mathematics and document references as distinct semantic structures. Formulas, heading identifiers, footnotes and external links should not be conflated. This page describes the 1.1 subset; complete LaTeX and CSL style compatibility are not promised.
+
+#2 Inline math and scripts
+
+`$...$` preserves TeX source. `^[...]` and `_[...]` are StructMark's own superscript and subscript syntax. KaTeX rendering is opt-in and only supports the TeX constructs handled by that engine.
+
+```sm
+Use x^[2] for superscript and H_[2]O for subscript.
+
+Formula: $E=mc^2$
+```
+
+#2 Display math
+
+Place `$$` on separate lines around a display formula. The `&equation` raw directive supports an optional identifier; inline formatting is not interpreted inside the raw body.
+
+```sm
+$$
+E = mc^2
+$$
+
+&equation[#energy]
+E = mc^2
+&end
+```
+
+#2 Headings and IDs
+
+Add `(#id)` at the end of a heading. Use `&ref[id]` to reference a heading. Optional numbering can label headings, figures, tables, and equations.
+
+```sm
+#2 Processing pipeline (#pipeline)
+
+Read &ref[pipeline] for more details.
+```
+
+#2 Cross-document references
+
+Use `path.sm#id` and the workspace validation API; the parser cannot verify missing files in isolation. Explicit `./` and `../` paths make relative intent unambiguous.
+
+```sm
+See &ref[./reference.sm#definition].
+
+Also see &ref[../overview.sm#intro].
+```
+
+#2 Footnotes and citations
+
+Footnotes use `[^id]`; references to literature use `[&key]`. BibTeX and CSL JSON ingestion are available, but the built-in author-year, APA, and IEEE profiles are simplified deterministic formatters rather than complete citation style engines.
+
+```sm
+A footnote[^note] appears here.
+
+See also [&smith2024].
+
+[^note]: The footnote definition.
+```

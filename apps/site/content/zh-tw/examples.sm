@@ -1,0 +1,47 @@
+#1 範例與輸出比較
+
+每個範例都標示來源語言，方便比較 `.sm` 原始碼、HTML 輸出和資料結構。範例不應使用與 StructMark 不同的 `@[]` 語法，以免誤導讀者。
+
+#2 從 `.sm` 到 HTML
+
+```sm
+#1 Hello (#hello)
+
+這是一份 *[有結構] 的文件。
+```
+
+```html
+<h1 id="hello">Hello</h1>
+<p>這是一份 <strong>有結構</strong> 的文件。</p>
+```
+
+#2 不同區塊的用途
+
+```sm
+&note[title="說明"]
+補充背景資訊。
+&end
+
+&warning[title="警告"]
+可能影響轉換結果。
+&end
+```
+
+#2 TypeScript API
+
+```typescript
+import {parseDocument, renderHtml} from "structmark-language-core";
+
+const source = "#1 Hello\n\n*[Strong] text.";
+const document = parseDocument(source);
+const html = renderHtml(document);
+```
+
+#2 檢查語法錯誤
+
+剖析結果包含可定位的 diagnostics。當輸入無效時，應讓使用者知道來源行號與代碼，而不是只顯示空白預覽。
+
+```sm
+&note[title="尚未結束"]
+這個區塊缺少 &end。
+```

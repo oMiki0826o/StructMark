@@ -1,0 +1,44 @@
+#1 Tables and structured data
+
+Tables are block nodes rather than inline formatting. StructMark separates simple pipe tables from CSV, TSV and JSON structured tables.
+
+#2 Simple tables
+
+Pipe tables define their header and separator row explicitly. Pipes within inline code require appropriate parsing.
+
+```sm
+| Syntax | Category |
+| --- | --- |
+| *[Strong] | Inline |
+| &note | Directive |
+```
+
+| Syntax | Category |
+| --- | --- |
+| *[Strong] | Inline |
+| &note | Directive |
+
+#2 CSV and TSV
+
+The explicit `format` attribute selects the parser. Invalid column counts should produce diagnostics.
+
+```sm
+&table[format=csv]
+Name,Version
+StructMark,1.1
+&end
+```
+
+#2 JSON structured tables
+
+Use structured data for spans and grid occupancy; invalid spans, overlaps and missing cells should be diagnosed.
+
+```sm
+&table[format=json]
+{"columns":["Name","Version"],"rows":[["StructMark","1.1"]]}
+&end
+```
+
+#2 Markdown conversion
+
+Markdown supports only a compatible subset. Pipe characters, multiline cells and unsupported semantics require care during export.

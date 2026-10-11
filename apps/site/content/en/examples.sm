@@ -1,0 +1,47 @@
+#1 Examples and output
+
+Each example labels its source language to clarify the difference between `.sm` input, HTML output and structured data. The examples use StructMark's grammar, not an unrelated `@[]` format.
+
+#2 From `.sm` to HTML
+
+```sm
+#1 Hello (#hello)
+
+This is a *[structured] document.
+```
+
+```html
+<h1 id="hello">Hello</h1>
+<p>This is a <strong>structured</strong> document.</p>
+```
+
+#2 What semantic blocks mean
+
+```sm
+&note[title="Note"]
+Additional context.
+&end
+
+&warning[title="Warning"]
+Conversion may affect the result.
+&end
+```
+
+#2 TypeScript API
+
+```typescript
+import {parseDocument, renderHtml} from "structmark-language-core";
+
+const source = "#1 Hello\n\n*[Strong] text.";
+const document = parseDocument(source);
+const html = renderHtml(document);
+```
+
+#2 Syntax diagnostics
+
+The parsed result contains source-located diagnostics. Invalid input should show the offending line and code rather than an empty preview.
+
+```sm
+&note[title="Not closed"]
+Missing closing directive.
+```

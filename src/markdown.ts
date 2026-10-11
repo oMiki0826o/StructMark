@@ -80,7 +80,11 @@ function backtickFence(raw: string, minimum = 3): string {
   const runs = raw.match(/`+/g) ?? [];
   return "`".repeat(Math.max(minimum, ...runs.map(part => part.length + 1)));
 }
-function inline(nodes: InlineNode[]): string {
+/** Escape table delimiters after inline serialization (including code spans). */
+    function escapeMarkdownTableCell(value: string): string {
+      return value.replace(/\|/g, "\\|").replace(/\r?\n/g, "<br>");
+    }
+    function inline(nodes: InlineNode[]): string {
   return nodes.map(node => {
     switch (node.type) {
       case "text": return node.value;
@@ -140,9 +144,9 @@ export function toMarkdownDetailed(document: Pick<Document, "children">): Markdo
         return `${marker} ${label.replace(/\n/g, `\n${continuation}`)}`;
       }).join("\n");
       case "table": return [
-        `| ${node.header.map(inline).join(" | ")} |`,
+        `| ${node.header.map(cell => escapeMarkdownTableCell(inline(cell))).join(" | ")} |`,
         `| ${node.header.map(() => "---").join(" | ")} |`,
-        ...node.rows.map(row => `| ${row.map(inline).join(" | ")} |`),
+        ...node.rows.map(row => `| ${row.map(cell => escapeMarkdownTableCell(inline(cell))).join(" | ")} |`),
       ].join("\n");
       case "footnoteDef": return `[^${node.id}]: ${inline(node.children)}`;
       case "commentBlock": return "";
@@ -164,6 +168,34 @@ export function toMarkdownDetailed(document: Pick<Document, "children">): Markdo
       }
     }
   }
+  // Preserve the exported Markdown but report semantics that are not native Markdown.
+  // Diagnostics intentionally use AST source ranges, not positions in exported text.
+  function inspectInlineLoss(nodes: readonly InlineNode[]): void {
+    for (const node of nodes) {
+      if (node.type === "highlight" || node.type === "underline") {
+        diagnostics.push({
+          code: "SMK-C002", severity: "warning",
+          message: `Markdown 無法完整保留 ${node.type} 行內語義`,
+          position: node.range.start,
+        });
+      }
+      if ("children" in node) inspectInlineLoss(node.children);
+      if ("label" in node && Array.isArray(node.label)) inspectInlineLoss(node.label);
+    }
+  }
+  function inspectBlockLoss(node: BlockNode): void {
+    if (node.type === "heading" || node.type === "paragraph" || node.type === "footnoteDef") {
+      inspectInlineLoss(node.children);
+    } else if (node.type === "table") {
+      node.header.forEach(inspectInlineLoss);
+      node.rows.forEach(row => row.forEach(inspectInlineLoss));
+    } else if (node.type === "blockquote" || node.type === "directive") {
+      node.children.forEach(inspectBlockLoss);
+    } else if (node.type === "list") {
+      node.items.forEach(item => item.children.forEach(inspectBlockLoss));
+    }
+  }
+  document.children.forEach(inspectBlockLoss);
   const blocks = document.children.map(block).filter(Boolean);
   return {source: blocks.length ? blocks.join("\n\n") + "\n" : "", diagnostics};
 }
