@@ -1,0 +1,161 @@
+---
+title: StructMark syntax specimen
+lang: zh-TW
+version: 1.0
+---
+
+#1 StructMark 語法總覽
+
+這是一份用來測試 StructMark 核心語法的完整文件。它包含行內語法、區塊語法、資料區塊、參照與註解。
+
+#2 文字格式 (#format)
+
+*[粗體]
+
+/[斜體]
+
+/*[粗斜體]
+
+-[底線]
+
+~[刪除線]
+
+=[螢光標記]
+
+行內語法也可以放在段落中: *[粗體]、/[斜體]、^[上標]、_[下標]。
+
+#2 數學
+
+x^[2]
+
+H_[2]O
+
+$E=mc^[2]$
+
+$$
+E = mc^2
+$$
+
+&equation[#eq:energy]
+E = mc^2
+&e
+
+#2 清單
+
+- Apple
+- Banana
+
+. 第一項
+. 第二項
+
+1. 指定第一項
+2. 指定第二項
+
+- [o] 已完成
+- [ ] 未完成
+
+#2 連結與圖片
+
+[GitHub](https://github.com)
+
+&figure[#fig:m42]
+![M42 星雲](m42.jpg)[width=600]
+&end
+
+參考 &ref[fig:m42]。
+
+#2 行內指令
+
+按下 &kbd[Ctrl+C] 複製。
+
+HTML 是 &abbr[HTML][title="HyperText Markup Language"]。
+
+這是 &term[Lexer]、變數 &var[x]、語言 &lang[日本語][code=ja]。
+
+#2 提示區塊
+
+&note[title="補充資訊"]
+這是一段補充說明。
+&end
+
+&n[title="簡化提示"]
+這是 `&note` 的簡化寫法。
+&e
+
+&tip
+這是一段提示。
+&end
+
+&warning
+這是一段警告。
+&end
+
+&important
+這是一段重要資訊。
+&end
+
+&test[typing=true]
+這是一段測試內容。
+&end
+
+#2 表格
+
+| Name | Version |
+| --- | --- |
+| StructMark | 1.0 |
+
+#2 結構化表格
+
+&table[format=csv]
+Name,Version
+StructMark,1.0
+&end
+
+&table[format=tsv]
+Name	Version
+StructMark	1.0
+&end
+
+&table[format=json]
+{"columns":["Name","Version"],"rows":[["StructMark","1.0"]]}
+&end
+
+#2 原始資料
+
+&data[format=json]
+{"name":"StructMark","version":"1.0"}
+&end
+
+&raw
+這裡的 *[標記]、&note 和 &end 都保留為原始文字。
+&end
+
+#2 程式碼
+
+```python
+print("Hello World")
+```
+
+#2 引用
+
+> 這是一段引用文字。
+
+#2 學術引用
+
+相關研究參考 [&smith2024]。
+
+多筆引用 [&smith2024; &jones2023]。
+
+#2 註腳
+
+這是一段帶有註腳的文字[^intro]。
+
+[^intro]: 這是註腳內容。
+
+#2 註解
+
+%%這段內容不會呈現在輸出文件中%%
+
+---
+
+文件結束。
