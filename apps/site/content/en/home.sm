@@ -22,7 +22,7 @@ Describe content with a clear syntax, then let the lexer, parser, AST, and rende
 
 An `.sm` file is plain text: it belongs in Git, produces readable diffs, works in a terminal, and can be passed directly to the TypeScript API. Unlike Markdown, where meaning is often inferred from formatting conventions, StructMark produces an inspectable AST so sites, indexers, converters, and future editors can share the same language core.
 
-&note[title="From text to structure" tone="dark"]
+&note[title="From text to structure"]
 Source → Lexer → AST → diagnostics → safe HTML. Each layer can be tested and replaced independently.
 &end
 

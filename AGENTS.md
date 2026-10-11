@@ -1,19 +1,21 @@
-# StructMark Language Core Project Rules
+# StructMark Development Guide
 
-## Scope
+StructMark includes a TypeScript **language core** and an independent Next.js **documentation/Playground site** in `apps/site`. Keep the core deterministic and usable without any browser or Node filesystem dependency; the site must import public core APIs instead of reimplementing grammar rules.
 
-- This repository contains the StructMark language core only.
-- Do not add an editor, GUI, MikiEdit integration, or unrelated application code.
-- Keep the public language API deterministic and preserve source ranges and diagnostics.
+## Development constraints
 
-## Required validation
+- The source file extension is `.sm`; language AST compatibility is currently `1.1`, independent of the npm release number (`1.3.0`).
+- Do not add an unrelated desktop editor, backend service, or AI-generated decorative illustration.
+- Keep Source Range and Diagnostic semantics stable; do not execute untrusted source as HTML.
+- New conversion behaviors should have regression tests, especially for lossy Markdown conversions.
+- Use actual `.sm` content as the canonical website docs source.
 
-From this directory, run:
+## Validation
 
 ```bash
-npm run check
-python3 ../AI-Development-Governance/scripts/validate.py
-python3 -m py_compile ../AI-Development-Governance/scripts/*.py
+npm ci && npm test && npm run fuzz && npm run benchmark:perf
+cd apps/site
+npm ci && npm test && npm run build
 ```
 
-Changes to syntax, AST, diagnostics, public APIs, dependencies, or release metadata must update the relevant README and `docs/` files in the same change.
+Run `python3 scripts/browser_smoke.py --base-url ...` against the served Next.js static output when Chromium and Playwright are available. Changes to language syntax, public APIs, diagnostics, dependencies, or versions require updating `README.md`, `docs/` and relevant tests.

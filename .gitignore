@@ -19,3 +19,7 @@ apps/site/out/
 npm-debug.log*
 dist/
 coverage/
+apps/site/.smoke-public/
+
+# --- Generated website documentation exports ---
+docs/generated-site/

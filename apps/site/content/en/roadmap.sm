@@ -6,7 +6,7 @@
 - UTF-16, original-source, and UTF-8 byte offset mappings.
 - Diagnostics, registries, custom directives, and attribute validation.
 - HTML rendering, AST serialization, and structured tables.
-- 133 language-core tests.
+- automated core regression tests.
 - The official `.sm` extension, `&` directives, short aliases, attributes, diagnostic codes, and the V1.1 compatibility rules.
 - YAML 1.2, BibTeX/CSL JSON data APIs, opt-in KaTeX, numbering, the documented Markdown common subset, the formatter, workspace validation, performance, and fuzz tests.
 
@@ -17,3 +17,15 @@ StructMark is not a programming language: there are no variables, conditionals, 
 #2 Next directions
 
 Language-server support, more renderers, document indexing, packaged registries, and a fuller tooling ecosystem will follow real usage rather than assumptions.
+
+#2 v1.2–v1.3 tools now available
+
+The language core has a CLI for checking, converting, and validating `.sm` workspaces plus an AST Visitor API. Playground offers example presets and AST JSON, while the docs can be searched locally. These are tooling improvements, not changes to the stable v1.1 syntax contract.
+
+#2 Standards outside this release
+
+Full CSL styles, LaTeX macros, complete CommonMark/GFM compatibility and incremental parsing remain out of scope. The documented subsets should not be mistaken for full standards compliance.
+
+#2 v1.5 tooling improvements
+
+Workspace indexing now exposes referring-file diagnostics and reference targets. Playground offers a collapsible AST Tree with source-range selection. CLI file replacement and strict conversion are safer. A lossless AST writer, incremental parsing, and full CSL remain outside this release.

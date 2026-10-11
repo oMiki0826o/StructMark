@@ -1,3 +1,9 @@
+## v1.5.0 — 2026-10-11
+
+本次更新著重可維護性與開發工具。CLI 的來源覆寫新增同目錄原子替換流程及權限模式保留；跨文件參照診斷會攜帶來源檔案；新增 `buildWorkspaceIndex()` 索引 API，供文件工具理解來源、ID 與連結。Playground 新增 AST Tree 與選取來源範圍。Markdown 匯出會明確報告更多語義遺失案例，嚴格轉換模式不會在發生診斷時建立輸出。中英文網站 `.sm` 文件新增自動化驗證。
+
+本版不更改穩定語法及 AST `version: "1.1"`。完整版 CommonMark/GFM、CSL、LaTeX、增量解析、AST 無損 Writer 仍是獨立議題。
+
 # 語言核心版本變更紀錄
 
 ## V1.1.1 — 2026-10-11
@@ -59,3 +65,17 @@
 ## V0.3 — 2026-10-10
 
 完成 `&` 指令基本原型、Compact 行內語法、標題 `(#id)`、三種資料表格輸入、Metadata 簡化解析、HTML Renderer 及初步診斷。
+
+## V1.3.0 — 2026-10-11
+
+- 新增 CLI `check`、`render`、`ast`、`convert`、`format`、`workspace`，含非破壞性寫入與退出碼。
+- `visitAst()` 支援讀取完整語法樹與巢狀節點，加入雙語 Playground AST JSON。
+- 工作區參照統一為從來源檔案目錄解析的相對 `.sm#id` 位置，禁止越界。
+- 文件網站加入無後端雙語搜尋、語法範例導入 Playground。
+- Markdown 匯入增加可輸出的轉換後 `.sm` 文字 API；匯出對無損轉換失敗的行內語義輸出警告。
+- 增加 CLI、Visitor、文件搜尋、範例目錄與跨文件參照的測試。
+
+## V1.2.0 — 2026-10-11
+
+- 建立 AST Visitor、CLI 基礎、Playground 範例集與 AST 檢視設計。
+- 保留原有 v1.1 相容語法，不改變核心 AST 文件版本值。

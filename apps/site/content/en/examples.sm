@@ -45,3 +45,17 @@ The parsed result contains source-located diagnostics. Invalid input should show
 &note[title="Not closed"]
 Missing closing directive.
 ```
+
+#2 Try in Playground
+
+Open `.sm` examples directly in Playground. Existing drafts are confirmed before replacement.
+
+```sm
+#1 Text and meaning
+
+*[Bold] and /[italic].
+
+&note[title="Note"]
+This is a semantic directive, not merely a color.
+&end
+```

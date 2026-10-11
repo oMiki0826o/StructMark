@@ -278,3 +278,60 @@ button { cursor: pointer; }
   .feature-grid.content-rendered .directive-note { padding: 22px 0; }
   .feature-grid.content-rendered .directive-note + .directive-note { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; }
 }
+
+/* ── v1.3 離線文件搜尋 ── */
+.docs-search { margin: 0 0 26px; max-width: 700px; }
+.docs-search-label { display: block; margin-bottom: 8px; font-size: .74rem; font-weight: 650; color: var(--muted); }
+.docs-search-field { display:flex; align-items:center; border: 1px solid var(--line); background: var(--surface); border-radius:2px; padding:0 13px 0 15px; }
+.docs-search-field:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.docs-search-field input { display: block; min-width: 0; flex:1; padding: 11px 0; border:0; outline:0; color:var(--ink); background:transparent; font-size:.85rem; }
+.docs-search-field span { color: var(--muted); font-size: .75rem; }
+.docs-search-results { border:1px solid var(--line); background:var(--surface); border-top:0; padding: 5px 0; }
+.docs-search-results ul { margin:0; padding:0; list-style:none; }
+.docs-search-results a { display:flex; gap: 12px; justify-content:space-between; align-items:baseline; padding: 10px 15px; color:var(--ink); text-decoration:none; font-size:.86rem; }
+.docs-search-results a:hover, .docs-search-results a:focus-visible { background:var(--accent-soft); }
+.docs-search-results small { color:var(--muted); font-size:.7rem; text-align:right; }
+.docs-search-results p { padding: 10px 15px; margin:0; color:var(--muted); font-size:.8rem; }
+
+/* ── Playground 範例、分頁與 AST ── */
+.playground-presets { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:25px; }
+.playground-presets label { font-size:.76rem; color:var(--muted); }
+.playground-presets select { appearance:auto; max-width:100%; min-height:40px; border:1px solid var(--line); border-radius:2px; padding:6px 12px; background:var(--surface); color:var(--ink); font-size:.82rem; }
+.panel-tabs { display:flex; align-items:stretch; gap:0; }
+.panel-tabs button { color:var(--muted); background:transparent; border:0; border-bottom:2px solid transparent; padding:10px 15px; font-size:.8rem; }
+.panel-tabs button[aria-selected="true"] { color:var(--ink); border-bottom-color:var(--accent); font-weight:650; }
+.panel-tabs button:hover { color:var(--ink); }
+.ast-output { min-height:480px; max-height:720px; padding:22px; margin:0; color:var(--code-text); background:var(--code); overflow:auto; font: .79rem/1.8 var(--mono); scrollbar-width:thin; white-space:pre; }
+.diagnostic button { text-align:left; background:transparent; border:0; padding:3px 0; color:var(--error); font-size:inherit; line-height:1.7; }
+.diagnostic button:hover { text-decoration:underline; }
+.playground-stat { color:var(--muted); font-size:.74rem; }
+@media (max-width:760px) { .docs-search-results a { flex-direction:column; align-items:start; gap:2px; } .ast-output { min-height:260px; font-size:.71rem; } .playground-presets { align-items:start; flex-direction:column; } }
+/* ── 文件可互動範例 ── */
+.code-try { margin-left:auto; font-size:.72rem; padding:5px 9px; border:1px solid #708477; border-radius:2px; background:transparent; color:var(--code-text); }
+.code-try:hover { background:#365342; }
+@media (max-width:440px) { .code-try { font-size:.67rem; padding:4px 5px; } }
+
+/* ── 行動版中英首頁標題：確保完整單行、避免右側溢出 ── */
+@media (max-width: 540px) {
+  .content-rendered.hero-copy h1 {
+    font-size: clamp(1.7rem, 7.8vw, 2.65rem);
+    letter-spacing: -.035em;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+}
+
+/* ── AST Tree：以排版區分節點，而非裝飾 ── */
+.ast-tree {padding:16px 21px 24px;overflow:auto;max-height:650px;min-height:360px;background:var(--surface);font-size:.82rem;line-height:1.65;}
+.ast-tree-hint {margin:0 0 18px;color:var(--muted);font-size:.78rem;}
+.ast-tree ul {list-style:none;padding:0 0 0 19px;margin:0;border-left:1px solid var(--line);}
+.ast-tree > ul {padding:0;border-left:0;}
+.ast-tree-item {margin:3px 0;min-width:0;}
+.ast-tree-item summary,.ast-tree-leaf {width:100%;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;padding:4px 8px;border:0;background:transparent;color:var(--ink);text-align:left;font:inherit;cursor:pointer;}
+.ast-tree-item summary {display:list-item;list-style:disclosure-closed inside;}
+.ast-tree-item details[open] > summary {list-style:disclosure-open inside;}
+.ast-tree-item summary:hover,.ast-tree-leaf:hover:not(:disabled) {background:var(--accent-soft);}
+.ast-tree-leaf:disabled {cursor:default;color:var(--muted);}
+.ast-tree-kind {font-weight:620;}
+.ast-tree-detail {color:var(--muted);font-family:var(--mono);font-size:.74rem;overflow-wrap:anywhere;}
+@media(max-width:760px){.ast-tree{padding:14px 12px;max-height:470px;}.ast-tree ul{padding-left:12px;}}

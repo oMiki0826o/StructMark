@@ -10,11 +10,31 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - run: python -m pip install --disable-pip-version-check tiktoken
       - run: npm test
+      - run: npm run docs:check
       - run: npm run fuzz
+      - run: npm run benchmark:perf
       - run: python benchmark/tokens.py --require-tokenizer
+
+  compatibility:
+    name: Core (${{ matrix.os }}, Node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        node: ['22']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run docs:check

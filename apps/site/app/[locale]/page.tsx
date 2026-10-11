@@ -3,7 +3,7 @@
  * Modification: 2026-10-11 — 保留 .sm 來源內容的極簡首頁。
  */
 import Link from "next/link";
-import {contentHtml, copy} from "../../lib/content";
+import {homeHtmlSections, copy} from "../../lib/content";
 import {isLocale, locales, type Locale} from "../../lib/content-types";
 
 export function generateStaticParams() { return locales.map(locale => ({locale})); }
@@ -11,12 +11,7 @@ export function generateStaticParams() { return locales.map(locale => ({locale})
 export default function LocaleHome({params}: {params: {locale: string}}) {
   const locale: Locale = isLocale(params.locale) ? params.locale : "zh-tw";
   const text = copy[locale];
-  const html = contentHtml(locale, "home");
-  // ── 原始文稿的前三個 note 是語言特性，不建立另一套內容來源 ──
-  const sections = html.split(/(?=<aside class="directive directive-note")/);
-  const intro = sections[0] ?? "";
-  const features = sections.slice(1, 4).join("");
-  const rest = sections.slice(4).join("");
+  const {intro,features,rest} = homeHtmlSections(locale);
   const english = locale === "en";
 
   return (
@@ -31,7 +26,7 @@ export default function LocaleHome({params}: {params: {locale: string}}) {
           </div>
         </div>
         <figure className="specimen">
-          <figcaption><span>example.sm</span><span>v1.1</span></figcaption>
+          <figcaption><span>example.sm</span><span>v1.5</span></figcaption>
           <pre><code>{english ? `#1 A simple document\n\nThis is a paragraph.\n\n*[Structure] makes text clear.\n\n&note[title="Note"]\nContent stays readable.\n&end` : `#1 一份簡單的文件\n\n這是一段普通文字。\n\n*[結構]，讓文字更清楚。\n\n&note[title="提示"]\n內容保持可讀。\n&end`}</code></pre>
         </figure>
       </section>

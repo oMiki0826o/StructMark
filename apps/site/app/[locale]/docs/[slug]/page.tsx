@@ -9,6 +9,8 @@ import {docSlugs, docLabels, type DocSlug} from "../../../../lib/docs";
 import CodeBlocks from "../../../../components/code-blocks";
 import DocsOutline from "../../../../components/docs-outline";
 import DocsNav from "../../../../components/docs-nav";
+import DocsSearch from "../../../../components/docs-search";
+import {createSearchEntries} from "../../../../lib/search-data";
 
 export function generateStaticParams() { return locales.flatMap(locale => docSlugs.map(slug => ({locale, slug}))); }
 
@@ -25,6 +27,7 @@ export default function DocumentPage({params}: {params: {locale: string; slug: s
           <span className="separator" aria-hidden="true">/</span>
           <span aria-current="page">{docLabels[locale][slug]}</span>
         </nav>
+        <DocsSearch locale={locale} entries={createSearchEntries(locale)} />
         <DocsOutline locale={locale} />
         <article className="docs-content content-rendered" dangerouslySetInnerHTML={{__html: contentHtml(locale, slug)}} />
         <CodeBlocks />

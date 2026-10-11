@@ -22,7 +22,7 @@ StructMark 是一套確定性的結構化標記語言核心，專為文件、資
 
 `.sm` 檔案是純文字，可以放進 Git、審查差異、在終端機編輯，也可以直接交給 TypeScript API。不同於只把格式當成提示的 Markdown，StructMark 會建立可檢查的 AST，讓網站、索引器、轉換器與未來的編輯器共享同一份語言核心。
 
-&note[title="從文字到結構" tone="dark"]
+&note[title="從文字到結構"]
 來源文字 → Lexer → AST → diagnostics → 安全 HTML。每一層都可以獨立測試與替換。
 &end
 

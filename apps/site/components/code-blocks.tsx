@@ -91,7 +91,24 @@ export default function CodeBlocks(): null {
         }
       }, {signal: controller.signal});
       highlight(code, language);
-      toolbar.append(label, button);
+      toolbar.append(label);
+      if (language === "sm") {
+        const tryButton = document.createElement("button");
+        tryButton.type = "button";
+        tryButton.className = "code-try";
+        tryButton.textContent = english ? "Try in Playground" : "在 Playground 試用";
+        tryButton.addEventListener("click", () => {
+          try {
+            window.sessionStorage.setItem("structmark.playground.pending.v1", source);
+            const next = window.location.pathname.replace(/\/docs(?:\/.*)?\/?$/, "/playground/");
+            window.location.assign(next);
+          } catch {
+            tryButton.textContent = english ? "Unavailable" : "目前無法載入";
+          }
+        }, {signal: controller.signal});
+        toolbar.append(tryButton);
+      }
+      toolbar.append(button);
       pre.before(wrapper);
       wrapper.append(toolbar, pre);
       decorated.push({wrapper, pre, code, source});

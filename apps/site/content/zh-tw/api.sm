@@ -46,3 +46,40 @@ const numberedHtml = renderHtml(document, { numbering: true });
 #2 安全邊界
 
 Parser 不執行 raw、data 或 code 內容，不存取網路與檔案。HTML renderer 只輸出允許的標籤與屬性，外部網址也會先驗證。
+
+#2 v1.3 AST Visitor 與 CLI
+
+利用 `visitAst` 可以在不更動原始 AST 的情況下巡訪所有節點，`enter` 回傳 false 可略過子樹。
+
+```typescript
+import {parseDocument, visitAst} from "structmark-language-core";
+const doc = parseDocument("#1 標題");
+visitAst(doc, {enter(node) { console.log(node.type); }});
+```
+
+若需要對多份 `.sm` 驗證參照，可使用終端機指令。預設唯讀，文件轉換寫入新檔時使用 `--output`。
+
+```bash
+structmark check examples/spec-sample.sm
+structmark workspace examples
+structmark render examples/spec-sample.sm --output preview.html
+```
+
+#2 v1.5 工作區索引與參照診斷
+
+`buildWorkspaceIndex` 接受相對工作區路徑與 AST，回傳文件清單、每份文件的 ID、跨文件參照及附來源檔案的診斷資訊。
+
+```typescript
+import {parseDocument, buildWorkspaceIndex} from "structmark-language-core";
+const index = buildWorkspaceIndex([
+  {path: "guide/intro.sm", document: parseDocument("&ref[../index.sm#home]")},
+  {path: "index.sm", document: parseDocument("#1 首頁 (#home)")},
+]);
+console.log(index.references, index.diagnostics);
+```
+
+`validateWorkspace` 仍維持舊版的 Diagnostics API；需要知道是哪一份檔案產生參照錯誤時改用 `buildWorkspaceIndex`。
+
+#2 AST Tree
+
+Playground 的 AST 樹狀檢視可展開節點並選取其來源範圍。它使用既有 AST，並不新增第二套 Parser，也不改變既有 `Document.version`。

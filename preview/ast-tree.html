@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>StructMark · AST Tree 靜態預覽</title><link rel="stylesheet" href="../apps/site/app/globals.css"><style>
+.preview-header{padding:20px max(18px, calc((100vw - 1160px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}.preview-brand{font:600 1.4rem var(--serif);color:var(--ink)}.preview-note{font-size:.7rem;color:var(--muted)}.ast-tree ul{list-style:none}.ast-tree .ast-tree-item summary{cursor:pointer}.preview .content-rendered h1{margin:0}
+</style></head><body>
+<header class="preview-header"><span class="preview-brand">StructMark</span><span class="preview-note">AST Tree · 靜態排版參考（非互動網站）</span></header>
+<main class="container playground"><div class="playground-heading"><span class="eyebrow">語言核心 · Playground</span><h1>Playground</h1><p class="lead">從原始碼到 AST，清楚觀察每一個語法節點。</p></div>
+<div class="playground-grid"><section class="editor-panel"><div class="panel-label"><span>來源 · .sm</span><span class="panel-meta">UTF-8</span></div><textarea class="editor" spellcheck="false" aria-label="來源" readonly>#1 我的第一份文件
+
+這是一段 *[重要文字]。
+
+- 文字保留結構
+- 參照也可以驗證
+
+&note[title="注意"]
+屬性與指令會形成 AST。
+&end</textarea></section>
+<section class="editor-panel"><div class="panel-label"><div class="panel-tabs" aria-label="輸出模式"><button type="button">HTML 預覽</button><button type="button" aria-selected="true">AST 樹狀圖</button><button type="button">AST JSON</button></div><span class="panel-meta">TREE</span></div>
+<div class="ast-tree"><p class="ast-tree-hint">點選節點可標示對應原始碼，也能展開或收合分支。</p>
+<ul><li class="ast-tree-item"><details open><summary><span class="ast-tree-kind">Document</span> <span class="ast-tree-detail">AST v1.1</span></summary><ul>
+<li class="ast-tree-item"><details open><summary><span class="ast-tree-kind">Heading · H1</span></summary><ul><li class="ast-tree-item"><button class="ast-tree-leaf"><span class="ast-tree-kind">Text</span> <span class="ast-tree-detail">我的第一份文件</span></button></li></ul></details></li>
+<li class="ast-tree-item"><details open><summary><span class="ast-tree-kind">Paragraph</span></summary><ul><li class="ast-tree-item"><button class="ast-tree-leaf"><span class="ast-tree-kind">Text</span> <span class="ast-tree-detail">這是一段</span></button></li><li class="ast-tree-item"><details open><summary><span class="ast-tree-kind">Strong</span></summary><ul><li class="ast-tree-item"><button class="ast-tree-leaf"><span class="ast-tree-kind">Text</span> <span class="ast-tree-detail">重要文字</span></button></li></ul></details></li></ul></details></li>
+<li class="ast-tree-item"><details open><summary><span class="ast-tree-kind">List</span> <span class="ast-tree-detail">2 items</span></summary><ul><li class="ast-tree-item"><button class="ast-tree-leaf"><span class="ast-tree-kind">List item</span></button></li><li class="ast-tree-item"><button class="ast-tree-leaf"><span class="ast-tree-kind">List item</span></button></li></ul></details></li>
+<li class="ast-tree-item"><details open><summary><span class="ast-tree-kind">Directive · &amp;note</span></summary><ul><li class="ast-tree-item"><button class="ast-tree-leaf"><span class="ast-tree-kind">Paragraph</span></button></li></ul></details></li>
+</ul></details></li></ul></div>
+<div class="no-diagnostics">沒有診斷訊息</div></section></div></main></body></html>

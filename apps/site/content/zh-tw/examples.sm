@@ -45,3 +45,17 @@ const html = renderHtml(document);
 &note[title="尚未結束"]
 這個區塊缺少 &end。
 ```
+
+#2 在 Playground 試用
+
+文件中的 `.sm` 程式碼可以直接送入 Playground；載入前會詢問是否取代現有草稿。
+
+```sm
+#1 文字與語義
+
+*[粗體] 以及 /[斜體]。
+
+&note[title="補充"]
+這是語義指令，不只是顏色。
+&end
+```

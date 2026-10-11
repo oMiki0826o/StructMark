@@ -39,7 +39,7 @@ function markdownInline(source: string): string {
 }
 
 /** Import the documented Markdown subset without modifying code-span text. */
-export function fromMarkdown(source: string): Document {
+export function markdownToStructMarkSource(source: string): string {
   const lines = source.replace(/\r\n?/g, "\n").split("\n");
   const output: string[] = [];
   let fence: Fence | null = null;
@@ -72,45 +72,56 @@ export function fromMarkdown(source: string): Document {
     }
     output.push(markdownInline(line));
   }
-  return parseDocument(output.join("\n"));
+  return output.join("\n");
+}
+
+/** Parse the imported subset into the shared AST. */
+export function fromMarkdown(source: string): Document {
+  return parseDocument(markdownToStructMarkSource(source));
 }
 
 // ── Markdown 匯出 ──
 function backtickFence(raw: string, minimum = 3): string {
-  const runs = raw.match(/`+/g) ?? [];
-  return "`".repeat(Math.max(minimum, ...runs.map(part => part.length + 1)));
+  // Avoid spreading unbounded code-span arrays into Math.max arguments.
+  let length = minimum;
+  const runs = raw.match(/`+/g);
+  if (runs) for (const run of runs) length = Math.max(length, run.length + 1);
+  return "`".repeat(length);
 }
 /** Escape table delimiters after inline serialization (including code spans). */
-    function escapeMarkdownTableCell(value: string): string {
-      return value.replace(/\|/g, "\\|").replace(/\r?\n/g, "<br>");
-    }
-    function inline(nodes: InlineNode[]): string {
+function escapeMarkdownTableCell(value: string): string {
+  return value.replace(/\|/g, "\\|").replace(/\r?\n/g, "<br>");
+}
+function escapeMarkdownText(value: string): string {
+  return value.replace(/\\/g, "\\\\").replace(/([`*_[\]~])/g, "\\$1");
+}
+function inline(nodes: InlineNode[], diagnostics?: Diagnostic[]): string {
   return nodes.map(node => {
     switch (node.type) {
-      case "text": return node.value;
+      case "text": return escapeMarkdownText(node.value);
       case "code": {
         const ticks = backtickFence(node.value, 1);
         const padded = /^`|`$|^\s|\s$/.test(node.value) ? ` ${node.value} ` : node.value;
         return `${ticks}${padded}${ticks}`;
       }
-      case "strong": return `**${inline(node.children)}**`;
-      case "em": return `*${inline(node.children)}*`;
-      case "delete": return `~~${inline(node.children)}~~`;
-      case "underline": return inline(node.children);
-      case "highlight": return inline(node.children);
-      case "sup": return `<sup>${inline(node.children)}</sup>`;
-      case "sub": return `<sub>${inline(node.children)}</sub>`;
-      case "link": return `[${inline(node.label)}](${node.target})`;
-      case "image": return `![${inline(node.label)}](${node.target})`;
+      case "strong": return `**${inline(node.children, diagnostics)}**`;
+      case "em": return `*${inline(node.children, diagnostics)}*`;
+      case "delete": return `~~${inline(node.children, diagnostics)}~~`;
+      case "underline": return inline(node.children, diagnostics);
+      case "highlight": return inline(node.children, diagnostics);
+      case "sup": return `<sup>${inline(node.children, diagnostics)}</sup>`;
+      case "sub": return `<sub>${inline(node.children, diagnostics)}</sub>`;
+      case "link": return `[${inline(node.label, diagnostics)}](${node.target})`;
+      case "image": return `![${inline(node.label, diagnostics)}](${node.target})`;
       case "softbreak": return "\n";
       case "hardbreak": return "  \n";
       case "math": return `$${node.value}$`;
       case "comment": return "";
       case "wiki": return `[[${node.target}${node.label === node.target ? "" : `|${node.label}`}]]`;
-      case "ref": return `[${node.target}](#${node.target})`;
+      case "ref": return `[${escapeMarkdownText(node.target)}](${node.target.includes("#") ? node.target : `#${node.target}`})`;
       case "footnoteRef": return `[^${node.target}]`;
       case "citation": return `[${node.keys.map(key => `@${key}`).join("; ")}]`;
-      default: return "children" in node ? inline(node.children) : "";
+      default: return "children" in node ? inline(node.children, diagnostics) : "";
     }
   }).join("");
 }
@@ -128,8 +139,8 @@ export function toMarkdownDetailed(document: Pick<Document, "children">): Markdo
   }
   function block(node: BlockNode): string {
     switch (node.type) {
-      case "heading": return `${"#".repeat(node.level)} ${inline(node.children)}${node.id ? ` {#${node.id}}` : ""}`;
-      case "paragraph": return inline(node.children);
+      case "heading": return `${"#".repeat(node.level)} ${inline(node.children, diagnostics)}${node.id ? ` {#${node.id}}` : ""}`;
+      case "paragraph": return inline(node.children, diagnostics);
       case "thematicBreak": return "---";
       case "codeBlock": {
         const fence = backtickFence(node.value);
@@ -144,11 +155,11 @@ export function toMarkdownDetailed(document: Pick<Document, "children">): Markdo
         return `${marker} ${label.replace(/\n/g, `\n${continuation}`)}`;
       }).join("\n");
       case "table": return [
-        `| ${node.header.map(cell => escapeMarkdownTableCell(inline(cell))).join(" | ")} |`,
+        `| ${node.header.map(cell => escapeMarkdownTableCell(inline(cell, diagnostics))).join(" | ")} |`,
         `| ${node.header.map(() => "---").join(" | ")} |`,
-        ...node.rows.map(row => `| ${row.map(cell => escapeMarkdownTableCell(inline(cell))).join(" | ")} |`),
+        ...node.rows.map(row => `| ${row.map(cell => escapeMarkdownTableCell(inline(cell, diagnostics))).join(" | ")} |`),
       ].join("\n");
-      case "footnoteDef": return `[^${node.id}]: ${inline(node.children)}`;
+      case "footnoteDef": return `[^${node.id}]: ${inline(node.children, diagnostics)}`;
       case "commentBlock": return "";
       case "directive": {
         // There is no universal Markdown equivalent for arbitrary directives.
@@ -172,7 +183,8 @@ export function toMarkdownDetailed(document: Pick<Document, "children">): Markdo
   // Diagnostics intentionally use AST source ranges, not positions in exported text.
   function inspectInlineLoss(nodes: readonly InlineNode[]): void {
     for (const node of nodes) {
-      if (node.type === "highlight" || node.type === "underline") {
+      if (["highlight", "underline", "kbd", "abbr", "term", "var", "lang", "inlineDirective", "comment", "wiki", "citation"].includes(node.type) ||
+          ((node.type === "link" || node.type === "image") && Object.keys(node.attrs).length > 0)) {
         diagnostics.push({
           code: "SMK-C002", severity: "warning",
           message: `Markdown 無法完整保留 ${node.type} 行內語義`,
@@ -184,6 +196,9 @@ export function toMarkdownDetailed(document: Pick<Document, "children">): Markdo
     }
   }
   function inspectBlockLoss(node: BlockNode): void {
+    if (node.type === "commentBlock") {
+      diagnostics.push({code:"SMK-C003",severity:"warning",message:"Markdown 輸出省略註解區塊",position:node.range.start});
+    }
     if (node.type === "heading" || node.type === "paragraph" || node.type === "footnoteDef") {
       inspectInlineLoss(node.children);
     } else if (node.type === "table") {

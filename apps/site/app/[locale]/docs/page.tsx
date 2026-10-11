@@ -8,6 +8,8 @@ import {isLocale, locales, type Locale} from "../../../lib/content-types";
 import CodeBlocks from "../../../components/code-blocks";
 import DocsOutline from "../../../components/docs-outline";
 import DocsNav from "../../../components/docs-nav";
+import DocsSearch from "../../../components/docs-search";
+import {createSearchEntries} from "../../../lib/search-data";
 
 export function generateStaticParams() { return locales.map(locale => ({locale})); }
 
@@ -21,6 +23,7 @@ export default function LocaleDocs({params}: {params: {locale: string}}) {
           <Link href={`/${locale}/`}>StructMark</Link><span className="separator" aria-hidden="true">/</span>
           <span aria-current="page">{locale === "en" ? "Documentation" : "文件總覽"}</span>
         </nav>
+        <DocsSearch locale={locale} entries={createSearchEntries(locale)} />
         <DocsOutline locale={locale} />
         <article className="docs-content content-rendered" dangerouslySetInnerHTML={{__html: contentHtml(locale, "docs")}} />
         <CodeBlocks />

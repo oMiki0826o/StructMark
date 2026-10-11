@@ -46,3 +46,40 @@ const numberedHtml = renderHtml(document, { numbering: true });
 #2 Safety boundary
 
 The parser does not execute raw, data, or code content, and it does not access the network or filesystem. The HTML renderer only emits allowed tags and attributes, and validates external URLs before output.
+
+#2 v1.3 AST Visitor and CLI
+
+The `visitAst` function walks a parsed AST without changing the nodes. Returning false from `enter` skips descendants.
+
+```typescript
+import {parseDocument, visitAst} from "structmark-language-core";
+const doc = parseDocument("#1 Heading");
+visitAst(doc, {enter(node) { console.log(node.type); }});
+```
+
+The Node CLI checks documents and workspaces without a server. By default it does not replace input files.
+
+```bash
+structmark check examples/spec-sample.sm
+structmark workspace examples
+structmark render examples/spec-sample.sm --output preview.html
+```
+
+#2 v1.5 workspace index
+
+`buildWorkspaceIndex` accepts workspace-relative filenames and ASTs, returning document paths, indexed IDs, cross-file references, and file-aware diagnostics.
+
+```typescript
+import {parseDocument, buildWorkspaceIndex} from "structmark-language-core";
+const index = buildWorkspaceIndex([
+  {path: "guide/intro.sm", document: parseDocument("&ref[../index.sm#home]")},
+  {path: "index.sm", document: parseDocument("#1 Home (#home)")},
+]);
+console.log(index.references, index.diagnostics);
+```
+
+`validateWorkspace` retains its existing diagnostics-only API; use `buildWorkspaceIndex` to locate each referring file.
+
+#2 AST Tree
+
+Playground's collapsible AST Tree selects parser source ranges in the editor. It reuses the existing AST and does not introduce a second parser or change `Document.version`.

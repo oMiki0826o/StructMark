@@ -21,9 +21,17 @@ export type {NormalizedSource} from "./source.js";
 export {lexLine, lexDocument} from "./lexer.js";
 export type {BlockToken, BlockTokenKind} from "./lexer.js";
 export {serializeAst} from "./serialize.js";
-export {fromMarkdown, toMarkdown, toMarkdownDetailed} from "./markdown.js";
+export {fromMarkdown, markdownToStructMarkSource, toMarkdown, toMarkdownDetailed} from "./markdown.js";
 export type {MarkdownExportResult} from "./markdown.js";
 export {formatSource} from "./formatter.js";
 export type {FormatResult} from "./formatter.js";
 export {formatBibliography, formatCitation, parseBibTeX, parseCslJson} from "./citations.js";
 export type {CitationEntry} from "./citations.js";
+
+export {visitAst} from "./visitor.js";
+export type {AstNode, AstVisitor} from "./visitor.js";
+export {normalizeWorkspacePath, resolveWorkspaceReference} from "./workspace.js";
+export type {WorkspaceReference} from "./workspace.js";
+
+export {buildWorkspaceIndex} from "./workspace-index.js";
+export type {WorkspaceIndex, WorkspaceDiagnostic, IndexedWorkspaceReference, IndexedWorkspaceDocument} from "./workspace-index.js";

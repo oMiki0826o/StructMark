@@ -6,7 +6,7 @@
 - UTF-16、原始 offset 與 UTF-8 byte offset 對映。
 - Diagnostics、Registry、自訂指令與屬性驗證。
 - HTML renderer、AST 序列化與結構化表格。
-- 133 項語言核心測試。
+- 自動化語言核心回歸測試。
 - `.sm` 正式副檔名、`&` 指令、短別名、屬性、診斷代碼與 V1.1 相容性規則。
 - YAML 1.2、BibTeX／CSL JSON 資料 API、可選 KaTeX、編號、Markdown common subset、Formatter、workspace 驗證、效能與 fuzz 測試。
 
@@ -17,3 +17,15 @@ StructMark 不是程式語言：沒有變數、條件、迴圈或巨集。1.1 �
 #2 後續方向
 
 語言伺服器、更多 renderer、文件索引、套件化 registry，以及更完整的開發工具鏈會根據實際使用案例逐步加入。
+
+#2 v1.2–v1.3 已納入的工具
+
+除了既有解析與渲染，現在還能使用 CLI 檢查、轉換與批次驗證 `.sm`，用 Visitor 讀取 AST。Playground 加入語法範例與 AST JSON，文件提供離線搜尋。這些是工具版本的新功能，不會改變 V1.1 的語法契約。
+
+#2 不屬於本版的完整標準
+
+完整 CSL 樣式、LaTeX 巨集、完整 CommonMark/GFM 與增量式解析仍屬後續研究，不應將基礎子集說成完全相容。
+
+#2 v1.5 工具強化
+
+Workspace 索引可回傳具來源檔案位置的參照診斷。Playground 增加 AST 樹狀檢視，點選節點可定位原始碼；CLI 在安全覆寫及嚴格轉換方面更明確。完整無損 Writer、增量解析和全套 CSL 仍未完成。

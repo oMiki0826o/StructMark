@@ -20,7 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <footer className="site-footer">
           <div className="footer-inner">
             <span className="footer-brand">StructMark</span>
-            <span>v1.1.0 · MIT License · Language Core</span>
+            <span>v1.5.0 · MIT License · Language Core</span>
           </div>
         </footer>
       </body>
