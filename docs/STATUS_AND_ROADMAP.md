@@ -1,3 +1,5 @@
+> **歷史文件（v1.6 相容核心）**：StructMark 2.0 候選語法與本地驗證狀態請參考 [v2 語法契約](STRUCTMARK_V2_LANGUAGE_CONTRACT.md) 與 [驗證紀錄](STRUCTMARK_V2_RELEASE_EVIDENCE.md)。
+
 # StructMark v1.5.0 狀態與後續規劃
 
 本文件區分 **1.5.0 套件與工具版本**、**1.1 穩定語法版本**，以及部分完成的未來功能。`.sm` 是正式副檔名；現有 AST `version: "1.1"` 不會因 CLI 或網頁更新而改成 `"1.5"`。網站包含 Playground，但不包含完整桌面編輯器。

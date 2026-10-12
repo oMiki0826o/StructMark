@@ -1,3 +1,5 @@
+> **歷史文件（v1.6 相容核心）**：StructMark 2.0 候選語法與本地驗證狀態請參考 [v2 語法契約](STRUCTMARK_V2_LANGUAGE_CONTRACT.md) 與 [驗證紀錄](STRUCTMARK_V2_RELEASE_EVIDENCE.md)。
+
 # StructMark Language Specification V1.1
 
 日期：2026-10-11｜狀態：V1.1 穩定規範。本文定義 `.sm` 文件的核心語法與相容性承諾；未列入的進階功能仍屬後續版本。

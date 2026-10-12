@@ -1,0 +1,36 @@
+#1 StructMark 2.0 候選版指南
+
+目前網站同時保留 1.6 文件工具與 2.0 候選引擎。Playground 可選擇語法版本；選擇 2.0 後會使用 src/v2 中的共用 Parser 與 HTML Renderer。候選版尚未完成全部 v1.6 功能遷移。
+
+#2 主要差異
+
+- 簡寫指令和完整指令共用語義 AST。
+- 原生中括號表格，允許欄位宣告型別。
+- Schema 子集可以檢查 JSON 欄位、必填與選填欄位。
+- 跨文件參照可透過 CLI workspace 指令驗證。
+
+#2 範例
+
+```sm
+#1 資料報告 (#report)
+&w[注意]
+這是一段警告。
+&e
+&tbl
+[名稱:string][數量:number]
+[A][12]
+&e
+請參考 (#report)。
+```
+
+#2 指令列
+
+```bash
+node bin/sm2.mjs check examples/v2-complete.sm
+node bin/sm2.mjs html examples/v2-complete.sm
+node bin/sm2.mjs workspace examples/workspace
+```
+
+#2 發行狀態
+
+目前版本為 2.0.0-rc.1 原始碼候選版。所有核心測試結果與尚未完成的 TypeScript、網站及 VSIX 建置驗證，都會記錄在專案根目錄的 docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md。暫時不要用字元數代替 Token 效率比較。

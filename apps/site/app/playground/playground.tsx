@@ -6,7 +6,9 @@
 
 import {useEffect, useMemo, useRef, useState} from "react";
 import {parseDocument, renderHtml, serializeAst} from "../../../../src/index";
+import {parse as parseV2, renderHtml as renderV2} from "../../../../src/v2/index.mjs";
 import AstTree from "../../components/ast-tree";
+import AstTreeV2 from "../../components/ast-tree-v2";
 import {editorOffset} from "../../lib/ast-tree";
 import type {SourceRange} from "../../../../src/types";
 import {playgroundExamples} from "../../lib/playground-examples";
@@ -27,6 +29,7 @@ export default function Playground({locale = "zh-tw"}: {locale?: Locale}) {
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const [activeExample, setActiveExample] = useState('custom');
   const [view, setView] = useState<'preview' | 'ast' | 'tree'>('preview');
+  const [syntaxVersion, setSyntaxVersion] = useState<'1.6' | '2.0'>('1.6');
   const [source, setSource] = useState(initial[locale]);
   const [parsedSource, setParsedSource] = useState(initial[locale]);
   const [storageReady, setStorageReady] = useState(false);
@@ -62,19 +65,24 @@ export default function Playground({locale = "zh-tw"}: {locale?: Locale}) {
 
   const result = useMemo(() => {
     if (parsedSource.length > MAX_PARSE_LENGTH) {
-      return {document: null,html: "", ast: "", diagnostics: [] as {code: string; message: string; position: {line: number; column: number; offset?: number}}[], error: english
+      return {document: null,v2Document:null,html: "", ast: "", diagnostics: [] as {code: string; message: string; position: {line: number; column: number; offset?: number}}[], error: english
         ? "The document exceeds the live preview limit (150,000 characters). Its source remains intact."
         : "文件超過即時預覽上限（150,000 字元），來源內容仍會保留。"};
     }
     try {
+      if (syntaxVersion === '2.0') {
+        const document = parseV2(parsedSource);
+        return {document:null,v2Document:document,html:renderV2(document),ast:JSON.stringify(document,null,2),
+          diagnostics:document.diagnostics.map(d=>({code:d.code,message:d.message,position:{line:d.line,column:d.column}})),error:""};
+      }
       const document = parseDocument(parsedSource);
-      return {document,html: renderHtml(document, {math: "katex"}), ast: serializeAst(document, 2), diagnostics: document.diagnostics, error: ""};
+      return {document,v2Document:null,html: renderHtml(document, {math: "katex"}), ast: serializeAst(document, 2), diagnostics: document.diagnostics, error: ""};
     } catch {
-      return {document: null,html: "", ast: "", diagnostics: [] as {code: string; message: string; position: {line: number; column: number; offset?: number}}[], error: english
+      return {document: null,v2Document:null,html: "", ast: "", diagnostics: [] as {code: string; message: string; position: {line: number; column: number; offset?: number}}[], error: english
         ? "Unable to render this input. The original source was retained."
         : "目前無法渲染這份輸入，原始文字已保留。"};
     }
-  }, [parsedSource, english]);
+  }, [parsedSource, english, syntaxVersion]);
 
   function handleReset(): void {
     const approved = window.confirm(english ? "Replace the current draft with the default example?" : "要捨棄目前草稿並恢復預設範例嗎？");
@@ -128,6 +136,11 @@ export default function Playground({locale = "zh-tw"}: {locale?: Locale}) {
         <h1>Playground</h1>
         <p className="lead">{text.edit}</p>
         <div className="playground-presets">
+          <label htmlFor="syntax-version">{english ? 'Syntax version' : '語法版本'}</label>
+          <select id="syntax-version" value={syntaxVersion} onChange={event => setSyntaxVersion(event.target.value as '1.6'|'2.0')}>
+            <option value="1.6">1.6 · Legacy</option>
+            <option value="2.0">2.0 · Candidate</option>
+          </select>
           <label htmlFor="example-select">{english ? 'Load syntax example' : '載入語法範例'}</label>
           <select id="example-select" value={activeExample} onChange={event => chooseExample(event.target.value)}>
             <option value="custom">{english ? 'Current document' : '目前文件'}</option>
@@ -160,8 +173,9 @@ export default function Playground({locale = "zh-tw"}: {locale?: Locale}) {
           </div>
           {result.error ? <div className="preview-error" role="alert">{result.error}</div> :
             <div role="tabpanel" id="output-panel" aria-label={view === 'preview' ? text.preview : 'AST JSON'}>
-              {view === 'tree' && result.document ? <AstTree document={result.document} onPick={selectAstSource} english={english} /> :
-              view === 'ast' ? <pre className="ast-output"><code>{result.ast}</code></pre> :
+              {view === 'tree' && result.v2Document ? <AstTreeV2 document={result.v2Document} onPick={(line)=>jumpTo(line,1)} english={english} /> :
+              view === 'tree' && result.document ? <AstTree document={result.document} onPick={selectAstSource} english={english} /> :
+              (view === 'ast' || view === 'tree') ? <pre className="ast-output"><code>{result.ast}</code></pre> :
                 <div className="preview content-rendered" dangerouslySetInnerHTML={{__html: result.html}} />}
             </div>}
           {result.error ? (
@@ -169,7 +183,7 @@ export default function Playground({locale = "zh-tw"}: {locale?: Locale}) {
           ) : result.diagnostics.length > 0 ? (
             <div className="diagnostic" role="status" aria-live="polite">
               <p>{english ? `${result.diagnostics.length} diagnostic(s)` : `${result.diagnostics.length} 項診斷`}</p>
-              <ul>{result.diagnostics.map((d, index) => <li key={`${d.code}-${index}`}><button type="button" onClick={() => jumpTo(d.position.line, d.position.column, d.position.offset)}>
+              <ul>{result.diagnostics.map((d, index) => <li key={`${d.code}-${index}`}><button type="button" onClick={() => jumpTo(d.position.line, d.position.column, 'offset' in d.position ? d.position.offset : undefined)}>
                 <strong>{d.code}</strong> · {english ? `Line ${d.position.line}` : `第 ${d.position.line} 行`}：{d.message}
               </button></li>)}</ul>
             </div>

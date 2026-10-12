@@ -1,0 +1,36 @@
+#1 StructMark 2.0 Candidate Guide
+
+The website keeps the existing 1.6 documentation and a separate 2.0 candidate engine. The Playground provides a syntax-version selector. In 2.0 mode it uses the shared Parser and HTML renderer from src/v2. This candidate does not yet implement every legacy 1.6 feature.
+
+#2 Distinctive features
+
+- Directive aliases and full names normalize to the same semantic AST.
+- Native bracket-delimited tables with basic column types.
+- A Schema subset for JSON objects with required and optional fields.
+- Cross-file references validated by the workspace CLI.
+
+#2 Example
+
+```sm
+#1 Data Report (#report)
+&w[Warning]
+This is a warning.
+&e
+&tbl
+[Name:string][Count:number]
+[A][12]
+&e
+See (#report).
+```
+
+#2 Command line
+
+```bash
+node bin/sm2.mjs check examples/v2-complete.sm
+node bin/sm2.mjs html examples/v2-complete.sm
+node bin/sm2.mjs workspace examples/workspace
+```
+
+#2 Release status
+
+The version is 2.0.0-rc.1 (source candidate). Consult docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md for executable test results and remaining TypeScript, website and VSIX build checks. Character counts are not token counts.

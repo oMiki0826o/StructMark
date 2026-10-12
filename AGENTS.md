@@ -19,3 +19,7 @@ npm ci && npm test && npm run build
 ```
 
 Run `python3 scripts/browser_smoke.py --base-url ...` against the served Next.js static output when Chromium and Playwright are available. Changes to language syntax, public APIs, diagnostics, dependencies, or versions require updating `README.md`, `docs/` and relevant tests.
+
+## StructMark v2.0.0-rc.1
+
+新開發的語法契約以 `docs/STRUCTMARK_V2_LANGUAGE_CONTRACT.md` 為準；v2 僅能使用 `src/v2/index.mjs` 公開入口。執行 `npm run check:v2`，並依 `docs/STRUCTMARK_V2_RELEASE_GATES.md` 驗證；不可將既有 v1.6 API 擅自改成 v2 或宣稱尚未執行的測試通過。
