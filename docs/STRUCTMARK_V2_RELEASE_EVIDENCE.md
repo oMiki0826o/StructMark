@@ -11,7 +11,7 @@
 | `sm2 workspace examples/workspace` | 3 份文件、0 項診斷 | 同左 |
 | `npm pack --dry-run --json --ignore-scripts` | 通過；檢查 package 清單與 ES Module 匯出 | 通過；僅作套件內容檢查，非 VSIX |
 | `cd apps/site && npm test` | 15 項網站 helper 測試通過 | 不適用（獨立 VS Code 倉庫不含網站） |
-| `python3 benchmark/tokens.py --require-tokenizer` | `.md`／`.sm` 10 組對照、`cl100k_base` 與 `o200k_base` 真實 Tokenizer 通過；結果見 `docs/MD_SM_TOKEN_REPORT.md` | 同一比較工具與語料快照 |
+| `python3 benchmark/tokens.py --require-tokenizer` + `npm run benchmark:semantic` | `.md`／`.sm` 16 組對照、AST 16/16、`cl100k_base` 與 `o200k_base` 真實 Tokenizer 通過；結果見 `docs/MD_SM_TOKEN_REPORT.md` | 同一比較工具與語料快照 |
 | manifest、package-lock、JSON、GitHub workflow YAML | 版本一致、語法檢查通過 | 版本一致、語法檢查通過 |
 | `src/v2` SHA-256 比對 | 與 VS Code 完全一致 | 與核心完全一致 |
 | TypeScript `transpileModule` 語法解析 | v2 相關 TS/TSX 語法無診斷 | v2 相關 TS 語法無診斷 |

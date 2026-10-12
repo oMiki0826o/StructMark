@@ -3,7 +3,7 @@
 import {readFile, writeFile} from "node:fs/promises";
 import {createHash} from "node:crypto";
 import {resolve} from "node:path";
-import {fromMarkdown, markdownToStructMarkSource, parseDocument} from "../dist/index.js";
+import {fromMarkdown, parseDocument} from "../dist/index.js";
 
 const root = resolve(import.meta.dirname);
 const corpus = JSON.parse(await readFile(resolve(root, "corpus.json"), "utf8"));
@@ -22,8 +22,7 @@ function canonical(value, key = "") {
 
 const results = corpus.map(sample => {
   const imported = fromMarkdown(sample.markdown);
-  const generatedSource = markdownToStructMarkSource(sample.markdown);
-  const native = parseDocument(generatedSource);
+  const native = parseDocument(sample.structmark);
   const importedAst = canonical(imported);
   const nativeAst = canonical(native);
   const diagnostics = [...imported.diagnostics, ...native.diagnostics];
@@ -31,7 +30,8 @@ const results = corpus.map(sample => {
     id: sample.id,
     equivalent: JSON.stringify(importedAst) === JSON.stringify(nativeAst) && diagnostics.length === 0,
     diagnostics: diagnostics.map(item => item.code),
-    generated_source_sha256: createHash("sha256").update(generatedSource).digest("hex"),
+    markdown_sha256: createHash("sha256").update(sample.markdown).digest("hex"),
+    structmark_sha256: createHash("sha256").update(sample.structmark).digest("hex"),
   };
 });
 

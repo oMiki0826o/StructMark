@@ -39,7 +39,7 @@ Directive names, attributes, IDs, and references follow explicit rules. Errors r
 - Safe HTML output is a core capability for documentation sites, knowledge bases, and static generators.
 - `.sm` remains readable, diffable, and Git-friendly; it simply preserves more structure for programs to understand.
 
-Across the expanded 16-pair `.md`／`.sm` corpus, the measured total is 552 versus 553 tokens with `cl100k_base`, and 439 versus 438 with `o200k_base`—effectively a tie. These are measurements, not a promise for every document; `.sm` is primarily about explicit structure and tooling, not guaranteed shorter source. See the [token report](https://github.com/oMiki0826o/StructMark/blob/main/docs/MD_SM_TOKEN_REPORT.md) for the full table.
+Across the expanded 16-pair `.md`／`.sm` corpus, with AST equivalence checks passing, the measured total is 517 versus 526 tokens with `cl100k_base`, and 405 versus 414 with `o200k_base`. These are measurements, not a promise for every document; `.sm` is primarily about explicit structure and tooling, not guaranteed shorter source. See the [token report](https://github.com/oMiki0826o/StructMark/blob/main/docs/MD_SM_TOKEN_REPORT.md) for the full table.
 
 Did you notice? This website is written in `.sm` too.
 

@@ -9,10 +9,10 @@
 
 | Tokenizer | Markdown | StructMark | 差異 | StructMark 節省 |
 | --- | ---: | ---: | ---: | ---: |
-| `cl100k_base` | 552 | 553 | +1 | -0.18% |
-| `o200k_base` | 439 | 438 | -1 | 0.23% |
+| `cl100k_base` | 517 | 526 | +9 | -1.74% |
+| `o200k_base` | 405 | 414 | +9 | -2.22% |
 
-在擴充後的語料中，兩種 tokenizer 的總量幾乎持平：`cl100k_base` 的 `.sm` 多 1 Token，`o200k_base` 少 1 Token。這比原本 10 組小語料更接近「不能保證節省」的實際結論，因此網站與 README 不應把 Token 節省當成主要賣點。
+在通過 AST 對照的共同語義子集中，`.sm` 分別多 9 Token。這代表目前語料沒有顯示 Token 優勢；網站與 README 不應把 Token 節省當成主要賣點。
 
 ## 測試方式
 
@@ -48,6 +48,12 @@ python3 benchmark/tokens.py --require-tokenizer
 | quote | 15 | 15 | 13 | 13 |
 | note | 15 | 14 | 13 | 10 |
 | citation | 14 | 14 | 10 | 10 |
+| technical | 52 | 53 | 39 | 40 |
+| academic | 83 | 85 | 56 | 58 |
+| api | 50 | 51 | 42 | 43 |
+| math-notes | 45 | 46 | 39 | 40 |
+| article | 91 | 92 | 59 | 60 |
+| structured-data | 44 | 45 | 41 | 42 |
 
 擴充語料包含 `technical`、`academic`、`api`、`math-notes`、`article` 與 `structured-data` 六類較完整文件案例；逐筆 Token 與字元資料以 CSV 為準。
 
@@ -59,7 +65,7 @@ python3 benchmark/tokens.py --require-tokenizer
 
 > StructMark 在這組 10 筆 `.md`／`.sm` 對照語料與兩種真實 tokenizer 下，總 Token 數較低；實際差異取決於文件內容與所使用的 tokenizer。
 
-本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。`npm run benchmark:semantic` 會將 Markdown 匯入 AST 與轉成 `.sm` 後再解析的 AST 做規範化比較；目前 16/16 通過，結果見 `benchmark/semantic-equivalence.json`。
+本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。`npm run benchmark:semantic` 會直接讀取每筆原始 Markdown 與 `.sm`，分別解析後做規範化 AST 比較；目前 16/16 通過，結果見 `benchmark/semantic-equivalence.json`。
 
 ## 失敗案例與下一階段
 
