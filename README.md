@@ -1,18 +1,57 @@
 # StructMark
 
-> **2.0.0-rc.1 原始碼候選版。** `.sm` 的 v2 引擎已具備解析、驗證、格式化、安全 HTML 輸出與 CLI；原有 1.6 工具鏈仍保留作為相容層。RC 不是正式 `2.0.0` 發行，建置限制與驗證結果列於 [驗證報告](docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md)。
+![Version](https://img.shields.io/badge/version-2.0.0--rc.1-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Tech](https://img.shields.io/badge/stack-TypeScript-lightgrey)
+![Runtime](https://img.shields.io/badge/runtime-Node.js%2022%2B-orange)
 
-StructMark 是一套以語義結構為核心的文字標記語言。它希望將簡潔的日常寫作語法，與可檢查的引用、型別化資料及文件工具結合。擴充至 16 組、並通過 AST 對照的 `.md`／`.sm` 語料中，`cl100k_base` 為 517 對 526 Token，`o200k_base` 為 405 對 414 Token；目前不宣稱普遍節省 Token。
+[中文](#中文) | [English](#english)
 
-[English introduction](#english) · [v2 語法契約](docs/STRUCTMARK_V2_LANGUAGE_CONTRACT.md) · [v2 CLI](docs/STRUCTMARK_V2_CLI.md) · [版本狀態](V2_RELEASE_STATUS.md)
+---
 
-## StructMark 2.0 範例
+## 中文
+
+### 目錄
+
+- [關於](#關於)
+- [功能](#功能)
+- [展示 Demo](#展示-demo)
+- [安裝](#安裝)
+- [使用方式](#使用方式)
+- [授權](#授權)
+
+### 關於
+
+StructMark 是一套以語義結構為核心的通用標記語言, 使用 `.sm` 作為正式副檔名.
+
+它保留純文字寫作的直接感, 同時讓標題、指令、資料、參照與診斷成為 Parser 可以明確理解的結構. 同一份文件可以交給 CLI、TypeScript API、網站、索引器或編輯器使用, 不必為每個工具重新改寫格式.
+
+目前主分支是 `2.0.0-rc.1` 原始碼候選版. v2 引擎位於 `src/v2/`, 舊版 v1.6 TypeScript API 則保留在既有 `src/` 路徑, 兩者不會靜默互換.
+
+StructMark 的主要目標不是宣稱每份文件都比 Markdown 短, 而是用簡潔且一致的語法提供可預測解析、語義診斷、安全輸出與工具整合. 目前 16 組 `.md` / `.sm` 共同語義語料已完成 AST 對照, 結果為 16/16 通過. 真實 tokenizer 測試顯示目前沒有穩定的 Token 優勢, 詳細結果見 [Token 測試報告](docs/MD_SM_TOKEN_REPORT.md).
+
+### 功能
+
+- **語義區塊**: 標題、提示、警告、範例、引用、程式碼與資料區塊.
+- **原生結構化資料**: 方括號表格、欄位型別、`schema` 與 `data` 驗證.
+- **可驗證參照**: 支援文件內與工作區內的 `.sm#id` 參照, 並拒絕越出工作區的路徑.
+- **確定性 AST**: 相同來源產生相同的 AST, 方便測試、格式化、索引與轉換.
+- **安全 HTML**: 文字、屬性與 URL 經過跳脫和白名單處理.
+- **完整工具鏈**: CLI、TypeScript API、雙語文件網站、Playground、Language Server 與 VS Code 擴充套件來源.
+
+### 展示 Demo
+
+- 文件網站: [StructMark documentation](https://omiki0826o.github.io/StructMark/)
+- 線上 Playground: [Open Playground](https://omiki0826o.github.io/StructMark/zh-tw/playground/)
+- VS Code 專案: [StructMark-VSCode](https://github.com/oMiki0826o/StructMark-VSCode)
+
+一份 `.sm` 文件可以像這樣表達結構:
 
 ```sm
 #1 實驗報告 (#report)
 
 &w[實驗限制]
-量測結果僅供範例。
+量測結果僅供範例.
 &e
 
 &tbl
@@ -28,82 +67,139 @@ StructMark 是一套以語義結構為核心的文字標記語言。它希望將
 &data[format=json,schema=Record]
 {"name":"A","value":1.2}
 &e
-
-結論參考 (#report)。
 ```
 
-上面的 `&w[實驗限制]` 與 `&warning[title=實驗限制]` 具有相同意義；`&e` 與 `&end` 都可以關閉區塊。短寫法會轉為相同的語義 AST，而不是由 Renderer 另行猜測。
+短別名會正規化為相同的語義指令, 例如 `&w` 對應 `&warning`, `&e` 對應 `&end`.
 
-## 主要能力
+### 安裝
 
-- **語義區塊**：標題、說明、警告、範例、引文、程式碼及數學原文。
-- **原生表格**：相鄰的 `[儲存格]`，可在欄名後標註 `:number`、`:boolean`、`:date`。
-- **資料 Schema 子集**：使用 `&schema` 宣告欄位型別，`&data` 儲存 JSON 並檢查必填/選填欄位。
-- **文件參照**：`(#id)`、`(#path/to/file.sm#id)`；可由 CLI 跨檔案驗證，拒絕超出工作區的路徑。
-- **行內格式**：`*[粗體]`、`/[斜體]`、`=[螢光]` 及巢狀標記。
-- **安全渲染**：文字與屬性跳脫；僅允許安全 URL 類型，不執行程式碼或遠端資源。
+需求: Node.js 22 或更新版本.
 
-## 安裝與使用
+```bash
+git clone https://github.com/oMiki0826o/StructMark.git
+cd StructMark
+npm ci
+```
 
-Node.js **22+**。只使用 `sm2` v2 CLI 時，不需要安裝第三方依賴：
+### 使用方式
+
+不安裝第三方依賴時, 可以直接使用 v2 CLI:
 
 ```bash
 node bin/sm2.mjs check examples/v2-introduction.sm
 node bin/sm2.mjs ast examples/v2-introduction.sm
 node bin/sm2.mjs html examples/v2-introduction.sm
 node bin/sm2.mjs format examples/v2-introduction.sm
-node bin/sm2.mjs workspace examples/workspace
-npm run check:v2
 ```
 
-`format` 預設輸出至標準輸出，不會覆寫來源；使用 `--write` 才修改檔案，`--check` 則檢查是否符合標準格式。
-
-也能從 v2 ESM API 使用：
-
-```js
-import {parse,format,renderHtml,validateWorkspace} from './src/v2/index.mjs';
-const document=parse('#1 Hello (#hello)\nSee (#hello)');
-if (!document.valid) console.error(document.diagnostics);
-else console.log(renderHtml(document));
-```
-
-npm 發布後的 subpath API 預定為 `structmark-language-core/v2`；本原始碼包尚未進行 Registry 發布。
-
-## 專案結構
-
-| 路徑 | 功能 |
-| --- | --- |
-| `src/v2/` | v2 獨立 ESM 引擎與宣告檔；所有 v2 工具共用 |
-| `bin/sm2.mjs` | v2 CLI |
-| `experimental/v2/tests/` | v2 回歸、CLI 與安全測試 |
-| `src/`（其他檔案） | v1.6 相容核心及既有 TypeScript 工具 |
-| `apps/site/` | 雙語文件站與可切換版本的 Playground |
-| `packages/language-server/`、`packages/vscode/` | VS Code/LSP 原始碼與打包流程 |
-| `docs/` | 語法、設計、CLI、版本與驗證文件 |
-
-## 開發與驗證
+完整工作區檢查:
 
 ```bash
-npm run check:v2                     # 無須第三方依賴
-node scripts/validate-vscode-assets.mjs
-npm ci && npm test                    # 需要 npm 套件
-npm run docs:check                    # 需要 TypeScript、yaml、katex
-npm run fuzz
-cd apps/site && npm ci && npm test && npm run build
+node bin/sm2.mjs workspace examples/workspace
 ```
 
-VS Code 專案請參閱 [VS Code README](packages/vscode/README.md)。在缺乏 npm Registry 或編輯器執行環境時，不能將尚未執行的 TypeScript / Next.js / VSIX 驗收列為通過。
+使用 v2 ESM API:
 
-## 相容性與版本
+```js
+import {parse, format, renderHtml} from './src/v2/index.mjs';
 
-既有 `parseDocument()`、`renderHtml()` 與 `structmark` CLI 仍維持 v1.6 路徑，舊 AST 版本為 `1.1`；**v2 API 是 `parse()`、`format()`、`renderHtml()`，AST `version: "2.0"`**。此階段採明確版本介面，避免默默改變現有文件。正式 `2.0.0` 要通過 [發行檢查點](docs/STRUCTMARK_V2_RELEASE_GATES.md)。
+const document = parse('#1 Hello (#hello)\n\nSee (#hello)');
+if (!document.valid) {
+  console.error(document.diagnostics);
+} else {
+  console.log(renderHtml(document));
+}
+```
 
-## 授權
+執行完整驗證:
 
-MIT License，詳見 [LICENSE](LICENSE)。
+```bash
+npm run check:v2
+npm test
+npm run docs:check
+npm run fuzz
+python3 benchmark/tokens.py --require-tokenizer
+npm run benchmark:semantic
+```
+
+網站與 VS Code 的建置方式請分別參考 `apps/site/package.json` 與 [VS Code README](packages/vscode/README.md). 目前 VS Code VSIX 的實機安裝與瀏覽器 Chromium E2E 需要在具備對應執行環境的 CI 或開發機完成.
+
+### 授權
+
+本專案採用 MIT License 授權, 詳見 [LICENSE](./LICENSE).
+
+---
 
 ## English
 
-StructMark is a semantic-first `.sm` markup language intended for readable writing, typed data, checked references, and deterministic tooling. This archive is the **2.0.0-rc.1 source candidate**, not a final stable release. The v2 ESM engine lives in `src/v2/` and is shared by the CLI, playground integration, and editor source. The previous v1.6 API remains available separately.
+### Table of Contents
 
-Run `node bin/sm2.mjs check examples/v2-introduction.sm` and `npm run check:v2` without additional npm packages. See the [verification report](docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md) and the [Markdown／StructMark Token report](docs/MD_SM_TOKEN_REPORT.md) for reproducible results. The Token comparison covers `.md` and `.sm` only.
+- [About](#about)
+- [Features](#features)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+
+### About
+
+StructMark is a semantic-first general-purpose markup language with `.sm` as its official file extension.
+
+It keeps plain-text writing direct while making headings, directives, data, references, and diagnostics explicit to a parser. The same source can feed a CLI, TypeScript API, website, indexer, or editor without being rewritten for each tool.
+
+The current main branch is the `2.0.0-rc.1` source candidate. The v2 engine lives in `src/v2/`, while the previous v1.6 TypeScript API remains available under `src/` for compatibility.
+
+StructMark does not claim that every document uses fewer tokens than Markdown. Its main value is predictable parsing, semantic diagnostics, safe output, and tooling integration. A 16-pair `.md` / `.sm` corpus now passes AST comparison 16/16; the real tokenizer benchmark currently shows no stable token advantage. See the [token report](docs/MD_SM_TOKEN_REPORT.md).
+
+### Features
+
+- **Semantic blocks**: headings, notes, warnings, examples, quotes, code, and data blocks.
+- **Structured data**: native tables, typed columns, `schema`, and `data` validation.
+- **Checked references**: document-local and workspace-relative `.sm#id` references with traversal protection.
+- **Deterministic AST**: identical source produces identical structure for testing, formatting, indexing, and conversion.
+- **Safe HTML**: text, attributes, and URLs are escaped and filtered through allowlists.
+- **Tooling**: CLI, TypeScript API, bilingual documentation site, Playground, Language Server, and VS Code extension sources.
+
+### Demo
+
+- Documentation site: [StructMark documentation](https://omiki0826o.github.io/StructMark/)
+- Playground: [Open Playground](https://omiki0826o.github.io/StructMark/zh-tw/playground/)
+- VS Code project: [StructMark-VSCode](https://github.com/oMiki0826o/StructMark-VSCode)
+
+### Installation
+
+Requirements: Node.js 22 or later.
+
+```bash
+git clone https://github.com/oMiki0826o/StructMark.git
+cd StructMark
+npm ci
+```
+
+### Usage
+
+Run the v2 CLI:
+
+```bash
+node bin/sm2.mjs check examples/v2-introduction.sm
+node bin/sm2.mjs ast examples/v2-introduction.sm
+node bin/sm2.mjs html examples/v2-introduction.sm
+node bin/sm2.mjs format examples/v2-introduction.sm
+```
+
+Run the complete validation suite:
+
+```bash
+npm run check:v2
+npm test
+npm run docs:check
+npm run fuzz
+python3 benchmark/tokens.py --require-tokenizer
+npm run benchmark:semantic
+```
+
+See `apps/site/package.json` and the [VS Code README](packages/vscode/README.md) for their respective build flows. VS Code installation testing and Chromium browser E2E require a suitable CI runner or development machine.
+
+### License
+
+This project is licensed under the MIT License. See [LICENSE](./LICENSE).
