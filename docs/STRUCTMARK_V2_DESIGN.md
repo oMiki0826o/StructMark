@@ -25,7 +25,7 @@ Markdown 可透過擴充功能達到部分能力；此設計**不宣稱所有 Ma
 
 已實作：六層標題、Registry 指令與簡寫、位置參數、行內格式、文件內及跨檔參照、方括號表格、`number`/`boolean`/`date` 欄位、JSON Data/Schema 子集、輸入上限、安全 HTML、CLI、測試及模糊測試。Playground 可明確選擇 v1.6 與 v2。編輯器/LSP 原始碼使用 v2 API，但未經本環境編譯與 VSIX 實機驗收。
 
-尚未實作或尚未確認：完整的 JSON Schema、數學排版引擎與外掛執行、跨工作區 Symbol Index 持久化、可編輯 AST 的互動式網站介面、與 Markdown/@Doc 的經驗證等價語義及真實 Token 比較、各平台 VSIX 與站台 E2E 驗證。
+尚未實作或尚未確認：完整的 JSON Schema、數學排版引擎與外掛執行、跨工作區 Symbol Index 持久化、可編輯 AST 的互動式網站介面、與 Markdown 的完整 CommonMark 等價語義、各平台 VSIX 與站台 E2E 驗證。`.md`／`.sm` 的 Token 實測已完成，但僅代表 `docs/MD_SM_TOKEN_REPORT.md` 的指定語料。
 
 ## 語言邊界與擴充原則
 

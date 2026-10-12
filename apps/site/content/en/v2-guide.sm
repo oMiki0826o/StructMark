@@ -33,4 +33,4 @@ node bin/sm2.mjs workspace examples/workspace
 
 #2 Release status
 
-The version is 2.0.0-rc.1 (source candidate). Consult docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md for executable test results and remaining TypeScript, website and VSIX build checks. Character counts are not token counts.
+The version is 2.0.0-rc.1 (source candidate). Consult docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md for executable validation results and docs/MD_SM_TOKEN_REPORT.md for the real-tokenizer `.md` versus `.sm` comparison. The measurements describe this corpus; they are not a guarantee that every document is shorter.

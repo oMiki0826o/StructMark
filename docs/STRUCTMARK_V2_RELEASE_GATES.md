@@ -10,7 +10,7 @@
 | G4 工作區 | 跨檔參照與最小 Schema/型別檢查 | **已整合基本能力**；非完整 JSON Schema |
 | G5 編輯器 | LSP、VS Code 編譯，打包 VSIX 與實機互動 | **僅原始碼/資產檢查**；依賴與 VSIX 驗收待完成 |
 | G6 網站 | 文件、Playground v2 與核心一致，Next Build/E2E | **原始碼整合、部分 helper 測試**；完整 Build/E2E 待完成 |
-| G7 比較 | 可重現 Markdown、@Doc、StructMark 等價語料及實際 Tokenizer 比較 | **僅人工對照語料與數據生成器**；需獨立確認語義等價與 tokenizer |
+| G7 比較 | 可重現 Markdown／StructMark 對照語料及實際 Tokenizer 比較 | **`.md`／`.sm` 已完成**；結果與限制見 `docs/MD_SM_TOKEN_REPORT.md`，不包含 `@Doc` |
 | G8 發行 | 全專案依賴安裝、建置、回歸與治理檢查 | **未完成**；不能發布為穩定 v2.0.0 |
 
 **正式版放行條件**：G1–G8 全數有 CI / 實機證據、沒有未處理的高優先缺陷、文件與實際 API 一致。正式發布還需維護者審核與確認版本標籤。

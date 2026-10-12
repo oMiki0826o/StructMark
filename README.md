@@ -2,7 +2,7 @@
 
 > **2.0.0-rc.1 原始碼候選版。** `.sm` 的 v2 引擎已具備解析、驗證、格式化、安全 HTML 輸出與 CLI；原有 1.6 工具鏈仍保留作為相容層。RC 不是正式 `2.0.0` 發行，建置限制與驗證結果列於 [驗證報告](docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md)。
 
-StructMark 是一套以語義結構為核心的文字標記語言。它希望將簡潔的日常寫作語法，與可檢查的引用、型別化資料及文件工具結合；減少 Token 是設計目標，但**尚未完成相同語義語料的真實 Tokenizer 驗證，因此不宣稱全面優於 Markdown**。
+StructMark 是一套以語義結構為核心的文字標記語言。它希望將簡潔的日常寫作語法，與可檢查的引用、型別化資料及文件工具結合。針對 10 組 `.md`／`.sm` 對照語料的實測中，`cl100k_base` 少 3.21%、`o200k_base` 少 4.91%；這是指定語料的結果，不代表所有文件都一定更省。
 
 [English introduction](#english) · [v2 語法契約](docs/STRUCTMARK_V2_LANGUAGE_CONTRACT.md) · [v2 CLI](docs/STRUCTMARK_V2_CLI.md) · [版本狀態](V2_RELEASE_STATUS.md)
 
@@ -106,4 +106,4 @@ MIT License，詳見 [LICENSE](LICENSE)。
 
 StructMark is a semantic-first `.sm` markup language intended for readable writing, typed data, checked references, and deterministic tooling. This archive is the **2.0.0-rc.1 source candidate**, not a final stable release. The v2 ESM engine lives in `src/v2/` and is shared by the CLI, playground integration, and editor source. The previous v1.6 API remains available separately.
 
-Run `node bin/sm2.mjs check examples/v2-introduction.sm` and `npm run check:v2` without additional npm packages. A complete TypeScript, Next.js, or VSIX build requires installing the corresponding dependencies; see the [verification report](docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md). No Token savings over Markdown or @Doc are claimed without comparable tokenizer results.
+Run `node bin/sm2.mjs check examples/v2-introduction.sm` and `npm run check:v2` without additional npm packages. See the [verification report](docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md) and the [Markdown／StructMark Token report](docs/MD_SM_TOKEN_REPORT.md) for reproducible results. The Token comparison covers `.md` and `.sm` only.

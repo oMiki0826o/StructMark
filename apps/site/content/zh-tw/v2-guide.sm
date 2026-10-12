@@ -33,4 +33,4 @@ node bin/sm2.mjs workspace examples/workspace
 
 #2 發行狀態
 
-目前版本為 2.0.0-rc.1 原始碼候選版。所有核心測試結果與尚未完成的 TypeScript、網站及 VSIX 建置驗證，都會記錄在專案根目錄的 docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md。暫時不要用字元數代替 Token 效率比較。
+目前版本為 2.0.0-rc.1 原始碼候選版。核心、網站與 VSIX 的實際驗證結果會記錄在專案根目錄的 docs/STRUCTMARK_V2_RELEASE_EVIDENCE.md；`.md` 與 `.sm` 的真實 Tokenizer 對照則記錄在 docs/MD_SM_TOKEN_REPORT.md。Token 結果只代表指定語料，不代表所有文件都一定更省。

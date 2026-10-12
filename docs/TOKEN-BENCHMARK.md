@@ -38,41 +38,9 @@ Token 數量會受到 tokenizer、語言、文件內容與標記方式影響。�
 - 基本文字在這組語料中反而多 2 tokens。
 - 標題、圖片、表格與學術引用在這組語料中沒有差異。
 
-## 複合文件測試
+## 測試範圍
 
-第二組測試包含標題、行內格式、`&note`、學術引用與 CSV 表格。
-
-| Tokenizer | Markdown | StructMark | 差異 | StructMark 比例 |
-| --- | ---: | ---: | ---: | ---: |
-| `cl100k_base` | 114 | 127 | +13 | 111.4% |
-| `o200k_base` | 85 | 97 | +12 | 114.1% |
-
-### 造成增加的原因
-
-目前完整區塊語法會增加：
-
-```sm
-&note[title="提示"]
-內容
-&end
-```
-
-以及：
-
-```sm
-&table[format=csv]
-Name,Version
-StructMark,1.6
-&end
-```
-
-增加的內容主要來自：
-
-- 指令名稱
-- 屬性名稱
-- `title="..."`
-- `format=...`
-- 區塊結束標記
+本報告只比較 `.md` 與 `.sm` 的 10 組對照語料，不納入 `@Doc`，也不把未經 parser 驗證的其他格式寫成結論。逐筆 CSV 與可重現指令見 [MD_SM_TOKEN_REPORT.md](./MD_SM_TOKEN_REPORT.md)。
 
 ## 目前已支援的簡化語法
 
@@ -205,7 +173,7 @@ JSON 適合需要 `colspan`、`rowspan` 或其他結構化欄位的資料, 不�
 
 ## 結論
 
-目前實測顯示, StructMark 在官方基準語料中比 Markdown 少約 3.2% 至 4.9% Token, 但在包含複雜提示區塊與 CSV 表格的複合文件中多約 11.4% 至 14.1%。
+目前實測顯示, StructMark 在這份官方基準語料中比 Markdown 少約 3.2% 至 4.9% Token。
 
 因此目前最準確的產品描述是:
 

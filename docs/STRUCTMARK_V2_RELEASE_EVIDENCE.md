@@ -11,24 +11,20 @@
 | `sm2 workspace examples/workspace` | 3 份文件、0 項診斷 | 同左 |
 | `npm pack --dry-run --json --ignore-scripts` | 通過；檢查 package 清單與 ES Module 匯出 | 通過；僅作套件內容檢查，非 VSIX |
 | `cd apps/site && npm test` | 15 項網站 helper 測試通過 | 不適用（獨立 VS Code 倉庫不含網站） |
-| `python3 benchmark/v2_compare.py` | 9 筆比較資料列、字元/UTF-8 位元組計數成功 | 同一比較工具與語料快照 |
+| `python3 benchmark/tokens.py --require-tokenizer` | `.md`／`.sm` 10 組對照、`cl100k_base` 與 `o200k_base` 真實 Tokenizer 通過；結果見 `docs/MD_SM_TOKEN_REPORT.md` | 同一比較工具與語料快照 |
 | manifest、package-lock、JSON、GitHub workflow YAML | 版本一致、語法檢查通過 | 版本一致、語法檢查通過 |
 | `src/v2` SHA-256 比對 | 與 VS Code 完全一致 | 與核心完全一致 |
 | TypeScript `transpileModule` 語法解析 | v2 相關 TS/TSX 語法無診斷 | v2 相關 TS 語法無診斷 |
 
 Node 22.16.0、TypeScript 5.8.3（全域命令）、Python 3.13.5。上述 TypeScript 靜態語法轉譯**不能代表**完整型別檢查、建置或 VS Code 實機驗證。
 
-## 本地尚未通過的正式驗收
+## 仍需外部環境完成的正式驗收
 
 | 命令 | 本地結果與原因 |
 | --- | --- |
-| `npm run build`（core） | 失敗：找不到 `katex`、`yaml` npm 套件及宣告 |
-| `cd apps/site && npm run build` | 失敗：`next: not found` |
-| `npm run build --prefix packages/language-server` | 失敗：缺少 `@types/node`；LSP 依賴尚未安裝 |
-| `npm run build --prefix packages/vscode` | 失敗：缺少 VS Code Language Client、型別宣告 |
-| `npm run prepare:vscode` | 阻擋：找不到上述編譯輸出與 LSP 依賴；腳本正確拒絕不完整打包 |
-| `npm ci`、真正 VSIX 打包/執行、完整站台 E2E | npm Registry DNS 無法解析；此環境沒有可用的 VS Code 執行驗收 |
-| 真實 Markdown/@Doc/StructMark Tokenizer 比較 | `tiktoken` 未安裝；CSV Token 欄位明確輸出 `n/a`。人工語料尚未由 @Doc parser 驗證等價性 |
+| VS Code 實機安裝與 extension host 測試 | 本機沒有 `code`／`code-insiders` 執行檔；VSIX 已封裝，但需在裝有 VS Code 的環境安裝驗證 |
+| 完整站台瀏覽器 E2E | 測試腳本已具備；本機 macOS 12 不被目前 Playwright Chromium 下載器支援，需在 CI Chromium runner 執行 |
+| 真實 Markdown／StructMark Tokenizer 比較 | 已使用 `tiktoken` 完成；本次只驗證 `.md`／`.sm`，未納入 `@Doc`，結果見 `docs/MD_SM_TOKEN_REPORT.md` |
 
 缺少 npm 依賴是環境阻擋，而非證實程式本身已能通過依賴齊全後的建置；需要在 CI 或開發者環境完成驗收，修復任何新出現的整合錯誤。
 
@@ -46,7 +42,7 @@ npm run check:v2
 npm test
 npm run docs:check
 npm run fuzz
-python3 benchmark/v2_compare.py --require-tokenizer
+python3 benchmark/tokens.py --require-tokenizer
 cd apps/site && npm ci && npm test && npm run build
 cd ../..
 npm ci --prefix packages/language-server
