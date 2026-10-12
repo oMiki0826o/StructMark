@@ -1,196 +1,47 @@
-# StructMark Token 測試紀錄與優化規劃
+# StructMark Token 測試與優化規劃
 
-## 文件目的
+本文件是導覽頁, 唯一的最新 Token 數據以 [MD_SM_TOKEN_REPORT.md](./MD_SM_TOKEN_REPORT.md)、`benchmark/results.csv` 與 `benchmark/results.metadata.json` 為準.
 
-本文件記錄 StructMark 與 Markdown 的 Token 對照測試, 並整理降低複雜文件 Token 消耗的後續規劃。
+## 目前結果
 
-Token 數量會受到 tokenizer、語言、文件內容與標記方式影響。以下結果只能代表指定語料與 tokenizer 的實測, 不代表所有文件都一定更省。
+測試只比較 `.md` 與 `.sm`, 不包含 `@Doc`.
 
-## 測試環境
+| Tokenizer | Markdown | StructMark | 差異 |
+| --- | ---: | ---: | ---: |
+| `cl100k_base` | 517 | 526 | +9 |
+| `o200k_base` | 405 | 414 | +9 |
 
-- Tokenizer: `cl100k_base`
-- Tokenizer: `o200k_base`
-- 工具: Python `tiktoken`
-- 對照格式: Markdown 與 StructMark
-- 測試範圍: 基本文字、行內格式、數學、標題、圖片、清單、表格、引用、提示區塊與學術引用
+16 組原始語料的 AST 對照為 16/16 通過. 目前結果不能支持 StructMark 比 Markdown 更省 Token 的結論.
 
-## 官方基準語料結果
-
-| 類型 | cl100k Markdown | cl100k `.sm` | o200k Markdown | o200k `.sm` |
-| --- | ---: | ---: | ---: | ---: |
-| 基本文字 | 29 | 31 | 22 | 24 |
-| 行內格式 | 16 | 14 | 15 | 13 |
-| 數學 | 23 | 20 | 23 | 20 |
-| 標題 | 24 | 24 | 18 | 18 |
-| 圖片 | 13 | 13 | 13 | 13 |
-| 清單 | 22 | 20 | 20 | 18 |
-| 表格 | 16 | 16 | 16 | 16 |
-| 引用 | 15 | 13 | 13 | 13 |
-| 提示區塊 | 15 | 14 | 13 | 10 |
-| 學術引用 | 14 | 14 | 10 | 10 |
-| **總計** | **187** | **181** | **163** | **155** |
-
-### 結果
-
-- `cl100k_base`: StructMark 少 6 tokens, 約少 3.2%。
-- `o200k_base`: StructMark 少 8 tokens, 約少 4.9%。
-- 行內格式、數學、清單、引用與提示區塊是目前較有優勢的項目。
-- 基本文字在這組語料中反而多 2 tokens。
-- 標題、圖片、表格與學術引用在這組語料中沒有差異。
-
-## 測試範圍
-
-本報告只比較 `.md` 與 `.sm` 的 10 組對照語料，不納入 `@Doc`，也不把未經 parser 驗證的其他格式寫成結論。逐筆 CSV 與可重現指令見 [MD_SM_TOKEN_REPORT.md](./MD_SM_TOKEN_REPORT.md)。
-
-## 目前已支援的簡化語法
-
-目前 registry 已有以下別名:
-
-```text
-&n  = &note
-&w  = &warning
-&t  = &test
-&e  = &end
-```
-
-例如:
-
-```sm
-&n[title="提示"]
-內容
-&e
-```
-
-等同於:
-
-```sm
-&note[title="提示"]
-內容
-&end
-```
-
-`&t` 已經代表 `&test`, 因此不能再拿來代表 `&table`。
-
-## Token 優化規劃
-
-### 第一階段: 完善現有別名
-
-- 補齊 `&n`、`&w`、`&t`、`&e` 的語法文件。
-- 為每個別名補上 AST 等價性測試。
-- 確認完整語法與簡化語法產生完全相同的 AST。
-- 在錯誤訊息中顯示展開後的正式指令名稱。
-
-### 第二階段: 新增表格簡寫
-
-由於 `&t` 已被使用, 表格可以採用不衝突的 `&tbl`:
-
-```sm
-&tbl[csv]
-Name,Version
-StructMark,1.6
-&e
-```
-
-等同於:
-
-```sm
-&table[format=csv]
-Name,Version
-StructMark,1.6
-&end
-```
-
-JSON 與 TSV 也可以使用相同形式:
-
-```sm
-&tbl[json]
-{"columns":["Name"],"rows":[["StructMark"]]}
-&e
-```
-
-這項功能尚未實作, 目前只是規劃。
-
-### 第三階段: 屬性值簡寫
-
-目前:
-
-```sm
-&note[title="補充資訊"]
-```
-
-可規劃為:
-
-```sm
-&n["補充資訊"]
-```
-
-目前:
-
-```sm
-&table[format=csv]
-```
-
-可規劃為:
-
-```sm
-&tbl[csv]
-```
-
-簡寫應該只在 parser 前端展開, AST 與 renderer 不應增加另一套語義。
-
-### 第四階段: 保留低冗餘資料格式
-
-大量資料應優先使用 CSV 或 TSV:
-
-```sm
-&tbl[csv]
-Name,Version
-StructMark,1.6
-&e
-```
-
-JSON 適合需要 `colspan`、`rowspan` 或其他結構化欄位的資料, 不應為了追求 Token 數量而取代所有格式。
-
-### 第五階段: 建立完整回歸基準
-
-後續基準測試應包含:
-
-1. 完整語法與現有簡化語法。
-2. 新增表格簡寫前後的差異。
-3. CSV、TSV 與 JSON 的對照。
-4. 短文件、中型文件與大型文件。
-5. 中文、英文與混合語言。
-6. `cl100k_base` 與 `o200k_base`。
-7. Token 數量、字元數、UTF-8 位元組數與解析診斷。
-
-驗證條件:
-
-- 簡單文件不應因使用 StructMark 而大幅增加 Token。
-- 常見提示區塊應比完整寫法更短。
-- 結構化表格應提供簡潔寫法, 但不能犧牲資料驗證。
-- 所有簡化寫法都必須與完整寫法產生相同 AST。
-- 測試結果必須區分「實測結果」與「設計目標」。
-
-## 結論
-
-目前實測顯示, StructMark 在這份官方基準語料中比 Markdown 少約 3.2% 至 4.9% Token。
-
-因此目前最準確的產品描述是:
-
-> StructMark 透過簡潔標記與結構化語法, 降低常見文件中的標記冗餘與 Token 消耗, 並提供簡化語法在可讀性與資料結構之間取得平衡。
-
-不能宣稱 StructMark 在所有文件中都比 Markdown 更省 Token。
-
-## 執行測試
-
-在專案根目錄執行:
+## 可重現指令
 
 ```bash
+npm run benchmark:semantic
 python3 benchmark/tokens.py --require-tokenizer
 ```
 
-測試結果會寫入:
+Benchmark 會檢查語料欄位、重複 ID、AST 對照、tokenizer、環境版本與語料 SHA-256.
 
-```text
-benchmark/results.csv
-```
+## 優化原則
+
+### Canonical
+
+給人閱讀、編輯與版本控制. 優先考慮語法清楚、穩定 diff 與確定性 AST.
+
+### Compact
+
+給機器交換或 AI 輸入. 應由語義 AST 產生, 並通過重新解析後的語義相等測試. 不應修改現有 Canonical Formatter 的職責.
+
+### Context
+
+給 AI 問答與 Agent. 先從文件索引擷取必要章節與參照, 再計算 Token budget. 只縮短符號而把整份無關文件送入模型, 不是有效的上下文優化.
+
+## 下一階段
+
+1. 建立 v2 專用 Semantic IR, 讓 v2 Parser 與 Markdown 匯入器使用同一套比較語義.
+2. 為 v2 原生表格、Schema、CSV/TSV 與資料列建立獨立 benchmark.
+3. 新增 Compact Serializer, 驗證 `parse(serialize(AST, profile))` 的語義不變.
+4. 延伸 Workspace Index, 建立章節、參照、Schema 與來源位置索引.
+5. 在索引基礎上建立 Context Extractor 與 Token budget.
+
+在有可重現數據前, 不新增只為縮短字元而設計的單字母指令, 也不宣稱任何固定 Token 節省比例.

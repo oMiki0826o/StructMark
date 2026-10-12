@@ -38,15 +38,15 @@ python3 benchmark/tokens.py --require-tokenizer
 
 | 案例 | `cl100k` Markdown | `cl100k` `.sm` | `o200k` Markdown | `o200k` `.sm` |
 | --- | ---: | ---: | ---: | ---: |
-| basic | 29 | 31 | 22 | 24 |
-| inline | 16 | 14 | 15 | 13 |
-| math | 23 | 20 | 23 | 20 |
+| basic | 21 | 23 | 16 | 18 |
+| inline | 10 | 10 | 9 | 9 |
+| math | 16 | 16 | 15 | 15 |
 | heading | 24 | 24 | 18 | 18 |
-| images | 13 | 13 | 13 | 13 |
-| list | 22 | 20 | 20 | 18 |
+| images | 9 | 9 | 9 | 9 |
+| list | 17 | 17 | 15 | 15 |
 | table | 16 | 16 | 16 | 16 |
 | quote | 15 | 15 | 13 | 13 |
-| note | 15 | 14 | 13 | 10 |
+| note | 10 | 10 | 8 | 8 |
 | citation | 14 | 14 | 10 | 10 |
 | technical | 52 | 53 | 39 | 40 |
 | academic | 83 | 85 | 56 | 58 |
@@ -63,7 +63,7 @@ python3 benchmark/tokens.py --require-tokenizer
 
 因此目前較準確的說法是：
 
-> StructMark 在這組 10 筆 `.md`／`.sm` 對照語料與兩種真實 tokenizer 下，總 Token 數較低；實際差異取決於文件內容與所使用的 tokenizer。
+> StructMark 在目前 16 組共同語義 `.md`／`.sm` 語料中沒有顯示 Token 優勢；實際差異取決於文件內容與所使用的 tokenizer。
 
 本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。`npm run benchmark:semantic` 會直接讀取每筆原始 Markdown 與 `.sm`，分別解析後做規範化 AST 比較；目前 16/16 通過，結果見 `benchmark/semantic-equivalence.json`。
 
