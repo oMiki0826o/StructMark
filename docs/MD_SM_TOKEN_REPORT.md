@@ -18,6 +18,7 @@
 
 語料來源：[`benchmark/corpus.json`](../benchmark/corpus.json)  
 逐筆結果：[`benchmark/results.csv`](../benchmark/results.csv)  
+執行環境與語料雜湊：[`benchmark/results.metadata.json`](../benchmark/results.metadata.json)
 執行指令：
 
 ```sh
@@ -30,6 +31,8 @@ python3 benchmark/tokens.py --require-tokenizer
 - `o200k_base`
 
 比較欄位包含字元數、UTF-8 位元組數與 tokenizer 實際產生的 Token 數。字元數和位元組數只作為輔助資料，不當作 Token 數。
+
+本次執行使用 `tiktoken 0.14.0`、Python 3.11.9；語料 SHA-256 為 `c835fc7fa05ceddc4e052607645c8145d89a4cb995fa67efe9d02a5a9330ca5a`。腳本會檢查語料為非空集合、必要欄位完整、ID 不重複，避免基準資料悄悄失真。
 
 ## 逐筆結果
 
@@ -55,3 +58,9 @@ python3 benchmark/tokens.py --require-tokenizer
 > StructMark 在這組 10 筆 `.md`／`.sm` 對照語料與兩種真實 tokenizer 下，總 Token 數較低；實際差異取決於文件內容與所使用的 tokenizer。
 
 本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。
+
+## 失敗案例與下一階段
+
+本次基準沒有 tokenizer 執行失敗；語料結構檢查也沒有失敗案例。這不等於三方語義已被證明等價：目前每組 `.md`／`.sm` 是人工建立的對照來源，尚未由 Markdown AST 與 StructMark AST 自動比對。
+
+下一階段將加入較長的技術文件、API 文件、學術段落、數學筆記、一般文章與結構化資料，並為每組案例保存可比較的 AST fixture。新增語料後，必須重新產生 CSV、metadata 與本報告，才能更新效能結論。

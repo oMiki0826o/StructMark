@@ -7,12 +7,15 @@ Modification: 2026-10-10 — 實際 tokenizer 基準測試及無 tiktoken 時的
 # ── 套件及資料 ──
 import argparse
 import csv
+import hashlib
 import json
+import platform
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 CORPUS = ROOT / "corpus.json"
 OUTPUT = ROOT / "results.csv"
+METADATA = ROOT / "results.metadata.json"
 ENCODINGS = ("cl100k_base", "o200k_base")
 
 
@@ -21,7 +24,20 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--require-tokenizer", action="store_true", help="缺少 tiktoken 時使基準測試失敗")
     args = parser.parse_args()
-    samples = json.loads(CORPUS.read_text(encoding="utf-8"))
+    corpus_text = CORPUS.read_text(encoding="utf-8")
+    samples = json.loads(corpus_text)
+    required = {"id", "description", "markdown", "structmark"}
+    if not isinstance(samples, list) or not samples:
+        raise SystemExit("語料必須是非空陣列")
+    ids = set()
+    for index, item in enumerate(samples, start=1):
+        if not isinstance(item, dict) or not required.issubset(item):
+            raise SystemExit(f"語料第 {index} 筆缺少必要欄位")
+        if not all(isinstance(item[key], str) for key in required):
+            raise SystemExit(f"語料第 {index} 筆欄位必須是文字")
+        if item["id"] in ids:
+            raise SystemExit(f"語料 ID 重複：{item['id']}")
+        ids.add(item["id"])
     try:
         import tiktoken
     except ImportError:
@@ -57,7 +73,21 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(results)
 
+    metadata = {
+        "corpus": CORPUS.name,
+        "corpus_sha256": hashlib.sha256(corpus_text.encode("utf-8")).hexdigest(),
+        "cases": len(samples),
+        "formats": ["markdown", "structmark"],
+        "tokenizers": list(tokenizers),
+        "tokenizer_versions": {"tiktoken": getattr(__import__("tiktoken"), "__version__", "unknown")} if tokenizers else {},
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "script": "benchmark/tokens.py",
+    }
+    (ROOT / "results.metadata.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
     print(f"已建立 {OUTPUT}")
+    print(f"已建立 {METADATA}")
     for fmt in ("markdown", "structmark"):
         group = [x for x in results if x["format"] == fmt]
         print(f"{fmt}: 字元={sum(x['characters'] for x in group)}, UTF-8 位元組={sum(x['utf8_bytes'] for x in group)}")
