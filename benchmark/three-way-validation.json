@@ -1,0 +1,7 @@
+{
+  "source": "AtDoc Markdown importer + AtDoc parser",
+  "cases": 16,
+  "converted": 16,
+  "reparsed_without_diagnostics": 16,
+  "failed": []
+}

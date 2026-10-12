@@ -1,0 +1,70 @@
+{
+  "cases": 16,
+  "formats": {
+    "markdown": {
+      "characters": 794,
+      "utf8_bytes": 1208,
+      "tokens": {
+        "cl100k_base": 517,
+        "o200k_base": 405
+      }
+    },
+    "atdoc": {
+      "characters": 1145,
+      "utf8_bytes": 1559,
+      "tokens": {
+        "cl100k_base": 625,
+        "o200k_base": 514
+      }
+    },
+    "structmark": {
+      "characters": 791,
+      "utf8_bytes": 1205,
+      "tokens": {
+        "cl100k_base": 526,
+        "o200k_base": 414
+      }
+    }
+  },
+  "comparisons": {
+    "cl100k_base": {
+      "totals": {
+        "markdown": 517,
+        "atdoc": 625,
+        "structmark": 526
+      },
+      "ranked_low_to_high": [
+        "markdown",
+        "structmark",
+        "atdoc"
+      ],
+      "delta_vs_markdown": {
+        "atdoc": 108,
+        "structmark": 9
+      }
+    },
+    "o200k_base": {
+      "totals": {
+        "markdown": 405,
+        "atdoc": 514,
+        "structmark": 414
+      },
+      "ranked_low_to_high": [
+        "markdown",
+        "structmark",
+        "atdoc"
+      ],
+      "delta_vs_markdown": {
+        "atdoc": 109,
+        "structmark": 9
+      }
+    }
+  },
+  "validation": "three-way-validation.json",
+  "corpus_sha256": "608b16162f63bd111f8a60f0f002e150f6c74b809dfec50eba8ede99ce27a2da",
+  "python": "3.11.9",
+  "platform": "macOS-12.7.6-x86_64-i386-64bit",
+  "tokenizer_versions": {
+    "tiktoken": "0.14.0"
+  }
+}

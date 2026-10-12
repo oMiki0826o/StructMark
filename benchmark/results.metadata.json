@@ -15,5 +15,6 @@
   },
   "python": "3.11.9",
   "platform": "macOS-12.7.6-x86_64-i386-64bit",
-  "script": "benchmark/tokens.py"
+  "script": "benchmark/tokens.py",
+  "summary": "summary.json"
 }

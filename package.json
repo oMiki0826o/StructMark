@@ -45,6 +45,7 @@
     "test": "npm run build && node --test tests/*.test.mjs",
     "fuzz": "npm run build && node scripts/fuzz.mjs",
     "benchmark:tokens": "python3 benchmark/tokens.py",
+    "benchmark:three-way": "node benchmark/three-way.mjs \"$ATDOC_DIST\" && python3 benchmark/three-way-tokens.py",
     "benchmark:semantic": "npm run build && node benchmark/semantic-equivalence.mjs",
     "benchmark:perf": "npm run build && node scripts/perf.mjs",
     "demo": "npm run build && node scripts/demo.mjs",

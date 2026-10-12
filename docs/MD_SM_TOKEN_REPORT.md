@@ -17,7 +17,8 @@
 ## 測試方式
 
 語料來源：[`benchmark/corpus.json`](../benchmark/corpus.json)  
-逐筆結果：[`benchmark/results.csv`](../benchmark/results.csv)  
+逐筆結果：[`benchmark/results.csv`](../benchmark/results.csv)
+自動摘要：[`benchmark/summary.json`](../benchmark/summary.json)
 執行環境與語料雜湊：[`benchmark/results.metadata.json`](../benchmark/results.metadata.json)
 執行指令：
 
@@ -33,6 +34,8 @@ python3 benchmark/tokens.py --require-tokenizer
 比較欄位包含字元數、UTF-8 位元組數與 tokenizer 實際產生的 Token 數。字元數和位元組數只作為輔助資料，不當作 Token 數。
 
 本次執行使用 `tiktoken 0.14.0`、Python 3.11.9；最新語料 SHA-256 與完整環境資料見 `benchmark/results.metadata.json`。腳本會檢查語料為非空集合、必要欄位完整、ID 不重複，避免基準資料悄悄失真。
+
+`summary.json` 由同一支腳本產生，包含總量差異、相對比例，以及逐筆 StructMark 較短或相同的案例數；因此本報告的摘要不需要手動同步另一份計算結果。
 
 ## 逐筆結果
 

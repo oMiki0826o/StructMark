@@ -3,6 +3,7 @@
  * Modification: 2026-10-12 — Browser-safe POSIX workspace reference validation.
  */
 import {parse} from './parser.mjs';
+import {format} from './formatter.mjs';
 import {parseInline,inlineReferences} from './inline.mjs';
 import {issue} from './registry.mjs';
 
@@ -53,4 +54,32 @@ export function validateWorkspace(files){
     });
   }
   return {documents,diagnostics};
+}
+
+/** Extract the smallest heading-bounded sections that match a query. */
+export function extractContext(files,{query='',maxTokens=1200,tokenize}={}){
+  const entries=files instanceof Map?[...files.entries()]:Object.entries(files);
+  const terms=String(query).toLocaleLowerCase().split(/\s+/u).filter(Boolean);
+  const estimate=tokenize??(text=>Math.ceil(text.length/4));
+  const candidates=[];
+  for(const [path,source] of entries){
+    const doc=parse(source),nodes=doc.nodes;
+    for(let index=0;index<nodes.length;index++){
+      const heading=nodes[index];if(heading.type!=='heading')continue;
+      const children=[heading];
+      for(let next=index+1;next<nodes.length;next++){
+        const node=nodes[next];
+        if(node.type==='heading'&&node.level<=heading.level)break;
+        children.push(node);
+      }
+      const text=format({nodes:children});
+      const haystack=text.toLocaleLowerCase();
+      const score=terms.reduce((sum,term)=>sum+(haystack.includes(term)?1:0),0);
+      if(score)candidates.push({path,id:heading.id??null,title:heading.text,score,text,tokens:estimate(text)});
+    }
+  }
+  candidates.sort((a,b)=>b.score-a.score||a.tokens-b.tokens||a.path.localeCompare(b.path));
+  const selected=[];let used=0;
+  for(const candidate of candidates){if(used+candidate.tokens>maxTokens)continue;selected.push(candidate);used+=candidate.tokens;}
+  return {query,maxTokens,estimatedTokens:used,sections:selected};
 }

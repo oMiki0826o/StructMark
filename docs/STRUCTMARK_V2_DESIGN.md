@@ -15,7 +15,9 @@ Markdown 可透過擴充功能達到部分能力；此設計**不宣稱所有 Ma
 - `src/v2/inline.mjs` — 明確前綴的行內標記、連結和參照。
 - `src/v2/workspace.mjs` — 瀏覽器可用的跨文件參照驗證，拒絕路徑越界。
 - `src/v2/formatter.mjs` — 可往返的標準形式，不會默默修正有錯文件。
+- `src/v2/serializer.mjs` — Canonical／Compact 來源輸出；Compact 只使用 Registry 已宣告的安全別名。
 - `src/v2/html.mjs` — HTML 跳脫、URL 白名單和基本語義 HTML。
+- `src/v2/workspace.mjs` — 參照驗證與依標題、查詢和 Token budget 擷取 Context。
 - `src/v2/editor.mjs` — 由語義 AST 建立定位資訊；略過 Raw 區塊。
 - `src/v2/index.mjs` 與 `index.d.mts` — 單一穩定入口、TypeScript 宣告。
 
@@ -23,9 +25,9 @@ Markdown 可透過擴充功能達到部分能力；此設計**不宣稱所有 Ma
 
 ## 已實作與尚未實作
 
-已實作：六層標題、Registry 指令與簡寫、位置參數、行內格式、文件內及跨檔參照、方括號表格、`number`/`boolean`/`date` 欄位、JSON Data/Schema 子集、輸入上限、安全 HTML、CLI、測試及模糊測試。Playground 可明確選擇 v1.6 與 v2。編輯器/LSP 原始碼使用 v2 API，但未經本環境編譯與 VSIX 實機驗收。
+已實作：六層標題、Registry 指令與簡寫、位置參數、行內格式、文件內及跨檔參照、方括號表格、`number`/`boolean`/`date` 欄位、JSON 與 Schema rows Data、Compact Serializer、Context 擷取、輸入上限、安全 HTML、CLI、測試及模糊測試。Playground 可明確選擇 v1.6 與 v2。編輯器/LSP 原始碼使用 v2 API，但未經本環境編譯與 VSIX 實機驗收。
 
-尚未實作或尚未確認：完整的 JSON Schema、數學排版引擎與外掛執行、跨工作區 Symbol Index 持久化、可編輯 AST 的互動式網站介面、與 Markdown 的完整 CommonMark 等價語義、各平台 VSIX 與站台 E2E 驗證。`.md`／`.sm` 的 Token 實測已完成，但僅代表 `docs/MD_SM_TOKEN_REPORT.md` 的指定語料。
+尚未實作或尚未確認：完整的 JSON Schema、數學排版引擎與外掛執行、跨工作區 Symbol Index 持久化、可編輯 AST 的互動式網站介面、與 Markdown 的完整 CommonMark 等價語義、各平台 VSIX 與站台 E2E 驗證。`.md`／`.sm`／`@Doc` 的 Token 實測已完成，但僅代表指定語料；AtDoc 端為 importer 產生並重新解析的共同子集。
 
 ## 語言邊界與擴充原則
 

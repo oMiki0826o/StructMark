@@ -48,7 +48,10 @@ export function renderHtml(doc){
           const rows=node.rows.slice(1).map(row=>'<tr>'+row.map(value=>'<td>'+escapeHtml(value)+'</td>').join('')+'</tr>').join('\n');
           output.push(`<table>${header?'<thead><tr>'+header+'</tr></thead>':''}<tbody>${rows}</tbody></table>`);
         }else if(node.mode==='data'){
-          output.push(`<pre class="sm-data">${escapeHtml(node.raw.join('\n'))}</pre>`);
+          if(node.attributes.format==='rows'){
+            const rows=node.raw.join('\n').split(/\r?\n/).filter(Boolean).map(row=>row.split(','));
+            output.push(`<table class="sm-data"><tbody>${rows.map(row=>`<tr>${row.map(value=>`<td>${escapeHtml(value)}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
+          }else output.push(`<pre class="sm-data">${escapeHtml(node.raw.join('\n'))}</pre>`);
         }else if(node.mode==='raw'){
           const lang=/^[a-zA-Z0-9_+.-]+$/.test(attrs.lang??'')?` class="language-${escapeHtml(attrs.lang)}"`:'';
           if(node.name==='equation')output.push(`<div class="sm-equation"><pre>${escapeHtml(node.raw.join('\n'))}</pre></div>`);

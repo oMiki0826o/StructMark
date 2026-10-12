@@ -52,11 +52,26 @@ function validateTable(node,diagnostics){
 }
 function validateData(node,diagnostics){
   const format=node.attributes.format??'json';
+  if(format==='rows')return;
   if(format!=='json'){
-    diagnostics.push(issue(node.line,'SM306','v2 data 區塊目前僅支援 JSON 格式'));return;
+    diagnostics.push(issue(node.line,'SM306','v2 data 區塊支援 json 或 rows 格式'));return;
   }
   try{node.data=JSON.parse(node.raw.join('\n'));node.dataError=false;}
   catch{node.dataError=true;diagnostics.push(issue(node.line,'SM304','資料區塊包含不合法的 JSON'));}
+}
+function parseCsvRows(raw,line,diagnostics){
+  const rows=[];let row=[],cell='',quoted=false;
+  const source=raw.replace(/\r\n?/g,'\n');
+  for(let i=0;i<source.length;i++){
+    const char=source[i];
+    if(char==='"'){if(quoted&&source[i+1]==='"'){cell+='"';i++;}else quoted=!quoted;continue;}
+    if(char===','&&!quoted){row.push(cell);cell='';continue;}
+    if(char==='\n'&&!quoted){row.push(cell);if(!(row.length===1&&row[0]===''))rows.push(row);row=[];cell='';continue;}
+    cell+=char;
+  }
+  if(quoted){diagnostics.push(issue(line,'SM506','rows 資料包含未閉合的引號'));return null;}
+  if(cell!==''||row.length){row.push(cell);if(!(row.length===1&&row[0]===''))rows.push(row);}
+  return rows;
 }
 // ── 最小 Schema 契約，欄位以 ? 表示選填；不冒稱完整 JSON Schema ──
 function validateSchemas(nodes,diagnostics){
@@ -93,8 +108,21 @@ function validateSchemas(nodes,diagnostics){
   for(const node of data){
     const name=node.attributes.schema,fields=known.get(name);
     if(!fields){diagnostics.push(issue(node.line,'SM502',`找不到 Schema：${name}`));continue;}
-    if(node.dataError)continue; // JSON parse diagnostics already reported.
-    const values=Array.isArray(node.data)?node.data:[node.data];
+    if(node.dataError)continue; // JSON/rows diagnostics already reported.
+    let values;
+    if((node.attributes.format??'json')==='rows'){
+      const rows=parseCsvRows(node.raw.join('\n'),node.line,diagnostics);
+      if(!rows||!rows.length){diagnostics.push(issue(node.line,'SM506','rows 資料至少需要一列'));continue;}
+      const keys=Object.keys(fields).map(key=>key.endsWith('?')?key.slice(0,-1):key);
+      values=rows.map(row=>Object.fromEntries(keys.map((key,index)=>{
+        const declared=fields[key]??fields[`${key}?`];const value=row[index]??'';
+        if(declared==='number'&&value.trim()!==''&&Number.isFinite(Number(value)))return [key,Number(value)];
+        if(declared==='boolean'&&(value==='true'||value==='false'))return [key,value==='true'];
+        return [key,value];
+      })));
+      node.data=values;
+      if(rows.some(row=>row.length!==keys.length))diagnostics.push(issue(node.line,'SM507','rows 欄位數量與 Schema 不一致'));
+    }else values=Array.isArray(node.data)?node.data:[node.data];
     for(const row of values){
       if(!row||Array.isArray(row)||typeof row!=='object'){
         diagnostics.push(issue(node.line,'SM504','Schema 資料必須是物件或物件陣列'));continue;

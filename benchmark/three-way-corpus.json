@@ -1,0 +1,162 @@
+[
+  {
+    "id": "basic",
+    "markdown": "# 標題\n\n**粗體**。\n\n~~刪除~~。",
+    "atdoc": "@heading[標題]\n\n@paragraph[@bold[粗體]。]\n\n@paragraph[@del[刪除]。]",
+    "structmark": "#1 標題\n\n*[粗體]。\n\n~[刪除]。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "inline",
+    "markdown": "按下 Ctrl+C 複製。",
+    "atdoc": "@paragraph[按下 Ctrl+C 複製。]",
+    "structmark": "按下 Ctrl+C 複製。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "math",
+    "markdown": "化學式 H2O，能量 E=mc^2。",
+    "atdoc": "@paragraph[化學式 H2O，能量 E=mc^2。]",
+    "structmark": "化學式 H2O，能量 E=mc^2。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "heading",
+    "markdown": "## 紅石系統 {#redstone}\n\n[閱讀](#redstone)",
+    "atdoc": "@heading(2)[紅石系統 {#redstone}]\n\n@paragraph[@link(#redstone)[閱讀]]",
+    "structmark": "#2 紅石系統 (#redstone)\n\n[閱讀](#redstone)",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "images",
+    "markdown": "![星雲](m42.jpg)",
+    "atdoc": "@paragraph[@img(m42.jpg)[星雲]]",
+    "structmark": "![星雲](m42.jpg)",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "list",
+    "markdown": "- 完成\n- 未完成\n\n1. A\n2. B",
+    "atdoc": "@list[完成\n未完成]\n\n@list(ordered)[1. A\n2. B]",
+    "structmark": "- 完成\n- 未完成\n\n1. A\n2. B",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "table",
+    "markdown": "| Name | Value |\n|---|---|\n| A | 1 |",
+    "atdoc": "@table[@cols[Name,Value]@data[[A,1]]]",
+    "structmark": "| Name | Value |\n|---|---|\n| A | 1 |",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "quote",
+    "markdown": "> 一段引用。\n\n```python\nprint(1)\n```",
+    "atdoc": "@quote[@paragraph[一段引用。]]\n\n@code(python)[print(1)]",
+    "structmark": "> 一段引用。\n\n```python\nprint(1)\n```",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "note",
+    "markdown": "> 請先備份。",
+    "atdoc": "@quote[@paragraph[請先備份。]]",
+    "structmark": "> 請先備份。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "citation",
+    "markdown": "研究參考 [@smith2024]。",
+    "atdoc": "@paragraph[研究參考 [@@smith2024]。]",
+    "structmark": "研究參考 [@smith2024]。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "technical",
+    "markdown": "## 安裝\n\n先安裝依賴，再執行測試。\n\n```sh\nnpm install\nnpm test\n```\n\n> 建議在 CI 中固定 Node 版本。",
+    "atdoc": "@heading(2)[安裝]\n\n@paragraph[先安裝依賴，再執行測試。]\n\n@code(sh)[npm install\nnpm test]\n\n@quote[@paragraph[建議在 CI 中固定 Node 版本。]]",
+    "structmark": "#2 安裝\n\n先安裝依賴，再執行測試。\n\n```sh\nnpm install\nnpm test\n```\n\n> 建議在 CI 中固定 Node 版本。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "academic",
+    "markdown": "## 方法\n\n本研究比較兩種文件表示法，並以可重現的測試流程記錄結果。相關方法見 [Smith 2024](https://example.com/paper)。\n\n### 限制\n\n結果受語料與 tokenizer 影響。",
+    "atdoc": "@heading(2)[方法]\n\n@paragraph[本研究比較兩種文件表示法，並以可重現的測試流程記錄結果。相關方法見 @link(https://example.com/paper)[Smith 2024]。]\n\n@heading(3)[限制]\n\n@paragraph[結果受語料與 tokenizer 影響。]",
+    "structmark": "#2 方法\n\n本研究比較兩種文件表示法，並以可重現的測試流程記錄結果。相關方法見 [Smith 2024](https://example.com/paper)。\n\n#3 限制\n\n結果受語料與 tokenizer 影響。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "api",
+    "markdown": "## parseDocument(source)\n\n解析來源文件並回傳 AST。\n\n- `source`: UTF-8 字串\n- `return`: 文件節點\n\n```ts\nconst document = parseDocument(source);\n```",
+    "atdoc": "@heading(2)[parseDocument(source)]\n\n@paragraph[解析來源文件並回傳 AST。]\n\n@list[@raw[source]: UTF-8 字串\n@raw[return]: 文件節點]\n\n@code(ts)[const document = parseDocument(source);]",
+    "structmark": "#2 parseDocument(source)\n\n解析來源文件並回傳 AST。\n\n- `source`: UTF-8 字串\n- `return`: 文件節點\n\n```ts\nconst document = parseDocument(source);\n```",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "math-notes",
+    "markdown": "## 二次方程式\n\n解為 $x=(-b\\pm\\sqrt{b^2-4ac})/(2a)$。\n\n其中 $a$ 不可為零。",
+    "atdoc": "@heading(2)[二次方程式]\n\n@paragraph[解為 $x=(-b\\pm\\sqrt{b^2-4ac})/(2a)$。]\n\n@paragraph[其中 $a$ 不可為零。]",
+    "structmark": "#2 二次方程式\n\n解為 $x=(-b\\pm\\sqrt{b^2-4ac})/(2a)$。\n\n其中 $a$ 不可為零。",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "article",
+    "markdown": "## 一份可維護的文件\n\n好的文件應該讓人容易閱讀，也讓工具容易處理。\n\n**重點**：\n\n- 保持來源清楚\n- 保留可追蹤的結構\n- 讓錯誤盡早出現",
+    "atdoc": "@heading(2)[一份可維護的文件]\n\n@paragraph[好的文件應該讓人容易閱讀，也讓工具容易處理。]\n\n@paragraph[@bold[重點]：]\n\n@list[保持來源清楚\n保留可追蹤的結構\n讓錯誤盡早出現]",
+    "structmark": "#2 一份可維護的文件\n\n好的文件應該讓人容易閱讀，也讓工具容易處理。\n\n*[重點]：\n\n- 保持來源清楚\n- 保留可追蹤的結構\n- 讓錯誤盡早出現",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  },
+  {
+    "id": "structured-data",
+    "markdown": "## 設定資料\n\n| Name | Type | Required |\n| --- | --- | --- |\n| title | string | yes |\n| tags | array | no |\n| enabled | boolean | yes |",
+    "atdoc": "@heading(2)[設定資料]\n\n@table[@cols[Name,Type,Required]@data[[title,string,yes][tags,array,no][enabled,boolean,yes]]]",
+    "structmark": "#2 設定資料\n\n| Name | Type | Required |\n| --- | --- | --- |\n| title | string | yes |\n| tags | array | no |\n| enabled | boolean | yes |",
+    "atdoc_converted": true,
+    "atdoc_reparsed_without_diagnostics": true,
+    "atdoc_notes": [],
+    "atdoc_diagnostics": []
+  }
+]

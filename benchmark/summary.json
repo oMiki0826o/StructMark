@@ -1,0 +1,41 @@
+{
+  "corpus": "corpus.json",
+  "cases": 16,
+  "formats": {
+    "markdown": {
+      "characters": 794,
+      "utf8_bytes": 1208,
+      "tokens": {
+        "cl100k_base": 517,
+        "o200k_base": 405
+      }
+    },
+    "structmark": {
+      "characters": 791,
+      "utf8_bytes": 1205,
+      "tokens": {
+        "cl100k_base": 526,
+        "o200k_base": 414
+      }
+    }
+  },
+  "comparisons": {
+    "cl100k_base": {
+      "markdown_tokens": 517,
+      "structmark_tokens": 526,
+      "delta_tokens": 9,
+      "structmark_saving_ratio": -0.017408,
+      "cases_structmark_lower": 0,
+      "cases_equal": 9
+    },
+    "o200k_base": {
+      "markdown_tokens": 405,
+      "structmark_tokens": 414,
+      "delta_tokens": 9,
+      "structmark_saving_ratio": -0.022222,
+      "cases_structmark_lower": 0,
+      "cases_equal": 9
+    }
+  },
+  "metadata": "results.metadata.json"
+}

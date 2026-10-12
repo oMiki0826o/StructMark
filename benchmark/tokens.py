@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parent
 CORPUS = ROOT / "corpus.json"
 OUTPUT = ROOT / "results.csv"
 METADATA = ROOT / "results.metadata.json"
+SUMMARY = ROOT / "summary.json"
 ENCODINGS = ("cl100k_base", "o200k_base")
 
 
@@ -73,6 +74,40 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(results)
 
+    summary = {
+        "corpus": CORPUS.name,
+        "cases": len(samples),
+        "formats": {},
+        "comparisons": {},
+    }
+    for fmt in ("markdown", "structmark"):
+        group = [x for x in results if x["format"] == fmt]
+        summary["formats"][fmt] = {
+            "characters": sum(x["characters"] for x in group),
+            "utf8_bytes": sum(x["utf8_bytes"] for x in group),
+            "tokens": {name: sum(x[f"tokens_{name}"] for x in group) for name in tokenizers},
+        }
+    for name in tokenizers:
+        markdown_tokens = summary["formats"]["markdown"]["tokens"][name]
+        structmark_tokens = summary["formats"]["structmark"]["tokens"][name]
+        delta = structmark_tokens - markdown_tokens
+        summary["comparisons"][name] = {
+            "markdown_tokens": markdown_tokens,
+            "structmark_tokens": structmark_tokens,
+            "delta_tokens": delta,
+            "structmark_saving_ratio": round(-delta / markdown_tokens, 6) if markdown_tokens else None,
+            "cases_structmark_lower": sum(
+                1 for item in samples
+                if next(x for x in results if x["id"] == item["id"] and x["format"] == "structmark")[f"tokens_{name}"]
+                < next(x for x in results if x["id"] == item["id"] and x["format"] == "markdown")[f"tokens_{name}"]
+            ),
+            "cases_equal": sum(
+                1 for item in samples
+                if next(x for x in results if x["id"] == item["id"] and x["format"] == "structmark")[f"tokens_{name}"]
+                == next(x for x in results if x["id"] == item["id"] and x["format"] == "markdown")[f"tokens_{name}"]
+            ),
+        }
+
     metadata = {
         "corpus": CORPUS.name,
         "corpus_sha256": hashlib.sha256(corpus_text.encode("utf-8")).hexdigest(),
@@ -83,11 +118,15 @@ def main() -> None:
         "python": platform.python_version(),
         "platform": platform.platform(),
         "script": "benchmark/tokens.py",
+        "summary": SUMMARY.name,
     }
     (ROOT / "results.metadata.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    summary["metadata"] = METADATA.name
+    SUMMARY.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     print(f"已建立 {OUTPUT}")
     print(f"已建立 {METADATA}")
+    print(f"已建立 {SUMMARY}")
     for fmt in ("markdown", "structmark"):
         group = [x for x in results if x["format"] == fmt]
         print(f"{fmt}: 字元={sum(x['characters'] for x in group)}, UTF-8 位元組={sum(x['utf8_bytes'] for x in group)}")
