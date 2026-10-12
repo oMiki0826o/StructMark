@@ -19,3 +19,15 @@ note,markdown,17,27,15,13
 note,structmark,16,26,14,10
 citation,markdown,18,28,14,10
 citation,structmark,18,28,14,10
+technical,markdown,74,120,52,39
+technical,structmark,74,120,53,40
+academic,markdown,111,205,83,56
+academic,structmark,110,204,85,58
+api,markdown,130,162,50,42
+api,structmark,130,162,51,43
+math-notes,markdown,58,88,45,39
+math-notes,structmark,58,88,46,40
+article,markdown,75,183,91,59
+article,structmark,74,182,92,60
+structured-data,markdown,130,138,44,41
+structured-data,structmark,130,138,45,42

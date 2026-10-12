@@ -39,7 +39,7 @@ StructMark 是一套確定性的結構化標記語言核心，專為文件、資
 - 同一份 `.sm` 可以交給網站、CLI 或 TypeScript API 處理。
 - 它仍然可讀、可 diff、可放進 Git, 只是比一般純文字多保留一層結構。
 
-在官方 10 組 `.md`／`.sm` 對照語料中，使用 `cl100k_base` 時總量為 187 對 181 Token；使用 `o200k_base` 時為 163 對 155 Token。這是實測結果，不是每份文件的保證；簡單文字範例中 `.sm` 也可能較長。完整數據請看 [Token 測試報告](https://github.com/oMiki0826o/StructMark/blob/main/docs/MD_SM_TOKEN_REPORT.md)。
+在擴充後的 16 組 `.md`／`.sm` 對照語料中，`cl100k_base` 為 552 對 553 Token，`o200k_base` 為 439 對 438 Token，兩者幾乎持平。這是實測結果，不是每份文件的保證；`.sm` 的主要價值在結構清楚與工具可理解，而不是保證更短。完整數據請看 [Token 測試報告](https://github.com/oMiki0826o/StructMark/blob/main/docs/MD_SM_TOKEN_REPORT.md)。
 
 順帶一提, 你現在看到的這個網站, 就是用 `.sm` 寫的。
 

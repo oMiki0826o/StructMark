@@ -58,5 +58,41 @@
     "description": "Pandoc 引文與 StructMark 相同語義形式",
     "markdown": "研究參考 [@smith2024]。",
     "structmark": "研究參考 [@smith2024]。"
+  },
+  {
+    "id": "technical",
+    "description": "技術文件中的安裝、流程與程式碼",
+    "markdown": "## 安裝\n\n先安裝依賴，再執行測試。\n\n```sh\nnpm install\nnpm test\n```\n\n> 建議在 CI 中固定 Node 版本。",
+    "structmark": "#2 安裝\n\n先安裝依賴，再執行測試。\n\n```sh\nnpm install\nnpm test\n```\n\n> 建議在 CI 中固定 Node 版本。"
+  },
+  {
+    "id": "academic",
+    "description": "學術段落、引用與小節",
+    "markdown": "## 方法\n\n本研究比較兩種文件表示法，並以可重現的測試流程記錄結果。相關方法見 [Smith 2024](https://example.com/paper)。\n\n### 限制\n\n結果受語料與 tokenizer 影響。",
+    "structmark": "#2 方法\n\n本研究比較兩種文件表示法，並以可重現的測試流程記錄結果。相關方法見 [Smith 2024](https://example.com/paper)。\n\n#3 限制\n\n結果受語料與 tokenizer 影響。"
+  },
+  {
+    "id": "api",
+    "description": "API 文件中的參數、回傳值與程式碼",
+    "markdown": "## parseDocument(source)\n\n解析來源文件並回傳 AST。\n\n- `source`: UTF-8 字串\n- `return`: 文件節點\n\n```ts\nconst document = parseDocument(source);\n```",
+    "structmark": "#2 parseDocument(source)\n\n解析來源文件並回傳 AST。\n\n- `source`: UTF-8 字串\n- `return`: 文件節點\n\n```ts\nconst document = parseDocument(source);\n```"
+  },
+  {
+    "id": "math-notes",
+    "description": "數學筆記與公式說明",
+    "markdown": "## 二次方程式\n\n解為 $x=(-b\\pm\\sqrt{b^2-4ac})/(2a)$。\n\n其中 $a$ 不可為零。",
+    "structmark": "#2 二次方程式\n\n解為 $x=(-b\\pm\\sqrt{b^2-4ac})/(2a)$。\n\n其中 $a$ 不可為零。"
+  },
+  {
+    "id": "article",
+    "description": "一般文章中的多段落與重點列表",
+    "markdown": "## 一份可維護的文件\n\n好的文件應該讓人容易閱讀，也讓工具容易處理。\n\n**重點**：\n\n- 保持來源清楚\n- 保留可追蹤的結構\n- 讓錯誤盡早出現",
+    "structmark": "#2 一份可維護的文件\n\n好的文件應該讓人容易閱讀，也讓工具容易處理。\n\n*[重點]：\n\n- 保持來源清楚\n- 保留可追蹤的結構\n- 讓錯誤盡早出現"
+  },
+  {
+    "id": "structured-data",
+    "description": "結構化資料表與欄位說明",
+    "markdown": "## 設定資料\n\n| Name | Type | Required |\n| --- | --- | --- |\n| title | string | yes |\n| tags | array | no |\n| enabled | boolean | yes |",
+    "structmark": "#2 設定資料\n\n| Name | Type | Required |\n| --- | --- | --- |\n| title | string | yes |\n| tags | array | no |\n| enabled | boolean | yes |"
   }
 ]

@@ -1,7 +1,7 @@
 {
   "corpus": "corpus.json",
-  "corpus_sha256": "c835fc7fa05ceddc4e052607645c8145d89a4cb995fa67efe9d02a5a9330ca5a",
-  "cases": 10,
+  "corpus_sha256": "db440ca4273c77896bf6c86bdf0a6badb85b2525d79e18fcef73893aaa53951d",
+  "cases": 16,
   "formats": [
     "markdown",
     "structmark"

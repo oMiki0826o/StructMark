@@ -22,6 +22,7 @@ jobs:
       - run: npm run fuzz
       - run: npm run benchmark:perf
       - run: python benchmark/tokens.py --require-tokenizer
+      - run: npm run benchmark:semantic
       - run: python benchmark/v2_compare.py --require-tokenizer
 
   compatibility:

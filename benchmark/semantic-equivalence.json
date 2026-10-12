@@ -1,0 +1,104 @@
+{
+  "corpus": "corpus.json",
+  "cases": 16,
+  "passed": 16,
+  "failed": 0,
+  "results": [
+    {
+      "id": "basic",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "a18b29f343e169bd400de0df6bd7109e85b9456decc0115a49dec7fc6aeba4cc"
+    },
+    {
+      "id": "inline",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "e3cd46ea62f8a2da64e650814fa5fe498827bdd9d889f0aa7376ff10d4ddaa30"
+    },
+    {
+      "id": "math",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "398093d6c749442e17f23a782860a693337d44444c609fd0d76442126624b551"
+    },
+    {
+      "id": "heading",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "8608718bf1b908477f480f569bbeb3b6999cb522cf718b31caa6d1c9996f58ee"
+    },
+    {
+      "id": "images",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "020d77b2cfa3c2a5e58635f0c51f8fe36e2a4d6b0fb366c4bf0882c64b228f23"
+    },
+    {
+      "id": "list",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "61d986be5e51fc982430dd75d0242d8f79bb2f421959571afb4562c135d5fef9"
+    },
+    {
+      "id": "table",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "f811523909b2bfcdbf01124908dcc1dbe514477003178d84c03ad23f5a9985ad"
+    },
+    {
+      "id": "quote",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "2d409f2f05f8c4c5eb077a729f3c42817b3acdc0f52276fdb183cd9efdf76658"
+    },
+    {
+      "id": "note",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "0573c2ca1905498f28cc06bf4f457dac3c26e9d7547b9f6b4eb2ce403cd3504d"
+    },
+    {
+      "id": "citation",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "65e0229ca9bd13556d8f1d7925c57fb6df800bdf1596d7d7775f093c4fd98741"
+    },
+    {
+      "id": "technical",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "9bcba87899a39d160a96a1095bd2a23ae2a321499c48f17359db7ab0cce805db"
+    },
+    {
+      "id": "academic",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "280763668b6eab948d22abd12fe0046d3a6879f07d3b637cd8dfc0ffbd5ea710"
+    },
+    {
+      "id": "api",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "9cd483ebb548161e68e52017a503e724519b2daacbdd951983fc395e980ca109"
+    },
+    {
+      "id": "math-notes",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "9682c04c821c95cb4e034d293e71d16e79a8d3b425a5ffcc78fd5323f8227650"
+    },
+    {
+      "id": "article",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "3311a88f0f87975258992e243a6356f4b52dc8cbfcd4bc2907c098160b8c8cf7"
+    },
+    {
+      "id": "structured-data",
+      "equivalent": true,
+      "diagnostics": [],
+      "generated_source_sha256": "c808cf2930153669a9470aefa5ac041d14d6260828e79f2bcde0691ba4f6e162"
+    }
+  ]
+}

@@ -5,14 +5,14 @@
 
 ## 結論
 
-本次使用真實 `tiktoken` tokenizer 測試 10 組語義對照語料：
+本次使用真實 `tiktoken` tokenizer 測試 16 組語義對照語料：
 
 | Tokenizer | Markdown | StructMark | 差異 | StructMark 節省 |
 | --- | ---: | ---: | ---: | ---: |
-| `cl100k_base` | 187 | 181 | -6 | 3.21% |
-| `o200k_base` | 163 | 155 | -8 | 4.91% |
+| `cl100k_base` | 552 | 553 | +1 | -0.18% |
+| `o200k_base` | 439 | 438 | -1 | 0.23% |
 
-在這份語料中，`.sm` 的總 Token 數較少；但優勢不是每個小範例都成立。語法相同的表格、引用、圖片與部分標題，兩者 Token 數相同；簡單標題範例中 Markdown 反而少 2 Token。因此不能把結果宣稱成所有文件都一定節省。
+在擴充後的語料中，兩種 tokenizer 的總量幾乎持平：`cl100k_base` 的 `.sm` 多 1 Token，`o200k_base` 少 1 Token。這比原本 10 組小語料更接近「不能保證節省」的實際結論，因此網站與 README 不應把 Token 節省當成主要賣點。
 
 ## 測試方式
 
@@ -32,7 +32,7 @@ python3 benchmark/tokens.py --require-tokenizer
 
 比較欄位包含字元數、UTF-8 位元組數與 tokenizer 實際產生的 Token 數。字元數和位元組數只作為輔助資料，不當作 Token 數。
 
-本次執行使用 `tiktoken 0.14.0`、Python 3.11.9；語料 SHA-256 為 `c835fc7fa05ceddc4e052607645c8145d89a4cb995fa67efe9d02a5a9330ca5a`。腳本會檢查語料為非空集合、必要欄位完整、ID 不重複，避免基準資料悄悄失真。
+本次執行使用 `tiktoken 0.14.0`、Python 3.11.9；最新語料 SHA-256 與完整環境資料見 `benchmark/results.metadata.json`。腳本會檢查語料為非空集合、必要欄位完整、ID 不重複，避免基準資料悄悄失真。
 
 ## 逐筆結果
 
@@ -49,6 +49,8 @@ python3 benchmark/tokens.py --require-tokenizer
 | note | 15 | 14 | 13 | 10 |
 | citation | 14 | 14 | 10 | 10 |
 
+擴充語料包含 `technical`、`academic`、`api`、`math-notes`、`article` 與 `structured-data` 六類較完整文件案例；逐筆 Token 與字元資料以 CSV 為準。
+
 ## 解讀
 
 `.sm` 的主要優勢不是把所有 Markdown 符號換成更短的符號，而是把標題層級、指令區塊、屬性與結構化內容用固定語法表達。當文件包含數學、清單、提示區塊或其他結構時，這些明確語法比較容易維持穩定的 AST、診斷與工具整合。
@@ -57,10 +59,10 @@ python3 benchmark/tokens.py --require-tokenizer
 
 > StructMark 在這組 10 筆 `.md`／`.sm` 對照語料與兩種真實 tokenizer 下，總 Token 數較低；實際差異取決於文件內容與所使用的 tokenizer。
 
-本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。
+本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。`npm run benchmark:semantic` 會將 Markdown 匯入 AST 與轉成 `.sm` 後再解析的 AST 做規範化比較；目前 16/16 通過，結果見 `benchmark/semantic-equivalence.json`。
 
 ## 失敗案例與下一階段
 
-本次基準沒有 tokenizer 執行失敗；語料結構檢查也沒有失敗案例。這不等於三方語義已被證明等價：目前每組 `.md`／`.sm` 是人工建立的對照來源，尚未由 Markdown AST 與 StructMark AST 自動比對。
+本次基準沒有 tokenizer 執行失敗、語料結構檢查失敗或 AST 對照失敗案例。這項 AST 檢查驗證的是 StructMark 已支援的 Markdown 匯入子集，不等於完整 CommonMark 等價。
 
-下一階段將加入較長的技術文件、API 文件、學術段落、數學筆記、一般文章與結構化資料，並為每組案例保存可比較的 AST fixture。新增語料後，必須重新產生 CSV、metadata 與本報告，才能更新效能結論。
+下一階段仍應加入更長的真實文件與固定 AST fixture；新增語料後，必須重新產生 CSV、metadata 與本報告，才能更新效能結論。
