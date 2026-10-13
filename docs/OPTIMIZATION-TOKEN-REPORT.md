@@ -3,9 +3,22 @@
 執行：`npm run benchmark:optimization`  
 Tokenizer：`tiktoken 0.14.0` 的 `cl100k_base`、`o200k_base`。完整結果見 [`benchmark/optimization-results.json`](../benchmark/optimization-results.json)。
 
+## `.md` 與 `.sm` 基準
+
+這是 16 組原始 `.md`／`.sm` 共同語義語料的獨立結果，不是下面的簡化語法測試：
+
+| Tokenizer | `.md` | `.sm` | 差異 |
+| --- | ---: | ---: | ---: |
+| `cl100k_base` | 517 | 526 | `.sm` 多 9（+1.74%） |
+| `o200k_base` | 405 | 414 | `.sm` 多 9（+2.22%） |
+
+目前短篇共同語義語料中，`.sm` 尚未比 `.md` 更省 Token。完整逐筆結果見 [`MD_SM_TOKEN_REPORT.md`](MD_SM_TOKEN_REPORT.md)。
+
+以下測試回答的是另一個問題：同一份 StructMark 文件改用簡化表示後能省多少 Token。
+
 ## 簡化指令
 
-比較 `&warning[title=警告] ... &end` 與語義相同的 `&w[警告] ... &e`，包含 1、3、10、50、100 行內容：
+比較完整 `.sm` 指令 `&warning[title=警告] ... &end` 與語義相同的簡化 `.sm` `&w[警告] ... &e`，包含 1、3、10、50、100 行內容：
 
 | Tokenizer | 完整指令 | 簡化指令 | 減少 | 比例 |
 | --- | ---: | ---: | ---: | ---: |
