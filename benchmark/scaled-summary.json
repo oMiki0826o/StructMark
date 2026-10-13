@@ -1,0 +1,390 @@
+{
+  "cases": 42,
+  "tokenizers": [
+    "cl100k_base",
+    "o200k_base"
+  ],
+  "tiktoken": "0.14.0",
+  "python": "3.11.9",
+  "corpus_sha256": "00ba5d1104784a6b6653de864a372d314875ac3101934bbd35ceb06da529226e",
+  "groups": {
+    "article-short": {
+      "cl100k_base": {
+        "markdown": 103,
+        "structmark": 105,
+        "structmark_compact": 105,
+        "full_delta": 2,
+        "compact_delta": 2,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 71,
+        "structmark": 73,
+        "structmark_compact": 73,
+        "full_delta": 2,
+        "compact_delta": 2,
+        "compact_vs_full": 0
+      }
+    },
+    "article-medium": {
+      "cl100k_base": {
+        "markdown": 412,
+        "structmark": 420,
+        "structmark_compact": 420,
+        "full_delta": 8,
+        "compact_delta": 8,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 284,
+        "structmark": 292,
+        "structmark_compact": 292,
+        "full_delta": 8,
+        "compact_delta": 8,
+        "compact_vs_full": 0
+      }
+    },
+    "article-long": {
+      "cl100k_base": {
+        "markdown": 1236,
+        "structmark": 1260,
+        "structmark_compact": 1260,
+        "full_delta": 24,
+        "compact_delta": 24,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 852,
+        "structmark": 876,
+        "structmark_compact": 876,
+        "full_delta": 24,
+        "compact_delta": 24,
+        "compact_vs_full": 0
+      }
+    },
+    "technical-short": {
+      "cl100k_base": {
+        "markdown": 116,
+        "structmark": 118,
+        "structmark_compact": 118,
+        "full_delta": 2,
+        "compact_delta": 2,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 90,
+        "structmark": 92,
+        "structmark_compact": 92,
+        "full_delta": 2,
+        "compact_delta": 2,
+        "compact_vs_full": 0
+      }
+    },
+    "technical-medium": {
+      "cl100k_base": {
+        "markdown": 470,
+        "structmark": 478,
+        "structmark_compact": 478,
+        "full_delta": 8,
+        "compact_delta": 8,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 366,
+        "structmark": 374,
+        "structmark_compact": 374,
+        "full_delta": 8,
+        "compact_delta": 8,
+        "compact_vs_full": 0
+      }
+    },
+    "technical-long": {
+      "cl100k_base": {
+        "markdown": 1414,
+        "structmark": 1438,
+        "structmark_compact": 1438,
+        "full_delta": 24,
+        "compact_delta": 24,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 1102,
+        "structmark": 1126,
+        "structmark_compact": 1126,
+        "full_delta": 24,
+        "compact_delta": 24,
+        "compact_vs_full": 0
+      }
+    },
+    "academic-short": {
+      "cl100k_base": {
+        "markdown": 166,
+        "structmark": 169,
+        "structmark_compact": 169,
+        "full_delta": 3,
+        "compact_delta": 3,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 112,
+        "structmark": 115,
+        "structmark_compact": 115,
+        "full_delta": 3,
+        "compact_delta": 3,
+        "compact_vs_full": 0
+      }
+    },
+    "academic-medium": {
+      "cl100k_base": {
+        "markdown": 664,
+        "structmark": 676,
+        "structmark_compact": 676,
+        "full_delta": 12,
+        "compact_delta": 12,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 448,
+        "structmark": 460,
+        "structmark_compact": 460,
+        "full_delta": 12,
+        "compact_delta": 12,
+        "compact_vs_full": 0
+      }
+    },
+    "academic-long": {
+      "cl100k_base": {
+        "markdown": 1992,
+        "structmark": 2028,
+        "structmark_compact": 2028,
+        "full_delta": 36,
+        "compact_delta": 36,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 1344,
+        "structmark": 1380,
+        "structmark_compact": 1380,
+        "full_delta": 36,
+        "compact_delta": 36,
+        "compact_vs_full": 0
+      }
+    },
+    "api-short": {
+      "cl100k_base": {
+        "markdown": 117,
+        "structmark": 121,
+        "structmark_compact": 121,
+        "full_delta": 4,
+        "compact_delta": 4,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 97,
+        "structmark": 101,
+        "structmark_compact": 101,
+        "full_delta": 4,
+        "compact_delta": 4,
+        "compact_vs_full": 0
+      }
+    },
+    "api-medium": {
+      "cl100k_base": {
+        "markdown": 474,
+        "structmark": 490,
+        "structmark_compact": 490,
+        "full_delta": 16,
+        "compact_delta": 16,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 394,
+        "structmark": 410,
+        "structmark_compact": 410,
+        "full_delta": 16,
+        "compact_delta": 16,
+        "compact_vs_full": 0
+      }
+    },
+    "api-long": {
+      "cl100k_base": {
+        "markdown": 1426,
+        "structmark": 1474,
+        "structmark_compact": 1474,
+        "full_delta": 48,
+        "compact_delta": 48,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 1186,
+        "structmark": 1234,
+        "structmark_compact": 1234,
+        "full_delta": 48,
+        "compact_delta": 48,
+        "compact_vs_full": 0
+      }
+    },
+    "math-short": {
+      "cl100k_base": {
+        "markdown": 85,
+        "structmark": 87,
+        "structmark_compact": 87,
+        "full_delta": 2,
+        "compact_delta": 2,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 69,
+        "structmark": 71,
+        "structmark_compact": 71,
+        "full_delta": 2,
+        "compact_delta": 2,
+        "compact_vs_full": 0
+      }
+    },
+    "math-medium": {
+      "cl100k_base": {
+        "markdown": 340,
+        "structmark": 348,
+        "structmark_compact": 348,
+        "full_delta": 8,
+        "compact_delta": 8,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 276,
+        "structmark": 284,
+        "structmark_compact": 284,
+        "full_delta": 8,
+        "compact_delta": 8,
+        "compact_vs_full": 0
+      }
+    },
+    "math-long": {
+      "cl100k_base": {
+        "markdown": 1020,
+        "structmark": 1044,
+        "structmark_compact": 1044,
+        "full_delta": 24,
+        "compact_delta": 24,
+        "compact_vs_full": 0
+      },
+      "o200k_base": {
+        "markdown": 828,
+        "structmark": 852,
+        "structmark_compact": 852,
+        "full_delta": 24,
+        "compact_delta": 24,
+        "compact_vs_full": 0
+      }
+    },
+    "table-short": {
+      "cl100k_base": {
+        "markdown": 170,
+        "structmark": 166,
+        "structmark_compact": 164,
+        "full_delta": -4,
+        "compact_delta": -6,
+        "compact_vs_full": -2
+      },
+      "o200k_base": {
+        "markdown": 168,
+        "structmark": 162,
+        "structmark_compact": 160,
+        "full_delta": -6,
+        "compact_delta": -8,
+        "compact_vs_full": -2
+      }
+    },
+    "table-medium": {
+      "cl100k_base": {
+        "markdown": 680,
+        "structmark": 670,
+        "structmark_compact": 662,
+        "full_delta": -10,
+        "compact_delta": -18,
+        "compact_vs_full": -8
+      },
+      "o200k_base": {
+        "markdown": 672,
+        "structmark": 654,
+        "structmark_compact": 646,
+        "full_delta": -18,
+        "compact_delta": -26,
+        "compact_vs_full": -8
+      }
+    },
+    "table-long": {
+      "cl100k_base": {
+        "markdown": 2040,
+        "structmark": 2014,
+        "structmark_compact": 1990,
+        "full_delta": -26,
+        "compact_delta": -50,
+        "compact_vs_full": -24
+      },
+      "o200k_base": {
+        "markdown": 2016,
+        "structmark": 1966,
+        "structmark_compact": 1942,
+        "full_delta": -50,
+        "compact_delta": -74,
+        "compact_vs_full": -24
+      }
+    },
+    "notice-short": {
+      "cl100k_base": {
+        "markdown": 98,
+        "structmark": 108,
+        "structmark_compact": 100,
+        "full_delta": 10,
+        "compact_delta": 2,
+        "compact_vs_full": -8
+      },
+      "o200k_base": {
+        "markdown": 75,
+        "structmark": 77,
+        "structmark_compact": 69,
+        "full_delta": 2,
+        "compact_delta": -6,
+        "compact_vs_full": -8
+      }
+    },
+    "notice-medium": {
+      "cl100k_base": {
+        "markdown": 392,
+        "structmark": 435,
+        "structmark_compact": 403,
+        "full_delta": 43,
+        "compact_delta": 11,
+        "compact_vs_full": -32
+      },
+      "o200k_base": {
+        "markdown": 300,
+        "structmark": 311,
+        "structmark_compact": 279,
+        "full_delta": 11,
+        "compact_delta": -21,
+        "compact_vs_full": -32
+      }
+    },
+    "notice-long": {
+      "cl100k_base": {
+        "markdown": 1176,
+        "structmark": 1307,
+        "structmark_compact": 1211,
+        "full_delta": 131,
+        "compact_delta": 35,
+        "compact_vs_full": -96
+      },
+      "o200k_base": {
+        "markdown": 900,
+        "structmark": 935,
+        "structmark_compact": 839,
+        "full_delta": 35,
+        "compact_delta": -61,
+        "compact_vs_full": -96
+      }
+    }
+  }
+}

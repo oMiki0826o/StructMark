@@ -2,6 +2,8 @@
 
 本文件是導覽頁. `.md`／`.sm` 的最新數據以 [MD_SM_TOKEN_REPORT.md](./MD_SM_TOKEN_REPORT.md)、`benchmark/results.csv`、`benchmark/summary.json` 與 `benchmark/results.metadata.json` 為準；三方數據則以 `benchmark/three-way-summary.json` 與 `benchmark/three-way-results.csv` 為準.
 
+不同文章種類、長度與複雜度的三方比較見 [SCALED-MD-SM-TOKEN-REPORT.md](./SCALED-MD-SM-TOKEN-REPORT.md)，可用 `npm run benchmark:scaled` 重現。
+
 ## 目前結果
 
 測試只比較 `.md` 與 `.sm`, 不包含 `@Doc`.

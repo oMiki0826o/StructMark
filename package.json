@@ -41,6 +41,7 @@
     "fuzz": "npm run fuzz:v2",
     "benchmark:tokens": "python3 benchmark/tokens.py",
     "benchmark:optimization": "python3 benchmark/optimization.py",
+    "benchmark:scaled": "python3 benchmark/scaled_tokens.py",
     "benchmark:three-way": "node benchmark/three-way.mjs \"$ATDOC_DIST\" && python3 benchmark/three-way-tokens.py",
     "benchmark:semantic": "node --test experimental/v2/tests/v2-release.test.mjs",
     "benchmark:perf": "node benchmark/semantic-equivalence.mjs",
