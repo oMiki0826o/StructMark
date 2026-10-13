@@ -3,6 +3,7 @@
  * Modification: 2026-10-12 — Escaped, URL-validated HTML for v2 AST.
  */
 import {parseInline} from './inline.mjs';
+import {parseRows} from './parser.mjs';
 export const escapeHtml=input=>String(input).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 function safeUrl(value){
   if(/[\u0000-\u001f\u007f]/.test(value)||value.startsWith('//')||value.includes('\\'))return null;
@@ -49,7 +50,7 @@ export function renderHtml(doc){
           output.push(`<table>${header?'<thead><tr>'+header+'</tr></thead>':''}<tbody>${rows}</tbody></table>`);
         }else if(node.mode==='data'){
           if(node.attributes.format==='rows'){
-            const rows=node.raw.join('\n').split(/\r?\n/).filter(Boolean).map(row=>row.split(','));
+            const rows=parseRows(node.raw.join('\n'));
             output.push(`<table class="sm-data"><tbody>${rows.map(row=>`<tr>${row.map(value=>`<td>${escapeHtml(value)}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
           }else output.push(`<pre class="sm-data">${escapeHtml(node.raw.join('\n'))}</pre>`);
         }else if(node.mode==='raw'){

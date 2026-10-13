@@ -4,7 +4,7 @@
  */
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parse, format, serialize, parseInline, renderHtml, validateWorkspace, extractContext, directiveDefinitions} from '../../../src/v2/index.mjs';
+import {parse, format, serialize, parseInline, parseRows, renderHtml, validateWorkspace, extractContext, directiveDefinitions} from '../../../src/v2/index.mjs';
 
 const codes = (text) => parse(text).diagnostics.map(x => x.code);
 const valid = text => {const result=parse(text);assert.deepEqual(result.diagnostics,[]);return result;};
@@ -22,7 +22,7 @@ test('具備引號及逗號的屬性往返不變',()=>{
 test('Compact Serializer 使用既有 alias 且保持語義',()=>{
  const source='#1 文件\n\n&warning[title="注意"]\n內容\n&end\n\n&table\n[A][B]\n[1][2]\n&end';
  const doc=valid(source);const compact=serialize(doc,{profile:'compact'});
- assert.match(compact,/&w\[title=注意\]/);assert.match(compact,/&e/);
+ assert.match(compact,/&w\[注意\]/);assert.match(compact,/&e/);
  assert.deepEqual(parse(compact).nodes,doc.nodes);
  assert.throws(()=>serialize(doc,{profile:'unknown'}),/Unknown serialization profile/);
 });
@@ -69,6 +69,11 @@ test('Schema rows 沒有 Schema 必須診斷',()=>{
 test('Schema rows 支援 CSV 引號與換行',()=>{
  const source='&schema[Item]\n{"name":"string","count":"number"}\n&e\n&data[format=rows,schema=Item]\n"Apple, red",12\n&e';
  const doc=valid(source);assert.equal(doc.nodes[1].data[0].name,'Apple, red');
+});
+test('Rows renderer/parser preserve quoted commas',()=>{
+  assert.deepEqual(parseRows('"Apple, Red",12\nOrange,16'),[['Apple, Red','12'],['Orange','16']]);
+  const doc=valid('&schema[Item]\n{"name":"string","count":"number"}\n&end\n&data[format=rows,schema=Item]\n"Apple, Red",12\n&end');
+  assert.match(renderHtml(doc),/Apple, Red/);
 });
 test('跨文件參照與工作區診斷',()=>{
   const files=new Map([

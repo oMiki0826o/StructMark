@@ -6,7 +6,7 @@
   ],
   "tiktoken": "0.14.0",
   "python": "3.11.9",
-  "corpus_sha256": "00ba5d1104784a6b6653de864a372d314875ac3101934bbd35ceb06da529226e",
+  "corpus_sha256": "2e8a951a4b7d4972787132180c593ae4b91287125cb9bfb284177d648001443a",
   "groups": {
     "article-short": {
       "cl100k_base": {
@@ -281,54 +281,54 @@
     "table-short": {
       "cl100k_base": {
         "markdown": 170,
-        "structmark": 166,
-        "structmark_compact": 164,
-        "full_delta": -4,
-        "compact_delta": -6,
+        "structmark": 182,
+        "structmark_compact": 180,
+        "full_delta": 12,
+        "compact_delta": 10,
         "compact_vs_full": -2
       },
       "o200k_base": {
         "markdown": 168,
-        "structmark": 162,
-        "structmark_compact": 160,
-        "full_delta": -6,
-        "compact_delta": -8,
+        "structmark": 178,
+        "structmark_compact": 176,
+        "full_delta": 10,
+        "compact_delta": 8,
         "compact_vs_full": -2
       }
     },
     "table-medium": {
       "cl100k_base": {
         "markdown": 680,
-        "structmark": 670,
-        "structmark_compact": 662,
-        "full_delta": -10,
-        "compact_delta": -18,
+        "structmark": 734,
+        "structmark_compact": 726,
+        "full_delta": 54,
+        "compact_delta": 46,
         "compact_vs_full": -8
       },
       "o200k_base": {
         "markdown": 672,
-        "structmark": 654,
-        "structmark_compact": 646,
-        "full_delta": -18,
-        "compact_delta": -26,
+        "structmark": 718,
+        "structmark_compact": 710,
+        "full_delta": 46,
+        "compact_delta": 38,
         "compact_vs_full": -8
       }
     },
     "table-long": {
       "cl100k_base": {
         "markdown": 2040,
-        "structmark": 2014,
-        "structmark_compact": 1990,
-        "full_delta": -26,
-        "compact_delta": -50,
+        "structmark": 2206,
+        "structmark_compact": 2182,
+        "full_delta": 166,
+        "compact_delta": 142,
         "compact_vs_full": -24
       },
       "o200k_base": {
         "markdown": 2016,
-        "structmark": 1966,
-        "structmark_compact": 1942,
-        "full_delta": -50,
-        "compact_delta": -74,
+        "structmark": 2158,
+        "structmark_compact": 2134,
+        "full_delta": 142,
+        "compact_delta": 118,
         "compact_vs_full": -24
       }
     },

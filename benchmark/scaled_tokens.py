@@ -43,7 +43,7 @@ def pairs():
                         for n in range(rows):
                             row=f"Field{n+1} | string | yes"
                             md.append(f"| {row} |" ); sm.append(f"[Field{n+1}][string][yes]")
-                        sm[-1] = "&end"
+                        sm.append("&end")
                     else:
                         md += ["> [!WARNING]", "> 請先備份資料，再開始操作。"]
                         sm += ["&warning[title=警告]", "請先備份資料，再開始操作。", "&end"]
@@ -68,7 +68,7 @@ def main():
             for name,enc in encs.items(): row[f"tokens_{name}"]=len(enc.encode(text))
             rows.append(row)
     fields=list(rows[0]);
-    with OUT.open("w",encoding="utf-8",newline="") as f: w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
+    with OUT.open("w",encoding="utf-8",newline="") as f: w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n"); w.writeheader(); w.writerows(rows)
     summary={"cases":len(pairs()),"tokenizers":list(encs),"tiktoken":tiktoken.__version__,"python":platform.python_version(),"corpus_sha256":hashlib.sha256(json.dumps(pairs(),ensure_ascii=False,sort_keys=True).encode()).hexdigest(),"groups":{}}
     for kind in ("article","technical","academic","api","math","table","notice"):
         for size in ("short","medium","long"):

@@ -68,7 +68,7 @@ python3 benchmark/tokens.py --require-tokenizer
 
 > StructMark 在目前 16 組共同語義 `.md`／`.sm` 語料中沒有顯示 Token 優勢；實際差異取決於文件內容與所使用的 tokenizer。
 
-本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。`npm run benchmark:semantic` 會直接讀取每筆原始 Markdown 與 `.sm`，分別解析後做規範化 AST 比較；目前 16/16 通過，結果見 `benchmark/semantic-equivalence.json`。
+本報告沒有納入 `@Doc`，也沒有將未經 parser 驗證的第三方格式比較寫成結論。v2 回歸測試會直接驗證 Parser、Serializer 與 HTML 的語義往返；分層 benchmark 另外記錄於 `docs/SCALED-MD-SM-TOKEN-REPORT.md`。
 
 ## 失敗案例與下一階段
 

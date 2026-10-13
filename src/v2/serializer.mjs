@@ -3,8 +3,6 @@ import {format,writeDocument} from './formatter.mjs';
 import {parse} from './parser.mjs';
 import {normalizeSemantic} from './semantic.mjs';
 
-const aliases = Object.freeze({note:'n',warning:'w',tip:'p',quote:'q',important:'i',table:'tbl',equation:'eq',code:'c',data:'d'});
-const directiveLine = /^(&)([a-z][a-z0-9_-]*)(?=\[|$)/;
 
 /**
  * Serialize a parsed document without changing its meaning.
@@ -31,11 +29,5 @@ export function serialize(document,{profile='canonical',tokenize}={}){
     return best;
   }
   if(profile!=='compact')throw new RangeError(`Unknown serialization profile: ${profile}`);
-  return source.split('\n').map(line=>{
-    if(/^&end[ \t]*$/.test(line))return line.replace(/^&end/,'&e');
-    const match=directiveLine.exec(line);
-    if(!match)return line;
-    const alias=aliases[match[2]];
-    return alias?line.replace(directiveLine,`&${alias}`):line;
-  }).join('\n');
+  return writeDocument(document,{compact:true});
 }

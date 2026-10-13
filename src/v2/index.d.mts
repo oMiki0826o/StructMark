@@ -12,6 +12,7 @@ export interface StructMarkDocument {version:'2.0';nodes:StructMarkNode[];diagno
 export declare const directiveDefinitions:Readonly<Record<string,{alias:string|null;defaultAttribute:string|null;mode:'normal'|'table'|'raw'|'data';attributes:readonly string[]}>>;
 export declare const directiveLookup:ReadonlyMap<string,string>;
 export declare function parse(source:string,options?:{strict?:boolean}):StructMarkDocument;
+export declare function parseRows(raw:string):string[][];
 export declare function parseInline(source:string,depth?:number):StructMarkInline[];
 export declare function format(document:StructMarkDocument):string;
 export declare function normalizeSemantic(document:StructMarkDocument):{nodes:unknown[]};

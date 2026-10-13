@@ -76,6 +76,7 @@ function parseCsvRows(raw,line,diagnostics){
   if(cell!==''||row.length){row.push(cell);if(!(row.length===1&&row[0]===''))rows.push(row);}
   return rows;
 }
+export function parseRows(raw){return parseCsvRows(String(raw),1,[])??[];}
 // ── 最小 Schema 契約，欄位以 ? 表示選填；不冒稱完整 JSON Schema ──
 function validateSchemas(nodes,diagnostics){
   const known=new Map(),data=[];

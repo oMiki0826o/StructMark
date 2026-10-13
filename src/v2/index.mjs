@@ -5,6 +5,7 @@
 export {directiveDefinitions,directiveLookup} from './registry.mjs';
 export {parseInline} from './inline.mjs';
 export {parse} from './parser.mjs';
+export {parseRows} from './parser.mjs';
 export {format} from './formatter.mjs';
 export {serialize} from './serializer.mjs';
 export {normalizeSemantic} from './semantic.mjs';
