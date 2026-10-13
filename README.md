@@ -1,6 +1,6 @@
 # StructMark
 
-![Version](https://img.shields.io/badge/version-2.0.0--rc.1-blue)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Tech](https://img.shields.io/badge/stack-TypeScript-lightgrey)
 ![Runtime](https://img.shields.io/badge/runtime-Node.js%2022%2B-orange)
@@ -26,7 +26,7 @@ StructMark 是一套以語義結構為核心的通用標記語言, 使用 `.sm` 
 
 它保留純文字寫作的直接感, 同時讓標題、指令、資料、參照與診斷成為 Parser 可以明確理解的結構. 同一份文件可以交給 CLI、TypeScript API、網站、索引器或編輯器使用, 不必為每個工具重新改寫格式.
 
-目前主分支是 `2.0.0-rc.1` 原始碼候選版. v2 引擎位於 `src/v2/`, 舊版 v1.6 TypeScript API 則保留在既有 `src/` 路徑, 兩者不會靜默互換.
+目前主分支是 `2.0.0`。StructMark 只提供 `src/v2/` 的單一語言核心；過時的 1.6 核心、CLI 與測試已移除，不再維護兩套語義不同的實作。
 
 StructMark 的主要目標不是宣稱每份文件都比 Markdown 短, 而是用簡潔且一致的語法提供可預測解析、語義診斷、安全輸出與工具整合. 目前 16 組 `.md` / `.sm` 共同語義語料已完成 AST 對照, 結果為 16/16 通過. 真實 tokenizer 測試顯示目前沒有穩定的 Token 優勢, 詳細結果見 [Token 測試報告](docs/MD_SM_TOKEN_REPORT.md).
 
@@ -147,7 +147,7 @@ StructMark is a semantic-first general-purpose markup language with `.sm` as its
 
 It keeps plain-text writing direct while making headings, directives, data, references, and diagnostics explicit to a parser. The same source can feed a CLI, TypeScript API, website, indexer, or editor without being rewritten for each tool.
 
-The current main branch is the `2.0.0-rc.1` source candidate. The v2 engine lives in `src/v2/`, while the previous v1.6 TypeScript API remains available under `src/` for compatibility.
+The current main branch is `2.0.0`. StructMark now ships one language engine from `src/v2/`; the obsolete 1.6 core, CLI, and tests have been removed so every tool uses the same semantics.
 
 StructMark does not claim that every document uses fewer tokens than Markdown. Its main value is predictable parsing, semantic diagnostics, safe output, and tooling integration. A 16-pair `.md` / `.sm` corpus now passes AST comparison 16/16; the real tokenizer benchmark currently shows no stable token advantage. See the [token report](docs/MD_SM_TOKEN_REPORT.md).
 

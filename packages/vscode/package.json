@@ -2,7 +2,7 @@
   "name": "structmark-vscode",
   "displayName": "StructMark",
   "description": "StructMark editor support",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0",
   "private": true,
   "publisher": "omiki0826o",
   "engines": {

@@ -7,6 +7,7 @@ export {parseInline} from './inline.mjs';
 export {parse} from './parser.mjs';
 export {format} from './formatter.mjs';
 export {serialize} from './serializer.mjs';
+export {normalizeSemantic} from './semantic.mjs';
 export {renderHtml,renderInline,escapeHtml} from './html.mjs';
 export {validateWorkspace,resolveWorkspaceTarget,extractContext} from './workspace.mjs';
 export {documentHeadings,referencesOnLine,referenceAt,headingAt,documentLocations} from './editor.mjs';

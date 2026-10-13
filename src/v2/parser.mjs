@@ -52,7 +52,10 @@ function validateTable(node,diagnostics){
 }
 function validateData(node,diagnostics){
   const format=node.attributes.format??'json';
-  if(format==='rows')return;
+  if(format==='rows'){
+    if(!node.attributes.schema){node.dataError=true;diagnostics.push(issue(node.line,'SM508','rows 格式必須指定 Schema'));}
+    return;
+  }
   if(format!=='json'){
     diagnostics.push(issue(node.line,'SM306','v2 data 區塊支援 json 或 rows 格式'));return;
   }

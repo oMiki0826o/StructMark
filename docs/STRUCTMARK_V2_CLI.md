@@ -14,4 +14,4 @@
 
 退出碼 `0` 表示執行成功，`1` 表示驗證或格式錯誤，`2` 表示參數或檔案 I/O 錯誤。`workspace` 會略過 `node_modules`、`.git`、`dist`、`.next` 及符號連結，最多處理 2,000 份文件。
 
-v1.6 的 `bin/structmark.mjs` 保留供舊版相容，不會靜默改用 v2。若程式直接引用 API，請使用 `./src/v2/index.mjs`（原始碼）或預定發布的 `structmark-language-core/v2` subpath。
+1.6 的舊 CLI 已移除。程式直接引用 API 時，使用 `./src/v2/index.mjs` 或套件根入口；CLI 統一使用 `bin/sm2.mjs`。

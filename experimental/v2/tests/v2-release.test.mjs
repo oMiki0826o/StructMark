@@ -26,6 +26,13 @@ test('Compact Serializer 使用既有 alias 且保持語義',()=>{
  assert.deepEqual(parse(compact).nodes,doc.nodes);
  assert.throws(()=>serialize(doc,{profile:'unknown'}),/Unknown serialization profile/);
 });
+test('Optimized Serializer 依 tokenizer 選擇較短且保持語義',()=>{
+ const doc=valid('&warning[title="注意"]\n內容\n&end');
+ const optimized=serialize(doc,{profile:'optimized',tokenize:text=>text.length});
+ assert.equal(optimized,'&w[注意]\n內容\n&e');
+ assert.deepEqual(parse(optimized).nodes,doc.nodes);
+ assert.throws(()=>serialize(doc,{profile:'optimized'}),/requires a tokenize/);
+});
 test('未知屬性與重複屬性應給出診斷',()=>{
   assert.ok(codes('&w[unknown=x]\n&e').includes('SM203'));
   assert.ok(codes('&w[title=x,title=y]\n&e').includes('SM201'));
@@ -55,6 +62,9 @@ test('Schema rows 解析資料列並驗證欄位數',()=>{
  const source='&schema[Item]\n{"name":"string","count":"number"}\n&e\n&data[format=rows,schema=Item]\nApple,12\nOrange,16\n&e';
  const doc=valid(source);assert.deepEqual(doc.nodes[1].data,[{name:'Apple',count:12},{name:'Orange',count:16}]);
  assert.ok(codes(source.replace('Orange,16','Orange')).includes('SM507'));
+});
+test('Schema rows 沒有 Schema 必須診斷',()=>{
+ assert.ok(codes('&data[format=rows]\nApple,12\n&e').includes('SM508'));
 });
 test('Schema rows 支援 CSV 引號與換行',()=>{
  const source='&schema[Item]\n{"name":"string","count":"number"}\n&e\n&data[format=rows,schema=Item]\n"Apple, red",12\n&e';

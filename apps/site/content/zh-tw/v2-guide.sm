@@ -1,6 +1,6 @@
 #1 StructMark 2.0 候選版指南
 
-目前網站同時保留 1.6 文件工具與 2.0 候選引擎。Playground 可選擇語法版本；選擇 2.0 後會使用 src/v2 中的共用 Parser 與 HTML Renderer。候選版尚未完成全部 v1.6 功能遷移。
+目前網站統一使用 StructMark 2.0，Parser 與 HTML Renderer 直接來自 src/v2。Playground、CLI 與編輯器工具共用同一套語言核心。
 
 #2 主要差異
 

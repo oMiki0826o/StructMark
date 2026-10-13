@@ -1,6 +1,6 @@
 #1 StructMark 2.0 Candidate Guide
 
-The website keeps the existing 1.6 documentation and a separate 2.0 candidate engine. The Playground provides a syntax-version selector. In 2.0 mode it uses the shared Parser and HTML renderer from src/v2. This candidate does not yet implement every legacy 1.6 feature.
+The website documents StructMark 2.0 and uses the shared Parser and HTML renderer from src/v2. The Playground runs the same v2 engine used by the CLI and editor tooling.
 
 #2 Distinctive features
 

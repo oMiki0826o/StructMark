@@ -1,8 +1,8 @@
 {
   "name": "structmark-language-core",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0",
   "type": "module",
-  "description": "StructMark v2 candidate engine and backwards-compatible v1.6 toolchain",
+  "description": "StructMark 2.0 deterministic structural markup language core",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -13,7 +13,6 @@
   },
   "homepage": "https://omiki0826o.github.io/StructMark/",
   "files": [
-    "dist",
     "bin",
     "LICENSE",
     "README.md",
@@ -25,14 +24,10 @@
     "experimental/v2",
     "VALIDATION.md"
   ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/v2/index.mjs",
+  "types": "./src/v2/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./v2": {
       "types": "./src/v2/index.d.mts",
       "import": "./src/v2/index.mjs"
     }
@@ -41,20 +36,20 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test tests/*.test.mjs",
-    "fuzz": "npm run build && node scripts/fuzz.mjs",
+    "build": "tsc -p tsconfig.v2.json",
+    "test": "npm run build && node --test experimental/v2/tests/*.test.mjs",
+    "fuzz": "npm run fuzz:v2",
     "benchmark:tokens": "python3 benchmark/tokens.py",
     "benchmark:three-way": "node benchmark/three-way.mjs \"$ATDOC_DIST\" && python3 benchmark/three-way-tokens.py",
-    "benchmark:semantic": "npm run build && node benchmark/semantic-equivalence.mjs",
-    "benchmark:perf": "npm run build && node scripts/perf.mjs",
-    "demo": "npm run build && node scripts/demo.mjs",
-    "check": "npm test && npm run fuzz",
+    "benchmark:semantic": "node --test experimental/v2/tests/v2-release.test.mjs",
+    "benchmark:perf": "node benchmark/semantic-equivalence.mjs",
+    "demo": "node bin/sm2.mjs --help",
+    "check": "npm test && npm run fuzz:v2 && npm run docs:check && npm run benchmark:semantic",
     "prepublishOnly": "npm run build && npm test",
-    "cli": "npm run build && node bin/structmark.mjs",
-    "test:cli": "npm run build && node --test tests/cli-v13.test.mjs tests/v13-integration.test.mjs",
-    "docs:check": "npm run build && node scripts/docs-check.mjs",
-    "docs:export": "npm run build && node scripts/docs-check.mjs --export",
+    "cli": "node bin/sm2.mjs",
+    "test:cli": "node --test experimental/v2/tests/cli.test.mjs",
+    "docs:check": "node scripts/docs-check-v2.mjs",
+    "docs:export": "node scripts/docs-check-v2.mjs --export",
     "test:v2": "node --test experimental/v2/tests/*.test.mjs",
     "cli:v2": "node bin/sm2.mjs",
     "test:v2:cli": "node --test experimental/v2/tests/cli.test.mjs",
@@ -70,8 +65,7 @@
     "yaml": "^2.9.1"
   },
   "bin": {
-    "structmark": "./bin/structmark.mjs",
-    "sm2": "./bin/sm2.mjs"
+    "structmark": "./bin/sm2.mjs"
   },
   "engines": {
     "node": ">=22"

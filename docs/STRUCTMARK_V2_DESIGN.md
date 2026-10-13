@@ -21,11 +21,11 @@ Markdown 可透過擴充功能達到部分能力；此設計**不宣稱所有 Ma
 - `src/v2/editor.mjs` — 由語義 AST 建立定位資訊；略過 Raw 區塊。
 - `src/v2/index.mjs` 與 `index.d.mts` — 單一穩定入口、TypeScript 宣告。
 
-舊 `experimental/v2/core.mjs` 只重新匯出正式 v2 API，避免平行維護兩套引擎。原有 `src/*.ts` 為 v1.6 相容工具鏈，保持獨立公開介面。
+舊 `experimental/v2/core.mjs` 只重新匯出正式 v2 API，避免平行維護兩套引擎。過時的 1.6 TypeScript 工具鏈已移除，所有工具共用 `src/v2/`。
 
 ## 已實作與尚未實作
 
-已實作：六層標題、Registry 指令與簡寫、位置參數、行內格式、文件內及跨檔參照、方括號表格、`number`/`boolean`/`date` 欄位、JSON 與 Schema rows Data、Compact Serializer、Context 擷取、輸入上限、安全 HTML、CLI、測試及模糊測試。Playground 可明確選擇 v1.6 與 v2。編輯器/LSP 原始碼使用 v2 API，但未經本環境編譯與 VSIX 實機驗收。
+已實作：六層標題、Registry 指令與簡寫、位置參數、行內格式、文件內及跨檔參照、方括號表格、`number`/`boolean`/`date` 欄位、JSON 與 Schema rows Data、Compact Serializer、Context 擷取、輸入上限、安全 HTML、CLI、測試及模糊測試。網站 Playground 現在只使用 v2；編輯器/LSP 原始碼亦使用同一套 v2 API。
 
 尚未實作或尚未確認：完整的 JSON Schema、數學排版引擎與外掛執行、跨工作區 Symbol Index 持久化、可編輯 AST 的互動式網站介面、與 Markdown 的完整 CommonMark 等價語義、各平台 VSIX 與站台 E2E 驗證。`.md`／`.sm`／`@Doc` 的 Token 實測已完成，但僅代表指定語料；AtDoc 端為 importer 產生並重新解析的共同子集。
 

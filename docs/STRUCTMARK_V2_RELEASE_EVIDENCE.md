@@ -32,7 +32,7 @@ Node 22.16.0、TypeScript 5.8.3（全域命令）、Python 3.13.5。上述 TypeS
 
 v2 Engine 已以 `src/v2/` 單一來源供 CLI 與工具程式使用，包含 Registry、Parser、AST、Formatter、安全 HTML、跨文件參照、最小 JSON Data Schema 與編輯器位置模型。校正過的回歸案例包括未宣告 Schema 欄位、跨檔引用、UTF-8、多種結束符號跳脫、巢狀區塊、末尾空白行、HTML 注入與 Schema 原型欄位。
 
-核心倉庫的 v1.6 TypeScript API、CLI 與歷史文件仍予保留；v2 是獨立的 `src/v2/index.mjs` 與 `sm2` API，未將舊 v1.6 API 靜默替換。網站 Playground 在來源層新增 v2 模式及 AST 階層檢視，但網站完整建置與瀏覽器驗收待完成。VS Code LSP 原始碼使用 v2 Parser 與語義參照定位；VSIX 打包流程未通過依賴與實機驗收。
+核心倉庫現在只提供 `src/v2/index.mjs` 與 `structmark` CLI；舊 1.6 API 與 CLI 已移除。網站 Playground、Language Server 與 VS Code 擴充套件均使用同一套 v2 Parser 與語義參照定位。
 
 ## 建議正式發行前於線上 CI 執行
 

@@ -2,7 +2,7 @@
  * File: home-sections.ts
  * Modification: 2026-10-11 — 首頁介紹和特性以 AST 節點分類。
  */
-import type {BlockNode} from '../../../src/types';
+type BlockNode = {type:string; name?:string};
 
 // ── 區塊分組 ──
 export function partitionHomeBlocks<T extends Pick<BlockNode,'type'> & {name?:string}>(children:readonly T[]): {intro:T[];features:T[];rest:T[]} {

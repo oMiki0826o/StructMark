@@ -7,10 +7,10 @@ StructMark 是 `.sm` 文件的語言核心。v1.3 起提供不依賴服務端的
 ```bash
 npm ci
 npm run build
-node bin/structmark.mjs --help
+node bin/sm2.mjs --help
 ```
 
-套件發布後，`bin` 欄位會提供 `structmark` 指令。從本倉庫執行時可直接用 `node bin/structmark.mjs`。
+套件發布後，`bin` 欄位會提供 `structmark` 指令。從本倉庫執行時可直接用 `node bin/sm2.mjs`。
 
 ## 檔案操作
 

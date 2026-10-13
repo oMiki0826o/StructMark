@@ -5,7 +5,7 @@
 | Gate | 目標 | 2.0.0-rc.1 狀態 |
 | --- | --- | --- |
 | G1 語法 | 可讀契約、EBNF 概觀、診斷與回歸案例 | **部分完成**：明確定義已支援子集合；尚非全部語法 |
-| G2 Parser | v2 Parser、AST 單一實作並與舊核心版本隔離 | **已整合並通過 Node 測試**，舊 v1.6 仍獨立 |
+| G2 Parser | v2 Parser、AST 單一實作 | **已整合並通過 Node 測試** |
 | G3 文件工具 | v2 Formatter、Renderer、CLI 使用單一 AST | **已整合並通過 Node 測試** |
 | G4 工作區 | 跨檔參照與最小 Schema/型別檢查 | **已整合基本能力**；非完整 JSON Schema |
 | G5 編輯器 | LSP、VS Code 編譯，打包 VSIX 與實機互動 | **僅原始碼/資產檢查**；依賴與 VSIX 驗收待完成 |
