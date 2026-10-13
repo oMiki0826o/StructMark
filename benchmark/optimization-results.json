@@ -1,0 +1,315 @@
+{
+  "script": "benchmark/optimization.py",
+  "python": "3.11.9",
+  "tokenizers": [
+    "cl100k_base",
+    "o200k_base"
+  ],
+  "tiktoken": "0.14.0",
+  "cases": [
+    {
+      "group": "directive-alias",
+      "id": "lines-1",
+      "cl100k_base": {
+        "baseline": 36,
+        "optimized": 32,
+        "delta": -4,
+        "saving_ratio": 0.111111
+      },
+      "o200k_base": {
+        "baseline": 26,
+        "optimized": 22,
+        "delta": -4,
+        "saving_ratio": 0.153846
+      }
+    },
+    {
+      "group": "directive-alias",
+      "id": "lines-3",
+      "cl100k_base": {
+        "baseline": 86,
+        "optimized": 82,
+        "delta": -4,
+        "saving_ratio": 0.046512
+      },
+      "o200k_base": {
+        "baseline": 58,
+        "optimized": 54,
+        "delta": -4,
+        "saving_ratio": 0.068966
+      }
+    },
+    {
+      "group": "directive-alias",
+      "id": "lines-10",
+      "cl100k_base": {
+        "baseline": 261,
+        "optimized": 257,
+        "delta": -4,
+        "saving_ratio": 0.015326
+      },
+      "o200k_base": {
+        "baseline": 170,
+        "optimized": 166,
+        "delta": -4,
+        "saving_ratio": 0.023529
+      }
+    },
+    {
+      "group": "directive-alias",
+      "id": "lines-50",
+      "cl100k_base": {
+        "baseline": 1261,
+        "optimized": 1257,
+        "delta": -4,
+        "saving_ratio": 0.003172
+      },
+      "o200k_base": {
+        "baseline": 810,
+        "optimized": 806,
+        "delta": -4,
+        "saving_ratio": 0.004938
+      }
+    },
+    {
+      "group": "directive-alias",
+      "id": "lines-100",
+      "cl100k_base": {
+        "baseline": 2511,
+        "optimized": 2507,
+        "delta": -4,
+        "saving_ratio": 0.001593
+      },
+      "o200k_base": {
+        "baseline": 1610,
+        "optimized": 1606,
+        "delta": -4,
+        "saving_ratio": 0.002484
+      }
+    },
+    {
+      "group": "alert",
+      "id": "lines-1",
+      "cl100k_base": {
+        "baseline": 31,
+        "optimized": 32,
+        "delta": 1,
+        "saving_ratio": -0.032258
+      },
+      "o200k_base": {
+        "baseline": 22,
+        "optimized": 22,
+        "delta": 0,
+        "saving_ratio": 0.0
+      }
+    },
+    {
+      "group": "alert",
+      "id": "lines-3",
+      "cl100k_base": {
+        "baseline": 83,
+        "optimized": 82,
+        "delta": -1,
+        "saving_ratio": 0.012048
+      },
+      "o200k_base": {
+        "baseline": 56,
+        "optimized": 54,
+        "delta": -2,
+        "saving_ratio": 0.035714
+      }
+    },
+    {
+      "group": "alert",
+      "id": "lines-10",
+      "cl100k_base": {
+        "baseline": 265,
+        "optimized": 257,
+        "delta": -8,
+        "saving_ratio": 0.030189
+      },
+      "o200k_base": {
+        "baseline": 175,
+        "optimized": 166,
+        "delta": -9,
+        "saving_ratio": 0.051429
+      }
+    },
+    {
+      "group": "alert",
+      "id": "lines-50",
+      "cl100k_base": {
+        "baseline": 1305,
+        "optimized": 1257,
+        "delta": -48,
+        "saving_ratio": 0.036782
+      },
+      "o200k_base": {
+        "baseline": 855,
+        "optimized": 806,
+        "delta": -49,
+        "saving_ratio": 0.05731
+      }
+    },
+    {
+      "group": "alert",
+      "id": "lines-100",
+      "cl100k_base": {
+        "baseline": 2605,
+        "optimized": 2507,
+        "delta": -98,
+        "saving_ratio": 0.03762
+      },
+      "o200k_base": {
+        "baseline": 1705,
+        "optimized": 1606,
+        "delta": -99,
+        "saving_ratio": 0.058065
+      }
+    },
+    {
+      "group": "table",
+      "id": "rows-2",
+      "cl100k_base": {
+        "baseline": 27,
+        "optimized": 23,
+        "delta": -4,
+        "saving_ratio": 0.148148
+      },
+      "o200k_base": {
+        "baseline": 27,
+        "optimized": 23,
+        "delta": -4,
+        "saving_ratio": 0.148148
+      }
+    },
+    {
+      "group": "table",
+      "id": "rows-10",
+      "cl100k_base": {
+        "baseline": 91,
+        "optimized": 79,
+        "delta": -12,
+        "saving_ratio": 0.131868
+      },
+      "o200k_base": {
+        "baseline": 91,
+        "optimized": 79,
+        "delta": -12,
+        "saving_ratio": 0.131868
+      }
+    },
+    {
+      "group": "table",
+      "id": "rows-50",
+      "cl100k_base": {
+        "baseline": 411,
+        "optimized": 359,
+        "delta": -52,
+        "saving_ratio": 0.126521
+      },
+      "o200k_base": {
+        "baseline": 411,
+        "optimized": 359,
+        "delta": -52,
+        "saving_ratio": 0.126521
+      }
+    },
+    {
+      "group": "table",
+      "id": "rows-100",
+      "cl100k_base": {
+        "baseline": 811,
+        "optimized": 709,
+        "delta": -102,
+        "saving_ratio": 0.125771
+      },
+      "o200k_base": {
+        "baseline": 811,
+        "optimized": 709,
+        "delta": -102,
+        "saving_ratio": 0.125771
+      }
+    },
+    {
+      "group": "schema-rows",
+      "id": "rows-2",
+      "cl100k_base": {
+        "baseline": 22,
+        "optimized": 40,
+        "delta": 18,
+        "saving_ratio": -0.818182
+      },
+      "o200k_base": {
+        "baseline": 22,
+        "optimized": 40,
+        "delta": 18,
+        "saving_ratio": -0.818182
+      }
+    },
+    {
+      "group": "schema-rows",
+      "id": "rows-10",
+      "cl100k_base": {
+        "baseline": 110,
+        "optimized": 88,
+        "delta": -22,
+        "saving_ratio": 0.2
+      },
+      "o200k_base": {
+        "baseline": 110,
+        "optimized": 88,
+        "delta": -22,
+        "saving_ratio": 0.2
+      }
+    },
+    {
+      "group": "schema-rows",
+      "id": "rows-50",
+      "cl100k_base": {
+        "baseline": 550,
+        "optimized": 328,
+        "delta": -222,
+        "saving_ratio": 0.403636
+      },
+      "o200k_base": {
+        "baseline": 550,
+        "optimized": 328,
+        "delta": -222,
+        "saving_ratio": 0.403636
+      }
+    },
+    {
+      "group": "schema-rows",
+      "id": "rows-100",
+      "cl100k_base": {
+        "baseline": 1100,
+        "optimized": 628,
+        "delta": -472,
+        "saving_ratio": 0.429091
+      },
+      "o200k_base": {
+        "baseline": 1100,
+        "optimized": 628,
+        "delta": -472,
+        "saving_ratio": 0.429091
+      }
+    },
+    {
+      "group": "context",
+      "id": "full-vs-selected",
+      "cl100k_base": {
+        "baseline": 150,
+        "optimized": 15,
+        "delta": -135,
+        "saving_ratio": 0.9
+      },
+      "o200k_base": {
+        "baseline": 150,
+        "optimized": 15,
+        "delta": -135,
+        "saving_ratio": 0.9
+      }
+    }
+  ]
+}
